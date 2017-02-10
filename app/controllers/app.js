@@ -1,4 +1,4 @@
-function renderTable(id,data,columns,actions){
+ function renderTable(id,data,columns,actions){
 	var arrofobj = JSON.parse(data);
 
 	if(id=='#exam'){
@@ -10,18 +10,18 @@ function renderTable(id,data,columns,actions){
 	else if(id=='#user'){
 		_USERTABLE_SELECTED_ID = id;		
 	}	
-	// else if(id=='#news'){
-	// 	_NEWSTABLE_SELECTED_ID = id;		
-	// }	
-	// else if(id=='#topic'){
-	// 	_TOPICTABLE_SELECTED_ID = id;		
-	// }	
-	// else if(id=='#guidelines'){
-	// 	_GUIDELINESTABLE_SELECTED_ID = id;		
-	// }	
-	// else if(id=='#feedback'){
-	// 	_FEEDBACKTABLE_SELECTED_ID = id;		
-	// }	
+	else if(id=='#news'){
+		_NEWSTABLE_SELECTED_ID = id;		
+	}	
+	else if(id=='#topic'){
+		_TOPICTABLE_SELECTED_ID = id;		
+	}	
+	else if(id=='#guidelines'){
+		_GUIDELINESTABLE_SELECTED_ID = id;		
+	}	
+	else if(id=='#feedback'){
+		_FEEDBACKTABLE_SELECTED_ID = id;		
+	}	
     var html = "";
     html += "<thead>";
     html += "<tr>";
@@ -71,10 +71,10 @@ function renderTable(id,data,columns,actions){
     if(id=='#exam')renderExamModals();
     if(id=='#subject')renderSubjectModals();
     if(id=='#user')renderUserModals();
-    // if(id=='#news')renderNewsModals()
-    // if(id=='#topic')renderTopicModals()
-    // if(id=='#feedback')renderFeedbackModals()
-    // if(id=='#guidelines')renderGuidelinesModals()
+    if(id=='#news')renderNewsModals()
+    if(id=='#topic')renderTopicModals()
+    if(id=='#feedback')renderFeedbackModals()
+    if(id=='#guidelines')renderGuidelinesModals()
 }
 
 function renderExamModals(){
@@ -254,7 +254,7 @@ function renderUserModals(){
 }
 
 function renderNewsModals(){
-	$(_USERTABLE_SELECTED_ID + 'modal-read').on('show.bs.modal', function (event) {
+	$(_NEWSTABLE_SELECTED_ID + 'modal-read').on('show.bs.modal', function (event) {
 		console.log("I'm here " + _EXAMTABLE_SELECTED_ID);
 		var modal = $(this);
 		modal.find('.modal-title').text('Read Entry ID: ' + _USERTABLE_SELECTED_ID)	  
@@ -312,7 +312,7 @@ function renderNewsModals(){
 }
 
 function renderFeedbackModals(){
-	$(_USERTABLE_SELECTED_ID + 'modal-read').on('show.bs.modal', function (event) {
+	$(_FEEDBACKTABLE_SELECTED_ID + 'modal-read').on('show.bs.modal', function (event) {
 		console.log("I'm here " + _EXAMTABLE_SELECTED_ID);
 		var modal = $(this);
 		modal.find('.modal-title').text('Read Entry ID: ' + _USERTABLE_SELECTED_ID)	  
@@ -368,7 +368,7 @@ function renderFeedbackModals(){
 }
 
 function renderGuidelinesModals(){
-	$(_USERTABLE_SELECTED_ID + 'modal-read').on('show.bs.modal', function (event) {
+	$(_GUIDELINESTABLE_SELECTED_ID + 'modal-read').on('show.bs.modal', function (event) {
 		console.log("I'm here " + _EXAMTABLE_SELECTED_ID);
 		var modal = $(this);
 		modal.find('.modal-title').text('Read Entry ID: ' + _USERTABLE_SELECTED_ID)	  
@@ -423,12 +423,11 @@ function renderGuidelinesModals(){
 }
 
 function renderTopicModals(){
-	$(_USERTABLE_SELECTED_ID + 'modal-read').on('show.bs.modal', function (event) {
+	$(_TOPICTABLE_SELECTED_ID + 'modal-read').on('show.bs.modal', function (event) {
 		console.log("I'm here " + _EXAMTABLE_SELECTED_ID);
 		var modal = $(this);
 		modal.find('.modal-title').text('Read Entry ID: ' + _USERTABLE_SELECTED_ID)	  
 		modal.find('.modal-body input').attr('readonly','readonly');
-		modal.find('#topiccontent').attr('readonly','readonly');
   		_TOPICTABLE_DATA.map(function(topicobj){
   			if(topicobj.id===_EXAMTABLE_SELECTED_ID){
   				_SUBJECTTABLE_DATA.map(function(subjectobj){
@@ -457,6 +456,7 @@ function renderTopicModals(){
 			$.each(subjectobj, function(i, obj){
                     $('#createtopicsubjectid').append($('<option>').text(obj.name).attr('value', obj.id));
             });
+            foreach
 
 		});
 		var newTopic = {
@@ -483,13 +483,19 @@ function renderTopicModals(){
 	    	$('#createtopicsubjectid').val("");$('#createtopicname').val("");
 	    	$('#createtopiccreatedat').val("");
 	    	setTimeout(function(){
-	    		$('#topictable-loading').html('<img src="dist/img/loading1.gif">');
+	    		$('#topictable-loading').html('<img src="dist/img/loading1.gif"><br>Loading....');
 	    		doRenderTable('#topic');
 	    		swal("Success!", "New topic has been created!", "success");
 	    	},1000);	    	
 	    });
 	});
 }
+$('#login-form').on('submit',function(e){
+	_USERTABLE_DATA.map(function(userobj){
+		if (userobj.email===!$('#email').val()) {}
+		if (userobj.password===!md5($('#password').val())) {}
+	});
+});
 var _EXAMTABLE_SELECTED_ID=0;
 var _SUBJECTTABLE_SELECTED_ID=0;
 var _QUESTIONTABLE_SELECTED_ID=0;

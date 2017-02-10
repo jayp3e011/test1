@@ -8,13 +8,13 @@ function doRenderTable(id){
     		method: "POST",
     		url: "../app/models/feedback.php"
     	}).done(function(feedbackdata){
-    		_NEWSTABLE_DATA = JSON.parse(feedbackdata);
+    		_FEEDBACKTABLE_DATA = JSON.parse(feedbackdata);
             renderTable(id,feedbackdata,['id', 'user_id', 'feedback', 'date'],['create','read','update','delete']);
     	});	
 	});
 }
 	
 $(function () {	
-	setTimeout(doRenderTable('#news'),3000);
+	setTimeout(doRenderTable('#feedback'),3000);
 });
 

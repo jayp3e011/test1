@@ -5,6 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>iMock</title>
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <link rel="icon" type="image/png" href="favicon16.png" />
   <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" href="dist/css/font-awesome.min.css">
   <link rel="stylesheet" href="dist/css/ionicons.min.css">
@@ -17,6 +18,7 @@
   <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
   <link rel="stylesheet" href="dist/css/skins/skin-green.min.css">  
   <link rel="stylesheet" href="dist/css/app.css">
+  <link href="dist/css/custom.css" rel="stylesheet" type="text/css" />
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -52,7 +54,8 @@
           <!-- Collect the nav links, forms, and other content for toggling -->
           <div class="collapse navbar-collapse pull-right" id="navbar-collapse">
             <ul class="nav navbar-nav">
-              <li class=""><a href="?page=login">Login</a></li>
+             <li><a href="#" data-toggle="modal" data-target="#login-modal">Login</a></li>
+              <!-- <li class=""><a href="?page=login">Login</a></li>
               <li><a href="?page=register">Register</a></li>
               <li><a href="?page=user">User</a></li>
               <li><a href="?page=exam">Exam</a></li>
@@ -62,7 +65,7 @@
               <li><a href="?page=quiz">Quiz</a></li>
               <li><a href="?page=news">News</a></li>
               <li><a href="?page=feedback">Feedback</a></li>
-              <li><a href="?page=guidelines">Guidelines</a></li>
+              <li><a href="?page=guidelines">Guidelines</a></li> -->
               <li><a href="?page=logout">Logout</a></li>
             </ul>
           </div>
@@ -109,10 +112,44 @@
           require_once($page_url);
         }
         else{
-          require_once("../app/views/login.php");
+          // require_once("../app/views/login.php");
         }
       ?>        
-
+<!-- bago -->
+<div id="login-modal" class="modal fade" aria-labelledby="myModalLabel" aria-hidden="true" tabindex="-1" role="dialog">
+  <div class="modal-dialog">
+    <div class="login-modal-container">
+      <form id="login-form" data-toggle="validator" role="form">
+        <div class="nodal-header">
+          <h1>iMock</h1>
+        </div>
+        <div class="modal-body">
+          <h2>Login To Your Account </h2>
+          <div id="err-msg"></div>
+          <div class="form-group has-feedback">
+            <input type="email" id="email" name="email" placeholder="Your email address" class="form-control input-lg" data-error="This email address is invalid" required />
+            <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+            <div class="help-block with-errors"></div>
+          </div>
+          <div class="form-group has-feedback">
+            <input type="password" id="password" data-minlength="1" name="password" placeholder="Password" class="form-control input-lg" required />
+            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+            <div class="help-block">Minimum of 6 characters</div>
+          </div>
+          <div class="form-group">
+            <div id="captcha"></div>
+          </div>
+          <div class="form-group">
+            <input type="submit" id="login" name="login" value="Sign In" class="btn btn-success btn-block btn-lg" />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <!-- Don't have an account? <a href="#">Sign Up here</a> -->
+        </div>
+      </form>
+    </div>
+  </div>
+</div>      
 
 
 <!--     <footer class="main-footer">
@@ -133,6 +170,7 @@
   <script src="plugins/fastclick/fastclick.js"></script>
    <script src="plugins/sweetalert/sweetalert.min.js"></script>
   <script src="dist/js/app.min.js"></script>
+    <script src="dist/js/script.js"></script>
   <script src="dist/js/demo.js"></script>
 
 </body>

@@ -8,13 +8,13 @@ function doRenderTable(id){
     		method: "POST",
     		url: "../app/models/guidelines.php"
     	}).done(function(guidelinesdata){
-    		_NEWSTABLE_DATA = JSON.parse(guidelinesdata);
+    		_GUIDELINESTABLE_DATA = JSON.parse(guidelinesdata);
             renderTable(id,guidelinesdata,['id', 'user_id', 'subjects_toPass', 'date'],['create','read','update','delete']);
     	})	
 	});
 }
 	
 $(function () {	
-	setTimeout(doRenderTable('#news'),3000);
+	setTimeout(doRenderTable('#guidelines'),3000);
 });
 
