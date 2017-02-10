@@ -131,37 +131,25 @@ function renderSubjectModals(){
 
 	$(_SUBJECTTABLE_SELECTED_ID + 'modal-read').on('show.bs.modal', function (event) {
 		// console.log("I'm here");
-	  var modal = $(this);
-	  modal.find('.modal-title').text('Read Entry ID: ' + _SUBJECTTABLE_SELECTED_ID)	  
-	  modal.find('.modal-body input').attr('readonly','readonly');
-	  modal.find('#subjectdescription').attr('readonly','readonly');
+		var modal = $(this);
+		modal.find('.modal-title').text('Read Entry ID: ' + _SUBJECTTABLE_SELECTED_ID)	  
+		modal.find('.modal-body input').attr('readonly','readonly');
+		modal.find('#subjectdescription').attr('readonly','readonly');
 
-	  _EXAMTABLE_DATA.map(function(examobj){
-	  	if(examobj.id===_EXAMTABLE_SELECTED_ID){
-	  		_USERTABLE_DATA.map(function(userobj){
-	  			if(userobj.id===examobj.user_id){
-	  				_SUBJECTTABLE_DATA.map(function(subjectobj){
-	  					if(subjectobj.id===examobj.subject_id){
-	  						_QUESTIONTABLE_DATA.map(function(questionobj){
-	  							if(questionobj.id===examobj.question_id){
-	  								modal.find('#subjectname').val(subjectobj.name);
-	  								modal.find('#subjecttimeduration').val(subjectobj.timeduration);
-	  								modal.find('#subjectpassingrate').val(subjectobj.passingrate);
-	  								modal.find('#subjectdescription').val(subjectobj.description);
-	  								modal.find('#subjectattempt').val(subjectobj.attempt);		  									  				
-	  								modal.find('#subjectitems').val(subjectobj.items);		  									  				
-	  								return;
-	  							}					  	
-	  						});
-	  						return;
-	  					}
-	  				});
-	  				return;
-	  			}
-	  		});
-	  		return;
-	  	}
-	  });
+		_EXAMTABLE_DATA.map(function(examobj){
+	  		_SUBJECTTABLE_DATA.map(function(subjectobj){
+	  			if(subjectobj.id===_EXAMTABLE_SELECTED_ID){
+					modal.find('#subjectname').val(subjectobj.name);
+					modal.find('#subjecttimeduration').val(subjectobj.timeduration);
+					modal.find('#subjectpassingrate').val(subjectobj.passingrate);
+					modal.find('#subjectdescription').val(subjectobj.description);
+					modal.find('#subjectattempt').val(subjectobj.attempt);		  									  				
+					modal.find('#subjectitems').val(subjectobj.items);		  									  				
+					return;
+				}
+			});
+			return;
+		});
 	});
 
 	$('#subjectbtnmodalcreate').on('click',function(){				

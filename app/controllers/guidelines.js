@@ -5,9 +5,9 @@ function doRenderTable(id){
     }).done(function(userdata){
     	_USERTABLE_DATA = JSON.parse(userdata);
     	$.ajax({
-    		method: "POST";
-    		url: "../app/models/guidelines.php";
-    	}).done(function(guidelinesdata)){
+    		method: "POST",
+    		url: "../app/models/guidelines.php"
+    	}).done(function(guidelinesdata){
     		_NEWSTABLE_DATA = JSON.parse(guidelinesdata);
             renderTable(id,guidelinesdata,['id', 'user_id', 'subjects_toPass', 'date'],['create','read','update','delete']);
     	})	
