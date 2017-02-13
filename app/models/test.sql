@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 10, 2017 at 09:09 PM
--- Server version: 10.1.16-MariaDB
--- PHP Version: 7.0.9
+-- Generation Time: Feb 04, 2017 at 08:27 PM
+-- Server version: 10.1.19-MariaDB
+-- PHP Version: 5.6.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -19,6 +19,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `test`
 --
+CREATE DATABASE IF NOT EXISTS `test` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `test`;
 
 -- --------------------------------------------------------
 
@@ -41,46 +43,6 @@ CREATE TABLE `exam` (
 INSERT INTO `exam` (`id`, `user_id`, `subject_id`, `question_id`, `answer`) VALUES
 (1, 1, 1, 1, 'C'),
 (2, 2, 2, 2, 'B');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `feedback`
---
-
-CREATE TABLE `feedback` (
-  `id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `feedback` text NOT NULL,
-  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `guidelines`
---
-
-CREATE TABLE `guidelines` (
-  `id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `subject_toPass` int(11) NOT NULL,
-  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `news`
---
-
-CREATE TABLE `news` (
-  `id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `name` varchar(250) NOT NULL,
-  `content` text NOT NULL,
-  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -130,32 +92,7 @@ CREATE TABLE `subject` (
 
 INSERT INTO `subject` (`id`, `name`, `description`, `timeduration`, `passingrate`, `attempt`, `items`) VALUES
 (1, 'Theory of Accounts', 'Theory of accounts', '30', 50, 0, 100),
-(2, 'Business law and taxation', 'Business law and taxation', '40', 60, 0, 150),
-(3, 'Accounting1', 'This is a sample entry for testing...', '60', 50, 0, 60),
-(4, 'Accounting2', 'wewsira sa google chrome', '70', 89, 0, 50),
-(5, '', '', '', 0, 0, 0);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `topic`
---
-
-CREATE TABLE `topic` (
-  `id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `subject_id` int(11) NOT NULL,
-  `name` varchar(250) NOT NULL,
-  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `topic`
---
-
-INSERT INTO `topic` (`id`, `user_id`, `subject_id`, `name`, `date`) VALUES
-(1, 1, 3, 'topic1', '2017-02-10 16:22:36'),
-(2, 1, 3, 'topic2', '2017-02-10 16:22:36');
+(2, 'Business law and taxation', 'Business law and taxation', '40', 60, 0, 150);
 
 -- --------------------------------------------------------
 
@@ -192,24 +129,6 @@ ALTER TABLE `exam`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `feedback`
---
-ALTER TABLE `feedback`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `guidelines`
---
-ALTER TABLE `guidelines`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `news`
---
-ALTER TABLE `news`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `question`
 --
 ALTER TABLE `question`
@@ -219,12 +138,6 @@ ALTER TABLE `question`
 -- Indexes for table `subject`
 --
 ALTER TABLE `subject`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `topic`
---
-ALTER TABLE `topic`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -243,21 +156,6 @@ ALTER TABLE `user`
 ALTER TABLE `exam`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
--- AUTO_INCREMENT for table `feedback`
---
-ALTER TABLE `feedback`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `guidelines`
---
-ALTER TABLE `guidelines`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `news`
---
-ALTER TABLE `news`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
 -- AUTO_INCREMENT for table `question`
 --
 ALTER TABLE `question`
@@ -266,11 +164,6 @@ ALTER TABLE `question`
 -- AUTO_INCREMENT for table `subject`
 --
 ALTER TABLE `subject`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
---
--- AUTO_INCREMENT for table `topic`
---
-ALTER TABLE `topic`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `user`

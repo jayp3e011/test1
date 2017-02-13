@@ -96,8 +96,9 @@
 
   <script src="plugins/datatables/jquery.dataTables.min.js"></script>
   <script src="plugins/datatables/dataTables.bootstrap.min.js"></script>
+  <script src="dist/js/jquery.routes.js"></script>
   <script src="../app/controllers/app.js"></script>
-
+   <script src="../app/controllers/routes.js"></script>
 </head>
 <!-- ADD THE CLASS layout-top-nav TO REMOVE THE SIDEBAR. -->
 <body class="hold-transition skin-green-light sidebar-mini">
@@ -247,17 +248,12 @@
     </div>
     <strong>Copyright &copy;2016 <a href="#">J&J</a>.</strong> All rights reserved.
   </footer>
-<!-- jQuery 2.2.3 -->
-<!-- <script src="../../../../public/plugins/jQuery/jquery-2.2.3.min.js"></script> -->
-<!-- Bootstrap 3.3.6 -->
-<script src="bootstrap/js/bootstrap.min.js"></script>
-<!-- FastClick -->
-<script src="plugins/fastclick/fastclick.js"></script>
-<!-- AdminLTE App -->
-<script src="dist/js/app.min.js"></script>
-<script src="dist/js/routes.js"></script>
-<!-- DataTables -->
-<script src="plugins/datatables/js/jquery.dataTables.min.js"></script>
-<script src="plugins/datatables/js/dataTables.bootstrap.min.js"></script>
+< <script src="bootstrap/js/bootstrap.min.js"></script>
+  <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
+  <script src="plugins/fastclick/fastclick.js"></script>
+   <script src="plugins/sweetalert/sweetalert.min.js"></script>
+  <script src="dist/js/app.min.js"></script>
+    <script src="dist/js/script.js"></script>
+  <script src="dist/js/demo.js"></script>
 </body>
 </html>

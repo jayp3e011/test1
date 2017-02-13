@@ -1,3 +1,5 @@
+<link href="dist/css/bootstrap-tour.min.css" rel="stylesheet">
+<script src="dist/js/bootstrap-tour.min.js"></script>
 <div class="content-wrapper" style="background-color: #999">
 	<div class="container">
 		<section class="content">
@@ -38,11 +40,11 @@
 					<table class="table">
 						<caption>
 							<div id="subjectdesc">table title and/or explanatory text</div>
-							<button class="btn btn-danger pull-right" style="width: 200px">SUBMIT</button>
+							<button class="btn btn-danger pull-right" style="width: 200px" id="submit">SUBMIT</button>
 						</caption>
 						<thead>
 							<tr>
-								<th colspan="4">ANSWER SHEET</th>
+								<th id="sheet" colspan="4">ANSWER SHEET</th>
 								<th width="6%">ITEM NO.</th>
 								<th width="70%">QUESTION SHEET</th>
 							</tr>
@@ -112,3 +114,29 @@
 <!-- modals end-->
 
 <script src="../app/controllers/exam.js"></script>
+<script>
+	// Instance the tour
+	var tour = new Tour({
+	  steps: [
+	  {
+	    element: "#sheet",
+	    placement: "top",
+	    title: "Check Boxes",
+	    content: "click diri sa baba para mag answer..."
+	  },
+      {
+	    element: "#submit",
+	    title: "Submit Here",
+	    placement: "left",
+	    content: "click diri pag na answer na tanan"
+	  }  
+	],
+	  backdrop: true,
+	  storage: false,
+	  smartPlacement: true
+	});
+
+tour.init();
+
+tour.start();
+</script>

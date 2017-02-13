@@ -35,6 +35,8 @@
   <script src="plugins/datatables/jquery.dataTables.min.js"></script>
   <script src="plugins/datatables/dataTables.bootstrap.min.js"></script>
   <script src="../app/controllers/app.js"></script>
+  <script src="dist/js/jquery.routes.js"></script>
+  <script src="../app/controllers/init.js"></script>
 
 </head>
 <!-- ADD THE CLASS layout-top-nav TO REMOVE THE SIDEBAR. -->
@@ -57,16 +59,16 @@
              <li><a href="#" data-toggle="modal" data-target="#login-modal">Login</a></li>
               <!-- <li class=""><a href="?page=login">Login</a></li>
               <li><a href="?page=register">Register</a></li>
-              <li><a href="?page=user">User</a></li>
+              <li><a href="?page=user">User</a></li> -->
               <li><a href="?page=exam">Exam</a></li>
-              <li><a href="?page=subject">Subject</a></li>
+              <!-- <li><a href="?page=subject">Subject</a></li>
               <li><a href="?page=question">Question</a></li>
               <li><a href="?page=topic">Topic</a></li>
               <li><a href="?page=quiz">Quiz</a></li>
               <li><a href="?page=news">News</a></li>
               <li><a href="?page=feedback">Feedback</a></li>
-              <li><a href="?page=guidelines">Guidelines</a></li> -->
-              <li><a href="?page=logout">Logout</a></li>
+              <li><a href="?page=guidelines">Guidelines</a></li>
+              <li><a href="?page=logout">Logout</a></li> -->
             </ul>
           </div>
           <!-- /.navbar-collapse -->
@@ -114,6 +116,19 @@
         else{
           // require_once("../app/views/login.php");
         }
+        include('AltoRouter.php');
+        $router = new AltoRouter();
+
+        // map homepage
+        // $router->map( 'GET', 'admin/exam', function() {
+        //     require __DIR__ . 'index.php?page=exam';
+        // });
+
+        // // map users details page
+        // $router->map( 'GET|POST', '/admin/[i:page]/', function( $page ) {
+        //   $user = '#load';
+        //   require __DIR__ . '/';
+        // });
       ?>        
 <!-- bago -->
 <div id="login-modal" class="modal fade" aria-labelledby="myModalLabel" aria-hidden="true" tabindex="-1" role="dialog">

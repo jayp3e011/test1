@@ -25,6 +25,8 @@
   <script src="plugins/datatables/jquery.dataTables.min.js"></script>
   <script src="plugins/datatables/dataTables.bootstrap.min.js"></script>
   <script src="../app/controllers/app.js"></script>
+  <script src="dist/js/jquery.routes.js"></script>
+   <script src="../app/controllers/routes.js"></script>
 </head>
 <!-- ADD THE CLASS layout-top-nav TO REMOVE THE SIDEBAR. -->
 <body class="hold-transition skin-green-light sidebar-mini">

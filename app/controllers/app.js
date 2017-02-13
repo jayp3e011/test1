@@ -423,6 +423,13 @@ function renderGuidelinesModals(){
 }
 
 function renderTopicModals(){
+	$('#topicmodal-create').on('show.bs.modal', function (event) {
+		console.log("clicked");
+		_SUBJECTTABLE_DATA.map(function(subjectobj){
+            $('#createtopicsubjectid').append($('<option>').text(subjectobj.name).attr('value', subjectobj.id));
+		});
+	});
+	
 	$(_TOPICTABLE_SELECTED_ID + 'modal-read').on('show.bs.modal', function (event) {
 		console.log("I'm here " + _EXAMTABLE_SELECTED_ID);
 		var modal = $(this);
@@ -452,13 +459,6 @@ function renderTopicModals(){
 
 	$('#topicbtnmodalcreate').on('click',function(){				
 		console.log("clicked");
-		_SUBJECTTABLE_DATA.map(function(subjectobj){
-			$.each(subjectobj, function(i, obj){
-                    $('#createtopicsubjectid').append($('<option>').text(obj.name).attr('value', obj.id));
-            });
-            foreach
-
-		});
 		var newTopic = {
 			user_id:$('#createtopicuserid').val(),
 			subject_id:$('#createtopicsubjectid').val(),
