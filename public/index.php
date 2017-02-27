@@ -35,8 +35,8 @@
   <script src="plugins/datatables/jquery.dataTables.min.js"></script>
   <script src="plugins/datatables/dataTables.bootstrap.min.js"></script>
   <script src="../app/controllers/app.js"></script>
-  <script src="dist/js/jquery.routes.js"></script>
-  <script src="../app/controllers/init.js"></script>
+  <!-- <script src="dist/js/jquery.routes.js"></script> -->
+  <!-- <script src="../app/controllers/init.js"></script> -->
 
 </head>
 <!-- ADD THE CLASS layout-top-nav TO REMOVE THE SIDEBAR. -->
@@ -116,8 +116,8 @@
         else{
           // require_once("../app/views/login.php");
         }
-        include('AltoRouter.php');
-        $router = new AltoRouter();
+        // include('AltoRouter.php');
+        // $router = new AltoRouter();
 
         // map homepage
         // $router->map( 'GET', 'admin/exam', function() {
@@ -135,8 +135,8 @@
   <div class="modal-dialog">
     <div class="login-modal-container">
       <form id="login-form" data-toggle="validator" role="form">
-        <div class="nodal-header">
-          <h1>iMock</h1>
+        <div class="modal-header" style="background-color: #00A65A;">
+          <h1 style="color: white; text-align: center;">iMock</h1>
         </div>
         <div class="modal-body">
           <h2>Login To Your Account </h2>

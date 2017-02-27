@@ -38,7 +38,7 @@
 				<h4 class="modal-title" id="exampleModalLabel">New message</h4>
 			</div>
 			<div class="modal-body">
-				<form>
+				<!-- <form>
 					<div class="form-group">
 						<label for="recipient-name" class="control-label">User Name:</label>
 						<input type="text" class="form-control" id="newsuserid">
@@ -49,7 +49,7 @@
 						<label for="recipient-name" class="control-label">Created at:</label>
 						<input type="text" class="form-control" id="newscreatedat">
 					</div>
-				</form>
+				</form> -->
 			</div>
 			<div class="modal-footer">
 				<!-- <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
@@ -70,7 +70,7 @@
 				<h4 class="modal-title" id="exampleModalLabel">Create</h4>
 			</div>
 			<div class="modal-body">
-				<form data-toggle="validator" role="form" id="addNews-form">
+				<!-- <form data-toggle="validator" role="form" id="addNews-form">
 					<div class="form-group has-feedback">
 						<label for="recipient-name" class="control-label">User Name:</label>
 						<input type="text" class="form-control" placeholder="first name" id="createnewsuserid" required>
@@ -92,7 +92,7 @@
 						<input type="datepicker" class="form-control" id="createnewscreatedad" required>
 						<span class="glyphicon glyphicon-news form-control-feedback"></span>
 					</div>
-				</form>
+				</form> -->
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
@@ -102,6 +102,46 @@
 	</div>
 </div>
 <!-- create modal end -->
+
+<!-- update modal start -->
+<div class="modal fade" id="newsmodal-update" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+	<div class="modal-warning modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="exampleModalLabel">Update</h4>
+			</div>
+			<div class="modal-body">
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-outline" id="newsbtnmodalupdate">Save changes</button>
+				<!-- <button type="button" class="btn btn-outline" data-dismiss="modal">Close</button>  -->
+			</div>
+		</div>
+	</div>
+</div>
+<!-- update modal end -->
+
+<!-- delete modal start-->
+<div class="modal fade" id="newsmodal-delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+	<div class="modal-danger modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="exampleModalLabel">Delete</h4>
+			</div>
+			<div class="modal-body">
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-outline" id="newsbtnmodaldelete">Save changes</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- delete modal end -->
 
 <!-- modals end-->
 

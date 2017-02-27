@@ -9,8 +9,9 @@ function doRenderTable(id){
     		url: "../app/models/guidelines.php"
     	}).done(function(guidelinesdata){
     		_GUIDELINESTABLE_DATA = JSON.parse(guidelinesdata);
-            renderTable(id,guidelinesdata,['id', 'user_id', 'subjects_toPass', 'date'],['create','read','update','delete']);
-    	})	
+            // console.log(guidelinesdata);
+            renderTable(id,guidelinesdata,['id', 'user name', 'subjects to Pass', 'date'],['create','read','update','delete']);
+    	});
 	});
 }
 	
