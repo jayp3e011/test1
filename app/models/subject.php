@@ -34,12 +34,6 @@
 			if($_POST['action']=="deletesubject"){
 				echo "delete subject ok!";
 				$id = $_POST['id'];
-				// $name = $_POST['name'];
-				// $description = $_POST['description'];
-				// $timeduration = $_POST['timeduration'];
-				// $passingrate = $_POST['passingrate'];
-				// $attempt = $_POST['attempt'];
-				// $items = $_POST['items'];
 				$sql = "delete from $table where id='$id'";
 				$result = mysqli_query($link, $sql) or die("Invalid query" . mysqli_error($link));
 				echo "ok";
