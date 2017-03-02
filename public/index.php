@@ -34,7 +34,7 @@
 
   <script src="plugins/datatables/jquery.dataTables.min.js"></script>
   <script src="plugins/datatables/dataTables.bootstrap.min.js"></script>
-  <script src="<?php echo $_SERVER['PHP_SELF'].'app/controllers/app.js'; ?>"></script>
+  <script src="<?php echo $_SERVER['HTTP_HOST'].'/app/controllers/app.js'; ?>"></script>
   <!-- <script src="dist/js/jquery.routes.js"></script> -->
   <!-- <script src="../app/controllers/init.js"></script> -->
 
