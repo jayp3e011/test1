@@ -1,7 +1,7 @@
 <?php
 	define('HOST', 'sql6.freemysqlhosting.net');
 	define('USER', 'sql6161771');
-	define('PASS', 'sql6.freemysqlhosting.net');
+	define('PASS', 'BzWAKbzp8a');
 	define('DBSE', 'sql6161771');
 
 	$link = mysqli_connect(HOST, USER, PASS, DBSE);
