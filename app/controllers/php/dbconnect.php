@@ -1,14 +1,18 @@
 <?php
 // mysql connection
-$hostname = 'sql6.freemysqlhosting.net';
-$username = 'sql6161771';
-$password = 'BzWAKbzp8a';
-$database = 'sql6161771';
+define('HOST', 'sql6.freemysqlhosting.net');
+define('USER', 'sql6161771');
+define('PASS', 'BzWAKbzp8a');
+define('DBSE', 'sql6161771');
 
-$db = new mysqli($hostname, $username, $password, $database);
-if($db->connect_errno)
-	die('Error ' . $this->db->connect_error);
+$link = mysqli_connect(HOST, USER, PASS, DBSE);
+if (!$link) {
+    echo "Error: Unable to connect to MySQL." . PHP_EOL;
+    echo "Debugging errno: " . mysqli_connect_errno() . PHP_EOL;
+    echo "Debugging error: " . mysqli_connect_error() . PHP_EOL;
+    exit;
+}
 
 include_once('UserClass.php');
-$con = new UserClass($db);
+$con = new UserClass($link);
 ?>
