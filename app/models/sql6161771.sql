@@ -17,10 +17,10 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `test`
+-- Database: `sql6161771`
 --
-CREATE DATABASE IF NOT EXISTS `test` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-USE `test`;
+CREATE DATABASE IF NOT EXISTS `sql6161771` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `sql6161771`;
 
 -- --------------------------------------------------------
 
