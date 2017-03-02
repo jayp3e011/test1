@@ -39,6 +39,15 @@
 			if($_POST['action']=="deletequestion"){
 				echo "delete question ok!";
 				$id = $_POST['id'];
+				$subject_id = $_POST['subjectid'];
+				$topic_id = $_POST['topicid'];
+				$question = $_POST['question'];
+				$choice_a = $_POST['choice_a'];
+				$choice_b = $_POST['choice_b'];
+				$choice_c = $_POST['choice_c'];
+				$choice_d = $_POST['choice_d'];
+				$answer= $_POST['answer'];
+				$reference = $_POST['reference'];
 				$sql = "delete from $table where id='$id'";
 				$result = mysqli_query($link, $sql) or die("Invalid query" . mysqli_error($link));
 				echo "ok";

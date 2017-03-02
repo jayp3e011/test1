@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 04, 2017 at 08:27 PM
--- Server version: 10.1.19-MariaDB
--- PHP Version: 5.6.28
+-- Generation Time: Feb 25, 2017 at 02:03 PM
+-- Server version: 10.1.16-MariaDB
+-- PHP Version: 7.0.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,10 +17,8 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `sql6161771`
+-- Database: `test`
 --
-CREATE DATABASE IF NOT EXISTS `sql6161771` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-USE `sql6161771`;
 
 -- --------------------------------------------------------
 
@@ -43,6 +41,61 @@ CREATE TABLE `exam` (
 INSERT INTO `exam` (`id`, `user_id`, `subject_id`, `question_id`, `answer`) VALUES
 (1, 1, 1, 1, 'C'),
 (2, 2, 2, 2, 'B');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `feedback`
+--
+
+CREATE TABLE `feedback` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `feedback` text NOT NULL,
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `guidelines`
+--
+
+CREATE TABLE `guidelines` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `subject_toPass` int(11) NOT NULL,
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `guidelines`
+--
+
+INSERT INTO `guidelines` (`id`, `user_id`, `subject_toPass`, `date`) VALUES
+(1, 1, 6, '2017-02-24 16:23:46'),
+(2, 1, 5, '2017-02-24 16:23:10');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `news`
+--
+
+CREATE TABLE `news` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `name` varchar(250) NOT NULL,
+  `content` text NOT NULL,
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `news`
+--
+
+INSERT INTO `news` (`id`, `user_id`, `name`, `content`, `date`) VALUES
+(1, 1, 'title', 'wewew', '2017-02-24 13:20:19');
 
 -- --------------------------------------------------------
 
@@ -92,7 +145,32 @@ CREATE TABLE `subject` (
 
 INSERT INTO `subject` (`id`, `name`, `description`, `timeduration`, `passingrate`, `attempt`, `items`) VALUES
 (1, 'Theory of Accounts', 'Theory of accounts', '30', 50, 0, 100),
-(2, 'Business law and taxation', 'Business law and taxation', '40', 60, 0, 150);
+(2, 'Business law and taxation', 'Business law and taxation', '40', 60, 0, 150),
+(3, 'Accounting1', 'This is a sample entry for testing...', '60', 50, 0, 60),
+(4, 'Accounting2', 'wewsira sa google chrome', '70', 89, 0, 50);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `topic`
+--
+
+CREATE TABLE `topic` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `subject_id` int(11) NOT NULL,
+  `name` varchar(250) NOT NULL,
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `topic`
+--
+
+INSERT INTO `topic` (`id`, `user_id`, `subject_id`, `name`, `date`) VALUES
+(1, 1, 3, 'topic1', '2017-02-10 16:22:36'),
+(2, 0, 1, 'topic2', '2017-02-24 12:11:16'),
+(3, 1, 1, 'topic3', '2017-02-24 05:53:57');
 
 -- --------------------------------------------------------
 
@@ -116,7 +194,7 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`id`, `email`, `password`, `firstname`, `lastname`, `createdat`, `isadmin`) VALUES
 (1, 'admin@gmail.com', 'e00cf25ad42683b3df678c61f42c6bda', 'admin', 'admin', '2017-02-04 19:03:07', 1),
-(2, 'student@gmail.com', '5e5545d38a68148a2d5bd5ec9a89e327', 'student', 'student', '2017-02-04 19:03:07', 0);
+(2, 'student@gmail.com', '5e5545d38a68148a2d5bd5ec9a89e327', 'student', 'studentweew', '2017-02-04 19:03:07', 0);
 
 --
 -- Indexes for dumped tables
@@ -129,6 +207,24 @@ ALTER TABLE `exam`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `feedback`
+--
+ALTER TABLE `feedback`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `guidelines`
+--
+ALTER TABLE `guidelines`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `news`
+--
+ALTER TABLE `news`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `question`
 --
 ALTER TABLE `question`
@@ -138,6 +234,12 @@ ALTER TABLE `question`
 -- Indexes for table `subject`
 --
 ALTER TABLE `subject`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `topic`
+--
+ALTER TABLE `topic`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -156,6 +258,21 @@ ALTER TABLE `user`
 ALTER TABLE `exam`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
+-- AUTO_INCREMENT for table `feedback`
+--
+ALTER TABLE `feedback`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `guidelines`
+--
+ALTER TABLE `guidelines`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT for table `news`
+--
+ALTER TABLE `news`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
 -- AUTO_INCREMENT for table `question`
 --
 ALTER TABLE `question`
@@ -164,7 +281,12 @@ ALTER TABLE `question`
 -- AUTO_INCREMENT for table `subject`
 --
 ALTER TABLE `subject`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+--
+-- AUTO_INCREMENT for table `topic`
+--
+ALTER TABLE `topic`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `user`
 --
