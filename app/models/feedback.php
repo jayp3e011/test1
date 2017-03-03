@@ -37,7 +37,7 @@
 		}
 		else{	
 			// $sql = "select * from $table";
-			$sql = "select f.id, concat_ws(' ', u.firstname, u.lastname) as user_id, f.feedback, f.date from $table f join user u on n.user_id=u.id";
+			$sql = "select f.id, concat_ws(' ', u.firstname, u.lastname) as user_id, f.feedback, f.date from $table f join user u on f.user_id=u.id";
 		    $result = mysqli_query($link, $sql) or die("Invalid query" . mysqli_error($link));
 			$arr = array();
 			$count=0;
