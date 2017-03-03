@@ -15,7 +15,7 @@ class UserClass
 		
         	
     	$password = md5($password);
-		$sql2="SELECT id,first_name,last_name,is_admin from users WHERE email='$email' and password='$password'";
+		$sql2="SELECT id,first_name,last_name,is_admin from user WHERE email='$email' and password='$password'";
 		
 		//checking if the username is available in the table
     	$result = mysqli_query($this->db,$sql2);
@@ -66,7 +66,7 @@ class UserClass
 
 		//if the username is not in db then insert to the table
 		if ($count_row == 0){
-			$sql1="INSERT INTO users SET first_name='$first_name', last_name='$last_name', is_admin='$is_admin', email='$email, password='$password'";
+			$sql1="INSERT INTO user SET first_name='$first_name', last_name='$last_name', is_admin='$is_admin', email='$email, password='$password'";
 			$result = mysqli_query($this->db,$sql1) or die(mysqli_connect_errno()."Data cannot inserted");
 			return $result;
 		}
