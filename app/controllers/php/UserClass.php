@@ -15,7 +15,7 @@ class UserClass
 		
         	
     	$password = md5($password);
-		$sql2="SELECT id,first_name,last_name,is_admin from user WHERE email='$email' and password='$password'";
+		$sql2="SELECT id,firstname,lastname,isadmin from user WHERE email='$email' and password='$password'";
 		
 		//checking if the username is available in the table
     	$result = mysqli_query($this->db,$sql2);
@@ -25,8 +25,8 @@ class UserClass
         if ($count_row == 1) {
             // this login var will use for the session thing
             $_SESSION['id']= $user_data['id'];
-            $_SESSION['level']= intval($user_data['is_admin']);
-            $_SESSION['fullname'] = $user_data['first_name'].' '.$user_data['last_name'];
+            $_SESSION['level']= intval($user_data['isadmin']);
+            $_SESSION['fullname'] = $user_data['firstname'].' '.$user_data['lastname'];
             return true;
         }
         else{
@@ -58,7 +58,7 @@ class UserClass
 
 			
 		$password = md5($password);
-		$sql="SELECT * FROM users WHERE email='$email'";
+		$sql="SELECT * FROM user WHERE email='$email'";
 		
 		//checking if the username or email is available in db
 		$check =  $this->db->query($sql) ;
@@ -66,7 +66,7 @@ class UserClass
 
 		//if the username is not in db then insert to the table
 		if ($count_row == 0){
-			$sql1="INSERT INTO user SET first_name='$first_name', last_name='$last_name', is_admin='$is_admin', email='$email, password='$password'";
+			$sql1="INSERT INTO user SET firstname='$first_name', lastname='$last_name', is_admin='$is_admin', email='$email, password='$password'";
 			$result = mysqli_query($this->db,$sql1) or die(mysqli_connect_errno()."Data cannot inserted");
 			return $result;
 		}

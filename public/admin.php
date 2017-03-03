@@ -253,7 +253,7 @@
   <script src="plugins/fastclick/fastclick.js"></script>
    <script src="plugins/sweetalert/sweetalert.min.js"></script>
   <script src="dist/js/app.min.js"></script>
-    <script src="dist/js/script.js"></script>
+    <script src="../app/controllers/script.js"></script>
   <script src="dist/js/demo.js"></script>
 </body>
 </html>
