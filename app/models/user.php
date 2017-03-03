@@ -13,6 +13,7 @@
 				$lastname = $_POST['lastname'];
 				$isadmin = $_POST['isadmin'];
 				$date = date("Y-m-d H:i:s");
+				$password = md5($password);
 				$sql = "insert into $table VALUES('','$email','$password', '$firstname','$lastname', '$date', $isadmin')";
 				$result = mysqli_query($link, $sql) or die("Invalid query" . mysqli_error($link));
 				echo "ok";
@@ -25,6 +26,7 @@
 				$firstname = $_POST['firstname'];
 				$lastname = $_POST['lastname'];
 				$isadmin = $_POST['isadmin'];
+				$password = md5($password);
 				$sql = "update $table SET email='$email',password='$password', firstname='$firstname',lastname='$lastname',isadmin='$isadmin' where id='$id'";
 				$result = mysqli_query($link, $sql) or die("Invalid query" . mysqli_error($link));
 				echo "ok";
