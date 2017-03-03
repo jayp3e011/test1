@@ -8,4 +8,4 @@ RewriteRule ^(.*)$ http://www.i-mock.herokuapp.com/$1 [r=301,nc]
 Redirect 301 / /public
 
 //Change default directory page
-DirectoryIndex /public
+DirectoryIndex /public/index.php
