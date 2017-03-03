@@ -77,6 +77,10 @@
       </nav>
     </header>
     <!-- Full Width Column -->
+    <?php echo $_SERVER['DOCUMENT_ROOT'];?> ROOT<br>
+    <?php echo $_SERVER['SERVER_NAME'];?> name<br>
+    <?php echo $_SERVER['HTTP_HOST'];?> host<br>
+    <?php echo $_SERVER['PHP_SELF'];?> self<br>
 
       <?php
         //routes
