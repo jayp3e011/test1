@@ -104,20 +104,10 @@ let userForm = `
 			</select>
 		</div>
 		<div class="form-group has-feedback">
-			<label for="recipient-name" class="control-label">Created at:</label>
-			<input type="date" class="form-control" id="createdat" required>
-			<span class="glyphicon glyphicon-user form-control-feedback"></span>
-		</div>
-		<div class="form-group has-feedback">
 			<label for="recipient-name" class="control-label">Password:</label>
 			<input type="password" data-minlength="6" class="form-control" placeholder="Password" id="password" required>
 			<span class="glyphicon glyphicon-lock form-control-feedback"></span>
 			<div class="help-block">Minimum of 6 characters</div>
-		</div>
-		<div class="form-group has-feedback">
-			<input type="password" class="form-control" placeholder="Retype password" id="confirmpassword" data-match="#password" data-match-error="Password mismatch">
-			<span class="glyphicon glyphicon-log-in form-control-feedback"></span>
-			<div class="help-block with-errors"></div>
 		</div>
 	</form>
 `;
@@ -137,11 +127,6 @@ let topicForm = `
 		<div class="form-group has-feedback">
 			<label for="recipient-name" class="control-label">Name:</label>
 			<input type="text" class="form-control" placeholder="Enter title" id="name" required>
-			<span class="glyphicon glyphicon-topic form-control-feedback"></span>
-		</div>
-		<div class="form-group has-feedback">
-			<label for="recipient-name" class="control-label">Date:</label>
-			<input type="datepicker" class="form-control" id="createdat" required>
 			<span class="glyphicon glyphicon-topic form-control-feedback"></span>
 		</div>
 	</form>
@@ -200,11 +185,6 @@ let newsForm = `
 			<span class="glyphicon glyphicon-envelope form-control-feedback"></span>
 			<div class="help-block with-errors"></div>
 		</div>
-		<div class="form-group has-feedback">
-			<label for="recipient-name" class="control-label">Created at:</label>
-			<input type="datepicker" class="form-control" id="createdat" required>
-			<span class="glyphicon glyphicon-news form-control-feedback"></span>
-		</div>
 	</form>
 `;
 let guidelinesForm = `
@@ -218,11 +198,6 @@ let guidelinesForm = `
 		<div class="form-group has-feedback">
 			<label for="recipient-name" class="control-label">No.of Subject to Pass:</label>
 			<input type="number" class="form-control" placeholder="Subjects to Pass" id="subjectstopass" required>
-			<span class="glyphicon glyphicon-guidelines form-control-feedback"></span>
-		</div>
-		<div class="form-group has-feedback">
-			<label for="recipient-name" class="control-label">Date:</label>
-			<input type="datepicker" class="form-control" id="createdat" required>
 			<span class="glyphicon glyphicon-guidelines form-control-feedback"></span>
 		</div>
 	</form>
@@ -251,11 +226,6 @@ let feedBackForms = `
 			<textarea class="form-control" placeholder="content" id="content" data-maxlength="255" data-error="not less than 255 characters" required></textarea>
 			<span class="glyphicon glyphicon-envelope form-control-feedback"></span>
 			<div class="help-block with-errors"></div>
-		</div>
-		<div class="form-group has-feedback">
-			<label for="recipient-name" class="control-label">Created at:</label>
-			<input type="datepicker" class="form-control" id="createdat" required>
-			<span class="glyphicon glyphicon-feedback form-control-feedback"></span>
 		</div>
 	</form>
 `;
