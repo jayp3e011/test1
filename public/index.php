@@ -147,7 +147,7 @@
             <div class="help-block with-errors"></div>
           </div>
           <div class="form-group has-feedback">
-            <input type="password" id="password" data-minlength="1" name="password" placeholder="Password" class="form-control input-lg" required />
+            <input type="password" id="password" data-minlength="6" name="password" placeholder="Password" class="form-control input-lg" required />
             <span class="glyphicon glyphicon-lock form-control-feedback"></span>
             <div class="help-block">Minimum of 6 characters</div>
           </div>
