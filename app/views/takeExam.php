@@ -79,23 +79,21 @@
 </head>
 <!-- ADD THE CLASS layout-top-nav TO REMOVE THE SIDEBAR. -->
 <body class="hold-transition skin-green layout-top-nav">
-	<header class="main-header">
-		<nav class="navbar navbar-fixed-top">
-			<div class="container">
-				<div class="navbar-header">
-					<div class="navbar-brand">
-						<input type="hidden" id="set-time" value="5"/>
-						<div id="countdown">
-						  
-						  <div id='tiles' class="color-full"></div>
-						  <div class="countdown-label">Time Remaining</div>
-						</div>
+	<nav class="navbar navbar-static-top">
+		<div class="container">
+			<div class="navbar-header">
+				<div class="navbar-brand">
+					<input type="hidden" id="set-time" value="5"/>
+					<div id="countdown">
+					  
+					  <div id='tiles' class="color-full"></div>
+					  <div class="countdown-label">Time Remaining</div>
 					</div>
 				</div>
 			</div>
-		</nav>
-	</header>
-  <div class="wrapper"><br><br>
+		</div>
+	</nav><br><br><br><br>
+  <div class="wrapper">
 	<div class="content-wrapper" style="background-color: #999">
 		<div class="container">
 			<section class="content">
@@ -108,13 +106,8 @@
 							<div class="box-header with-border">
 								<h3 class="box-title">Subject: <span id="subjecttitle"></span></h3>
 							</div>
-							<div class="box-body">		
-								<div id="select_subject">
-									<form>
-										<label for="label-recipient" class="label-control"></label>
-									</form>
-								</div>			
-								<table class="table" id="examSheet">
+							<div class="box-body">					
+								<table class="table">
 									<caption>
 										<div id="subjectdesc">table title and/or explanatory text</div>
 										<button class="btn btn-danger pull-right" style="width: 200px" id="submit">SUBMIT</button>

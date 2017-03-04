@@ -93,7 +93,7 @@ $(function () {
     	var seconds = c % 60;
     	var result = (hours < 10 ? "0" + hours : hours) + ":" + (minutes < 10 ? "0" + minutes : minutes) + ":" + (seconds  < 10 ? "0" + seconds : seconds);
     	$('#tiles').html(result);
-    	console.log(c+"__"+time_limit);
+    	// console.log(c+"__"+time_limit);
 	    if ( c < ( time_limit / 2 ) )  {
 	     $( '#tiles' ).removeClass('color-full');
 	     $( '#tiles' ).addClass('color-half');
@@ -104,8 +104,7 @@ $(function () {
 	    	$( '#tiles' ).addClass('color-empty');
 	    }
         if(c == 0 ){
-        	alert( 'done' );
-        	setConfirmUnload(false);
+        	alert( 'done exam...do thing here' );
             $("#submit").submit();
         }
         c = c - 1;
