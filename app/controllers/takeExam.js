@@ -129,10 +129,8 @@ $(function () {
 	var time_limit = 1*60;
 	var c = time_limit;
 	var t;
-    var target_date = new Date().getTime() + (c * 1000);
     
     function timedCount() {
-    	var current_date = new Date().getTime();
     	var hours = parseInt( c / 3600 ) % 24;
     	var minutes = parseInt( c / 60 ) % 60;
     	var seconds = c % 60;
@@ -149,8 +147,9 @@ $(function () {
 	    	$( '#tiles' ).addClass('color-empty');
 	    }
         if(c == 0 ){
-        	alert( 'done exam...do thing here' );
+        	alert( 'done exam...do things here' );
             $("#submit").submit();
+            location.reload();
         }
         c = c - 1;
         t = setTimeout(function(){ timedCount() }, 1000);
