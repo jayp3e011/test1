@@ -1,11 +1,2 @@
-//Rewrite to www
-Options +FollowSymLinks
-RewriteEngine on
-RewriteCond %{HTTP_HOST} ^i-mock.herokuapp.com[nc]
-RewriteRule ^(.*)$ http://www.i-mock.herokuapp.com/$1 [r=301,nc]
-
-//301 Redirect Old File
-Redirect 301 / /public
-
 //Change default directory page
 DirectoryIndex /public/index.php
