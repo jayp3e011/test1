@@ -1,5 +1,17 @@
 $(function () {
 	
+
+	$.ajax({
+        method: "POST",
+        url: "../models/subject.php",
+        data: {}
+	}).done(function(subjectdata){
+		var _SUBJECTTABLE_DATA = JSON.parse(subjectdata);
+		_SUBJECTTABLE_DATA.map(function(subjectobj){
+			$('#subject_id').append($('<option>').text(subjectobj.name).attr('value', subjectobj.id));
+		});
+	});
+	
 	function doRenderSubject(subjectid){
 		$.ajax({
 	        method: "POST",
@@ -80,10 +92,14 @@ $(function () {
 	});
 
 	tour.init();
+	$('#takeExam').on('click', function(){
+
+	});
 
 	tour.start();
 	var time_limit = 1*60;
 	var c = time_limit;
+	var t;
     var target_date = new Date().getTime() + (c * 1000);
     
     function timedCount() {

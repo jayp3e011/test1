@@ -106,7 +106,16 @@
 							<div class="box-header with-border">
 								<h3 class="box-title">Subject: <span id="subjecttitle"></span></h3>
 							</div>
-							<div class="box-body">					
+							<div class="box-body">		
+								<div id="select_subject">
+									<form>
+										<div class="form-group">
+											<label for="subject_id" class="control-label"></label>
+											<select name="subject_id" id="subject_id" class="form-control"></select>
+										</div>
+										<button type="submit" class="btn btn-primary" id="takeExam">Take Exam</button>	
+									</form>
+								</div>			
 								<table class="table">
 									<caption>
 										<div id="subjectdesc">table title and/or explanatory text</div>
