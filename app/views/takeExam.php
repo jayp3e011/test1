@@ -79,22 +79,23 @@
 </head>
 <!-- ADD THE CLASS layout-top-nav TO REMOVE THE SIDEBAR. -->
 <body class="hold-transition skin-green layout-top-nav">
-	<nav class="navbar navbar-static-top">
-		<div class="container">
-			<div class="navbar-header">
-				<div class="navbar-brand">
-					<input type="hidden" id="set-time" value="5"/>
-					<div id="countdown">
-					  
-					  <div id='tiles' class="color-full"></div>
-					  <div class="countdown-label">Time Remaining</div>
+	<header class="main-header">
+		<nav class="navbar navbar-fixed-top">
+			<div class="container">
+				<div class="navbar-header">
+					<div class="navbar-brand">
+						<div id="countdown">
+						  
+						  <div id='tiles' class="color-full"></div>
+						  <div class="countdown-label">Time Remaining</div>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-	</nav><br><br><br><br>
+		</nav>
+	</header>
   <div class="wrapper">
-	<div class="content-wrapper" style="background-color: #999">
+	<div class="content-wrapper" style="background-color: #999"><br><br><br><br>
 		<div class="container">
 			<section class="content">
 				<div class="box box-default">
@@ -108,28 +109,33 @@
 							</div>
 							<div class="box-body">		
 								<div id="select_subject">
-									<form>
+									<!-- <form> -->
 										<div class="form-group">
-											<label for="subject_id" class="control-label"></label>
-											<select name="subject_id" id="subject_id" class="form-control"></select>
+											<label for="subject_id" class="control-label">Select a Subject</label>
+											<select name="subject_id" id="subject_id" class="form-control"><span id="sel">looading...</span></select>
 										</div>
 										<button type="submit" class="btn btn-primary" id="takeExam">Take Exam</button>	
-									</form>
+									<!-- </form> -->
 								</div>			
-								<table class="table">
-									<caption>
-										<div id="subjectdesc">table title and/or explanatory text</div>
-										<button class="btn btn-danger pull-right" style="width: 200px" id="submit">SUBMIT</button>
-									</caption>
-									<thead>
-										<tr>
-											<th id="sheet" colspan="4">ANSWER SHEET</th>
-											<th width="6%">ITEM NO.</th>
-											<th width="70%">QUESTION SHEET</th>
-										</tr>
-									</thead>
-									<tbody id="items"></tbody>
-								</table>
+								<div id="examSheet">
+									<table class="table">
+										<div id="table-loading" style="text-align: center;">
+											<img src="../../public/dist/img/loading1.gif"><br>Loading....
+										</div>
+										<caption>
+											<div id="subjectdesc">table title and/or explanatory text</div>
+											<button class="btn btn-danger pull-right" style="width: 200px" id="submit">SUBMIT</button>
+										</caption>
+										<thead>
+											<tr>
+												<th id="sheet" colspan="4">ANSWER SHEET</th>
+												<th width="6%">ITEM NO.</th>
+												<th width="70%">QUESTION SHEET</th>
+											</tr>
+										</thead>
+										<tbody id="items"></tbody>
+									</table>
+								</div>
 							</div>
 							<!-- /.box-body -->
 						</div>
