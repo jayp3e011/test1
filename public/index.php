@@ -60,7 +60,7 @@
               <!-- <li class=""><a href="?page=login">Login</a></li>
               <li><a href="?page=register">Register</a></li>
               <li><a href="?page=user">User</a></li> -->
-              <li><a href="?page=exam">Exam</a></li>
+              <li><a href="../app/views/takeExam.php" target="_new">Exam</a></li>
               <!-- <li><a href="?page=subject">Subject</a></li>
               <li><a href="?page=question">Question</a></li>
               <li><a href="?page=topic">Topic</a></li>
@@ -92,7 +92,7 @@
             $page_url = "../app/views/register.php";
           }          
           else if($_GET['page'] == "exam"){
-            $page_url = "../app/views/exam.php";
+            $page_url = "../app/views/takeExam.php";
           }          
           else if($_GET['page'] == "subject"){
             $page_url = "../app/views/subject.php";
