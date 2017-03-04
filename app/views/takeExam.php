@@ -110,9 +110,10 @@
 							<div class="box-body">		
 								<div id="select_subject">
 									<!-- <form> -->
+										<input type="hidden" id="user_id" value="<?php echo $_SESSION['id']; ?>">
 										<div class="form-group">
 											<label for="subject_id" class="control-label">Select a Subject</label>
-											<select name="subject_id" id="subject_id" class="form-control"><span id="sel">looading...</span></select>
+											<select name="subject_id" id="subject_id" class="form-control"><p id="sel">looading...</p></select>
 										</div>
 										<button type="submit" class="btn btn-primary" id="takeExam">Take Exam</button>	
 									<!-- </form> -->

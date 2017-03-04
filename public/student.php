@@ -1,3 +1,9 @@
+<?php
+  include_once('../app/controllers/php/dbconnect.php');
+  if (!isset($_SESSION['level'])==0) {
+    header('Location: /public');
+  }
+  ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -109,7 +115,7 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="?page=take"><i class="fa fa-circle-o"></i> Take Exam</a></li>
+            <li><a href="../app/views/takeExam.php" target="_blank">Exam</a></li>
             <li><a href="?page=results"><i class="fa fa-circle-o"></i> Status</a></li>
           </ul>
         </li>
@@ -154,19 +160,19 @@
         //routes
         if(isset($_GET['page'])){
           if($_GET['page'] == "quiz"){
-            $page_url = "../app/views/quiz/index.php";
+            $page_url = "../app/views/error404.php";
           }          
           else if($_GET['page'] == "take"){
-            $page_url = "../app/views/exam/index.php";
+            $page_url = "../app/views/takeExam.php";
           }          
           else if($_GET['page'] == "results"){
-            $page_url = "../app/views/exam/index.php";
+            $page_url = "../app/views/error404.php";
           }
           else if($_GET['page'] == "feedback"){
-            $page_url = "../app/views/feedback/index.php";
+            $page_url = "../app/views/error404.php";
           }
           else if($_GET['page'] == "news"){
-            $page_url = "../app/views/news/index.php";
+            $page_url = "../app/views/error404.php";
           }
           else{
             $page_url = "../app/views/error404.php";

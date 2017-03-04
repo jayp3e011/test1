@@ -60,7 +60,7 @@
               <!-- <li class=""><a href="?page=login">Login</a></li>
               <li><a href="?page=register">Register</a></li>
               <li><a href="?page=user">User</a></li> -->
-              <li><a href="../app/views/takeExam.php" target="_new">Exam</a></li>
+              <li><a href="../app/views/takeExam.php" target="_blank">Exam</a></li>
               <!-- <li><a href="?page=subject">Subject</a></li>
               <li><a href="?page=question">Question</a></li>
               <li><a href="?page=topic">Topic</a></li>
@@ -77,10 +77,6 @@
       </nav>
     </header>
     <!-- Full Width Column -->
-    <?php echo $_SERVER['DOCUMENT_ROOT'];?> ROOT<br>
-    <?php echo $_SERVER['SERVER_NAME'];?> name<br>
-    <?php echo $_SERVER['HTTP_HOST'];?> host<br>
-    <?php echo $_SERVER['PHP_SELF'];?> self<br>
 
       <?php
         //routes

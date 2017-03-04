@@ -1,6 +1,8 @@
 $(function () {
 	$('#examSheet').hide();
 	$('#countdown').hide();
+	// var user_id = $('#user_id').val();
+	var user_id = 1;
 
 	// Instance the tour
 	var tour = new Tour({
@@ -36,9 +38,25 @@ $(function () {
         data: {}
 	}).done(function(subjectdata){
 		_SUBJECTTABLE_DATA = JSON.parse(subjectdata);
-		_SUBJECTTABLE_DATA.map(function(subjectobj){
-			$('#sel').hide();
-			$('#subject_id').append($('<option>').text(subjectobj.name).attr('value', subjectobj.id));
+		$.ajax({
+	        method: "POST",
+	        url: "../models/exam.php",
+	        data: {}
+		}).done(function(examdata){
+			_EXAMTABLE_DATA = JSON.parse(examdata);
+			_SUBJECTTABLE_DATA.map(function(subjectobj){
+				$('#subject_id').append($('<option>').text(subjectobj.name).attr('value', subjectobj.id));
+				_EXAMTABLE_DATA.map(function(examobj){
+					$('#sel').hide();
+					// console.log(user_id+'___'+examobj.user_id+'___'+examobj.subject_id+'___'+subjectobj.id);
+					$("#subject_id option").each(function(i){
+			        	if (user_id==examobj.user_id && this.value==examobj.subject_id) {
+							$(this).text(subjectobj.name+' --Already Taken').attr('disabled', 'disabled');
+						}
+				    });
+					
+				});
+			});
 		});
 	});
 	
@@ -155,5 +173,6 @@ $(function () {
         t = setTimeout(function(){ timedCount() }, 1000);
     }
 var _SUBJECTTABLE_DATA = [];
+var _EXAMTABLE_DATA = [];
 
 });
