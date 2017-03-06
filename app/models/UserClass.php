@@ -43,11 +43,15 @@ class UserClass
 	}
 	function userLogout()
 	{
-		session_destroy();
-		unset($_SESSION['id']);
-		unset($_SESSION['level']);
-		unset($_SESSION['fullname']);
-		return;
+		if (session_destroy()) {
+			unset($_SESSION['id']);
+			unset($_SESSION['level']);
+			unset($_SESSION['fullname']);
+			return true;
+		}
+		else{
+			return false;
+		}
 	}
 	
 	function escapeString($str) {

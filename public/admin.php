@@ -1,5 +1,6 @@
  <?php
-  include_once('../app/controllers/php/dbconnect.php');
+  // include_once('app/models/conf.php');
+ include_once('../app/models/conf.php');
   if (!isset($_SESSION['level'])==1) {
     header('Location: /public');
   }
@@ -31,8 +32,8 @@
             else if($_GET['page'] == "guidelines"){
               $page_url = "../app/views/guidelines.php";
             }
-            else if($_GET['page'] == "logout"){
-              $page_url = "../app/controllers/php/logout.php";
+            else if($_GET['page'] == "question"){
+              $page_url = "../app/views/question.php";
             }
             else{
               $page_url = "../app/views/error404.php";
@@ -141,7 +142,7 @@
         <ul class="nav navbar-nav">
           <li>
             <!-- USERNAME/LOGOUT -->
-            <a href="?page=logout">
+            <a href="#" id="btnLogout">
                 <i class="fa fa-fw fa-power-off"></i> LOGOUT
             </a>
             <!-- /USERNAME/LOGOUT -->

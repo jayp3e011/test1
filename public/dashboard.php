@@ -1,5 +1,5 @@
 <?php
-	include_once('../app/controllers/php/dbconnect.php');
+	include_once('../app/models/conf.php');
 	if (isset($_SESSION['level'])) {
 		if (intval($_SESSION['level'])==1) {
 		require_once('admin.php');

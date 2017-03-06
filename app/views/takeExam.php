@@ -17,7 +17,7 @@
 
   <link rel="stylesheet" href="../../public/dist/css/AdminLTE.min.css">
   <link rel="stylesheet" href="../../public/dist/css/skins/skin-green.min.css">	
-  <link rel="stylesheet" href="../../public/dist/css/app.css">
+  <!-- <link rel="stylesheet" href="../../public/dist/css/app.css"> -->
   <link href="../../public/dist/css/custom.css" rel="stylesheet" type="text/css" />
   <link href="../../public/dist/css/bootstrap-tour.min.css" rel="stylesheet">
 
@@ -100,7 +100,7 @@
 			<section class="content">
 				<div class="box box-default">
 					<div class="box-header with-border">
-						<h3 class="box-title">Manage Exam</h3>					
+						<h3 class="box-title">Take Exam</h3>					
 					</div>
 					<div class="box-body">
 						<div class="box box-default">

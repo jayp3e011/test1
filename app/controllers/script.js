@@ -38,7 +38,7 @@ $('document').ready(function() {
 		
 		$.ajax({
 		type: 'POST',
-		url: '../app/controllers/php/login.php',
+		url: '../app/models/login.php',
 		data: $('#login-form').serialize() + '&' + $('#login').attr('name') + '=' + $('#login').val(),
 		success: function(status){
 				if (status == true) {
@@ -52,6 +52,28 @@ $('document').ready(function() {
 			}
 		});
 	});
+
+	$('#btnLogout').click(function (e) {
+			// e.preventDefault();
+			$.ajax({
+			type: 'POST',
+			url: '../app/models/logout.php',
+			// data: $('#login-form').serialize() + '&' + $('#login').attr('name') + '=' + $('#login').val(),
+			success: function(status){
+					if (status == true) {
+						swal({
+						  title: "Successfully Logout!",
+						  text: "Redirecting to Home Page",
+						  timer: 2000,
+						  showConfirmButton: false
+						});
+						setTimeout('window.location.href = "index.php";',1000);
+					} else {
+						
+					}
+				}
+			});
+		});
 	// $('#addUser-form').on('submit', function (e) {
 	// 		e.preventDefault();
 			

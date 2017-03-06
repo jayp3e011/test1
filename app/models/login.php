@@ -1,5 +1,5 @@
 <?php
-include_once('dbconnect.php');
+include_once('conf.php');
 
 if (isset($_POST['login']))
 {

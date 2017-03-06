@@ -1,11 +1,12 @@
 <?php
+//id,subject_id,topic_id,question,choice_a,choice_b,choice_c,choice_d,answer,reference
 include('conf.php');
 
 if($link){
 	if(isset($_POST['action'])){
 		if($_POST['action']=="getquestions"){
 			$table='question';
-			$sql = "select * from $table WHERE subject_id=".$_POST['subjectid'];
+			$sql = "select q.id,q.question,q.choice_a,q.choice_b,q.choice_c,q.choice_d,q.answer from $table q join topic t on t.subject_id=".$_POST['subjectid']." where q.topic_id=t.id";
 			$result = mysqli_query($link, $sql) or die("Invalid query" . mysqli_error($link));
 			$arr = array();
 			$count=0;

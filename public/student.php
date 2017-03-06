@@ -1,9 +1,10 @@
 <?php
-  include_once('../app/controllers/php/dbconnect.php');
+  // include_once('../app/models/conf.php');
+  include_once('../app/models/conf.php');
   if (!isset($_SESSION['level'])==0) {
     header('Location: /public');
   }
-  ?>
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -75,7 +76,7 @@
         <ul class="nav navbar-nav">
           <li>
             <!-- USERNAME/LOGOUT -->
-            <a href="../includes/logout.php">
+            <a href="#" id="btnLogout">
                 <i class="fa fa-fw fa-power-off"></i> LOGOUT
             </a>
             <!-- /USERNAME/LOGOUT -->

@@ -14,8 +14,8 @@ function doRenderTable(id){
                 url: "../app/models/topic.php"
             }).done(function(topicdata){
                 _TOPICTABLE_DATA = JSON.parse(topicdata);
-                // console.log(topicdata);
-                renderTable(id,topicdata,['id', 'user_id', 'subject_id', 'name', 'date'],['create','read','update','delete']); 
+                console.log(topicdata);
+                renderTable(id,topicdata,['id', 'subject_id', 'name', 'date'],['create','read','update','delete']); 
             });
     	});
 	});
