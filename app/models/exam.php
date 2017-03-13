@@ -6,13 +6,30 @@ if($link){
 	if(isset($_POST['action'])){
 		if($_POST['action']=="getquestions"){
 			$table='question';
-			$sql = "select q.id,q.question,q.choice_a,q.choice_b,q.choice_c,q.choice_d,q.answer from $table q join topic t on t.subject_id=".$_POST['subjectid']." where q.topic_id=t.id";
+			$sql = "select * from $table WHERE topic_id=".$_POST['subjectid'];
 			$result = mysqli_query($link, $sql) or die("Invalid query" . mysqli_error($link));
 			$arr = array();
 			$count=0;
 			while($row=mysqli_fetch_assoc($result)){
 				$arr[] = $row;
 				$count++;
+			}
+			echo json_encode($arr);
+		}
+		else if($_POST['action']=="examQuestions"){
+			$table = "question";
+			$table2 = "topic";
+			$sql = "select * from $table";
+			$result = mysqli_query($link, $sql) or die("Invalid query" . mysqli_error($link));
+			$arr = array();
+			while($row=mysqli_fetch_assoc($result)){
+				$sql2 = "select * from $table2 where subject_id='".$_POST['subjectid']."'";
+				$result2 = mysqli_query($link, $sql2) or die("Invalid query" . mysqli_error($link));
+				while($row2=mysqli_fetch_assoc($result2)){
+					if ($row['topic_id']==$row2['id']) {
+						$arr[] = $row;
+					}
+				}
 			}
 			echo json_encode($arr);
 		}

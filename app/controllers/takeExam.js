@@ -93,9 +93,10 @@ $(function () {
 		$.ajax({
 	        method: "POST",
 	        url: "../models/exam.php",
+	        // data:{'subjectid':subjectid,'action':'getquestions'}
 	        data:{'subjectid':subjectid,'action':'getquestions'}
     	}).done(function(questions){
-    		// console.log(questions);
+    		console.log(questions);
     		// $('#subjectdesc').html(getSubjectDesc(subjectid));
     		quest = JSON.parse(questions);
     		// console.log(quest)

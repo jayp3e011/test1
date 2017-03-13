@@ -43,9 +43,29 @@
 				$result = mysqli_query($link, $sql) or die("Invalid query" . mysqli_error($link));
 				echo "ok";
 			}
+			if($_POST['action']=="importquestion"){
+				$question = $_POST['question'];
+				$choice_a = $_POST['choice_a'];
+				$choice_b = $_POST['choice_b'];
+				$choice_c = $_POST['choice_c'];
+				$choice_d = $_POST['choice_d'];
+				$answer = trim($_POST['answer']);
+				$reference = $_POST['reference'];
+				$sql = "insert into question1 VALUES('','$question','$answer','$choice_a','$choice_b','$choice_c','$choice_d','$reference')";
+				$result = mysqli_query($link, $sql) or die("Invalid query" . mysqli_error($link));
+				if ($result) {
+					echo "Success!....";
+				}
+				else
+				{
+					echo "Error";
+				}
+				echo $result;
+				
+			}
 		}
 		else{	
-			// $sql = "select * from $table";
+			// $sql = "select * from question1";
 			$sql = "select q.id, coalesce(s.name) as subject_id, coalesce(t.name) as topic_id,q.question,q.choice_a,q.choice_b,q.choice_c,q.choice_d,q.answer,q.reference from $table q join topic t on t.id=q.topic_id join subject s on t.subject_id=s.id";
 		    $result = mysqli_query($link, $sql) or die("Invalid query" . mysqli_error($link));
 			$arr = array();

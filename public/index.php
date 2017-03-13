@@ -37,6 +37,41 @@
   <script src="../app/controllers/app.js"></script>
   <!-- <script src="dist/js/jquery.routes.js"></script> -->
   <!-- <script src="../app/controllers/init.js"></script> -->
+  <style>
+    body { padding-top: 50px; }
+
+    #myCarousel .carousel-caption {
+        left:0;
+      right:0;
+      bottom:0;
+      text-align:left;
+      padding:10px;
+      background:rgba(0,0,0,0.6);
+      text-shadow:none;
+    }
+
+    #myCarousel .list-group {
+      position:absolute;
+      top:0;
+      right:0;
+    }
+    #myCarousel .list-group-item {
+      border-radius:0px;
+      cursor:pointer;
+    }
+    #myCarousel .list-group .active {
+      background-color:#eee;  
+    }
+
+    @media (min-width: 992px) { 
+      #myCarousel {padding-right:33.3333%;}
+      #myCarousel .carousel-controls {display:none;}  
+    }
+    @media (max-width: 991px) { 
+      .carousel-caption p,
+      #myCarousel .list-group {display:none;} 
+    }
+  </style>
 
 </head>
 <!-- ADD THE CLASS layout-top-nav TO REMOVE THE SIDEBAR. -->
@@ -77,7 +112,77 @@
       </nav>
     </header>
     <!-- Full Width Column -->
+      <div class="container">
+        <div class="row">
+          <div id="myCarousel" class="carousel slide" data-ride="carousel">
+          
+            <!-- Wrapper for slides -->
+            <div class="carousel-inner">
+            
+              <div class="item active">
+                <img src="http://placehold.it/760x400/cccccc/ffffff">
+                 <div class="carousel-caption">
+                  <h4><a href="#">News Title 1</a></h4>
+                  <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat. <a class="label label-primary" href="#" target="_blank">Read More...</a></p>
+                </div>
+              </div><!-- End Item -->
+       
+               <div class="item">
+                <img src="http://placehold.it/760x400/999999/cccccc">
+                 <div class="carousel-caption">
+                  <h4><a href="#">News Title 2</a></h4>
+                  <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat... <a class="label label-primary" href="#" target="_blank">Read More...</a></p>
+                </div>
+              </div><!-- End Item -->
+              
+              <div class="item">
+                <img src="http://placehold.it/760x400/dddddd/333333">
+                 <div class="carousel-caption">
+                  <h4><a href="#">News Title 3</a></h4>
+                  <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat... <a class="label label-primary" href="#" target="_blank">Read More...</a></p>
+                </div>
+              </div><!-- End Item -->
+              
+              <div class="item">
+                <img src="http://placehold.it/760x400/999999/cccccc">
+                 <div class="carousel-caption">
+                  <h4><a href="#">News Title 4</a></h4>
+                  <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat. <a class="label label-primary" href="#" target="_blank">Read More....</a></p>
+                </div>
+              </div><!-- End Item -->
 
+              <div class="item">
+                <img src="http://placehold.it/760x400/dddddd/333333">
+                 <div class="carousel-caption">
+                  <h4><a href="#">News Title 5</a></h4>
+                  <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat... <a class="label label-primary" href="#" target="_blank">Read More...</a></p>
+                </div>
+              </div><!-- End Item -->
+                      
+            </div><!-- End Carousel Inner -->
+
+
+          <ul class="list-group col-sm-4">
+            <li data-target="#myCarousel" data-slide-to="0" class="list-group-item active"><h4>News Title 1</h4></li>
+            <li data-target="#myCarousel" data-slide-to="1" class="list-group-item"><h4>News Title 2</h4></li>
+            <li data-target="#myCarousel" data-slide-to="2" class="list-group-item"><h4>News Title 3</h4></li>
+            <li data-target="#myCarousel" data-slide-to="3" class="list-group-item"><h4>News Title 4</h4></li>
+            <li data-target="#myCarousel" data-slide-to="4" class="list-group-item"><h4>News Title 5</h4></li>
+          </ul>
+
+            <!-- Controls -->
+            <div class="carousel-controls">
+                <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+                  <span class="glyphicon glyphicon-chevron-left"></span>
+                </a>
+                <a class="right carousel-control" href="#myCarousel" data-slide="next">
+                  <span class="glyphicon glyphicon-chevron-right"></span>
+                </a>
+            </div>
+
+          </div><!-- End Carousel -->
+      </div>
+    </div>
       <?php
         //routes
         if(isset($_GET['page'])){
@@ -187,6 +292,37 @@
   <script src="dist/js/app.min.js"></script>
     <script src="../app/controllers/script.js"></script>
   <script src="dist/js/demo.js"></script>
+  <script>
+    $(document).ready(function(){
+    
+    var clickEvent = false;
+    $('#myCarousel').carousel({
+      interval:   4000  
+    }).on('click', '.list-group li', function() {
+        clickEvent = true;
+        $('.list-group li').removeClass('active');
+        $(this).addClass('active');   
+    }).on('slid.bs.carousel', function(e) {
+      if(!clickEvent) {
+        var count = $('.list-group').children().length -1;
+        var current = $('.list-group li.active');
+        current.removeClass('active').next().addClass('active');
+        var id = parseInt(current.data('slide-to'));
+        if(count == id) {
+          $('.list-group li').first().addClass('active'); 
+        }
+      }
+      clickEvent = false;
+    });
+  })
+
+  $(window).load(function() {
+      var boxheight = $('#myCarousel .carousel-inner').innerHeight();
+      var itemlength = $('#myCarousel .item').length;
+      var triggerheight = Math.round(boxheight/itemlength+1);
+    $('#myCarousel .list-group-item').outerHeight(triggerheight);
+  });
+  </script>
 
 </body>
 </html>
