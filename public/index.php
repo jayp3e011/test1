@@ -6,7 +6,6 @@
 <!-- ADD THE CLASS layout-top-nav TO REMOVE THE SIDEBAR. -->
 <body class="hold-transition skin-green layout-top-nav">
 	<div class="wrapper">
-		ADD Ako
 		<!-- Nav -->
 		<?php include_once 'layout/nav.php'; echo '<script>showNav(["login"]);</script>';?>		
 		<!-- Routes -->
