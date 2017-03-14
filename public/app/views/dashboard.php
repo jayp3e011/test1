@@ -309,11 +309,12 @@
                   </div>
                   <table class="table" id="quiz-table">
                     <tr>
-                      <th style="width:150px">Choose Answer</th>
-                      <th style="padding-left:30px">Question: <span id="quiz-question-sequence">001</span></th>
+                      <!-- <th style="width:150px">Choose Answer</th> -->
+                      <!-- <th style="padding-left:30px">Question: <span id="quiz-question-sequence">001</span></th> -->
+                      <th>Question: <span id="quiz-question-sequence">001</span></th>
                     </tr>
                     <tr>
-                      <td width="30%">
+                      <!-- <td width="30%">
                         <div class="form-group">
                           <div class="row">
                             <div class="col-sm-3">
@@ -354,27 +355,59 @@
                             </div>
                           </div>
                         </div>
-                      </td>
-                      <td style="padding-left:30px" width="70%">
+                      </td> -->
+                      <td style="padding-left:30px" width="100%">
                         <div id="quiz-question">
                           The mailbox rule generally makes acceptance of an offer effective at the time the acceptance is dispatched. The mailbox rule does not apply if
                         </div>
                         <div>&nbsp;</div>
                         <table>
                           <tr>
-                            <td valign="top">A.</td>
+                            <td valign="top" width="5%">
+                               <label id="quiz_handle_a">
+                                <div id="quiz_select1_a" style="position: absolute;margin-left: 6.5px;margin-top:1px;">A</div>
+                                <div id="quiz_select2_a" class="iradio_flat-green" aria-checked="false" aria-disabled="false" style="position: relative;">
+                                  <input id="quiz_radio_a" type="radio" name="r3" class="flat-red" style="position: absolute; opacity: 0;">
+                                  <ins id="quiz_select_a" class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
+                                </div>
+                              </label> 
+                            </td>
                             <td style="padding-left:5px" id="quiz-choice_A">Both the offeror and offeree are merchants.asdfasdfasdfasdf adsfa dfa sdfa sdf asdf asdf asdf asdf asdf asdf adsf asdf asdf adsf asdf asdf asdf asdf asdf asdf asdfasd f</td>
                           </tr>
                           <tr>
-                            <td valign="top">B.</td>
+                            <td valign="top" width="5%">
+                              <label id="quiz_handle_b">
+                                <div style="position: absolute;margin-left: 6.5px;margin-top:1px;">B</div>
+                                <div class="iradio_flat-green" aria-checked="false" aria-disabled="false" style="position: relative;">
+                                  <input id="quiz_radio_b" type="radio" name="r3" class="flat-red" style="position: absolute; opacity: 100;">
+                                  <ins id="quiz_select_b" class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
+                                </div>
+                              </label>   
+                            </td>
                             <td style="padding-left:5px" id="quiz-choice_B">The offer proposes a sale of real estate.</td>
                           </tr>
                           <tr>
-                            <td valign="top">C.</td>
+                            <td valign="top" width="5%">
+                              <label id="quiz_handle_c">
+                                <div style="position: absolute;margin-left: 6.5px;margin-top:1px;">C</div>
+                                <div class="iradio_flat-green" aria-checked="false" aria-disabled="false" style="position: relative;">
+                                  <input id="quiz_radio_c" type="radio" name="r3" class="flat-red" style="position: absolute; opacity: 0;">
+                                  <ins id="quiz_select_c" class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
+                                </div>
+                              </label> 
+                            </td>
                             <td style="padding-left:5px" id="quiz-choice_C">The offer provides that an acceptance shall not be effective until actually received.</td>
                           </tr>
                           <tr>
-                            <td valign="top">D.</td>
+                            <td valign="top" width="5%">
+                              <label id="quiz_handle_d">
+                                <div style="position: absolute;margin-left: 6.5px;margin-top:1px;">D</div>
+                                <div class="iradio_flat-green" aria-checked="false" aria-disabled="false" style="position: relative;">
+                                  <input id="quiz_radio_d" type="radio" name="r3" class="flat-red" style="position: absolute; opacity: 0;">
+                                  <ins id="quiz_select_d" class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
+                                </div>
+                              </label>   
+                            </td>
                             <td style="padding-left:5px" id="quiz-choice_D">The duration of the offer is not in excess of 3 months.</td>
                           </tr>
                         </table>
@@ -589,7 +622,7 @@
       }).done(function(data){
         // console.log(data);
         util.data.STUDENT_SUBJECTS_AND_TOPICS = JSON.parse(data);
-        console.log(util.data.STUDENT_SUBJECTS_AND_TOPICS[0][0][0]);
+        // console.log(util.data.STUDENT_SUBJECTS_AND_TOPICS[0][0][0]);
         loadChooseSubject();
         loadChooseSubject1();
 
@@ -659,7 +692,7 @@
         $('.chooseTopic').change(function(){
           // loadChooseTopic($('.chooseSubject').val());
           util.data.STUDENT_TOPIC_ID_CHOSEN = $('.chooseTopic').val();
-          console.log(util.data.STUDENT_TOPIC_ID_CHOSEN);
+          // console.log(util.data.STUDENT_TOPIC_ID_CHOSEN);
           // console.log($('.chooseTopic').val());
         });
         $('.startexam').click(function(){
@@ -780,7 +813,7 @@
 
     function loadExamSheet(subject_id)
     {
-        console.log('subjectid_____'+subject_id);
+        // console.log('subjectid_____'+subject_id);
         $.ajax({
             method: "POST",
             url: "app/models/exam.php",
@@ -791,7 +824,7 @@
             // $('#subjectdesc').html(getSubjectDesc(subjectid));
             quest = JSON.parse(questions);
             util.data.STUDENT_SUBJECTS_AND_TOPICS_EXAM = quest;
-            console.log(quest);
+            // console.log(quest);
             if(quest.length>0){
               util.showExam(0);
               let html = ``;
@@ -821,7 +854,7 @@
     //Quiz Controllers
     function loadQuizSheet(topic_id)
     {
-      console.log('topicid_____'+topic_id);
+      // console.log('topicid_____'+topic_id);
       $.ajax({
           method: "POST",
           url: "app/models/exam.php",
@@ -836,11 +869,11 @@
           // console.log(quest);
           if(quest.length>0){
             util.showQuiz(util.data.CURRENT_QUIZ_PAGE);
-            let html = ``;
-            for(let i=0;i<quest.length;i++){
-              html+=`<li><a href="#" id="btnQuiz${quest[i].id}" onclick="util.showQuiz(${i})">${util.formatItem(i+1)}</a></li>`;
-            }
-            $('#quiz-nav').html(html);
+            // let html = ``;
+            // for(let i=0;i<quest.length;i++){
+            //   html+=`<li><a href="#" id="btnQuiz${quest[i].id}" onclick="util.showQuiz(${i})">${util.formatItem(i+1)}</a></li>`;
+            // }
+            // $('#quiz-nav').html(html);
           }
           else{
             util.showQuiz(-1);
@@ -888,7 +921,7 @@ class Utilities{
       formatItem(val){if(val<10)return '00'+val; else if(val<100)return '0'+val; else return val; }
       showExam(q){
         if (q>=0) {
-          console.log(this.data.STUDENT_SUBJECTS_AND_TOPICS_EXAM[q].question);
+          // console.log(this.data.STUDENT_SUBJECTS_AND_TOPICS_EXAM[q].question);
           $('#exam-table').show();
           $('#exam-question-sequence').html(this.formatItem(q+1));
           $('#exam-question').html(this.data.STUDENT_SUBJECTS_AND_TOPICS_EXAM[q].question);
@@ -918,22 +951,34 @@ class Utilities{
         // alert('SCORE: '+this.data.CURRENT_QUIZ_SCORE+'/'+this.data.CURRENT_QUIZ_ITEMS+'__'+this.data.STUDENT_QUIZ_LOG[0].quizID);
         var title = "QUIZ SCORE: "+this.data.CURRENT_QUIZ_SCORE+"/"+this.data.CURRENT_QUIZ_ITEMS+".";
         var txt = '';
+        var log = 0;
         var logs = this.data.STUDENT_QUIZ_LOG;
-        for(log on logs)
+        var p = 1;
+        var i = 1;
+        txt+='<dl>';
+        for(log in logs)
         {
-          console.log(logs[log].id);
+          // txt+='<p class="text-muted">Quiz No: </p>';
+          txt+='<p class="text-muted">Quiz No. '+this.formatItem(i++)+'</p>';
+          // txt+='<p class="text-light-blue">Question: </p>';
+          // txt+='<p class="text-light-blue">Question: '+logs[log].question+'</p>';
+          // txt+='<p class="text-aqua">Your Answer: </p>';
+          txt+='<p class="text-aqua">Your Answer: '+logs[log].selected_answer+'. '+logs[log].selected_answer_details+'</p>';
+          // txt+='<p class="text-green">Correct Answer: </p>';
+          txt+='<p class="text-green">Correct Answer'+logs[log].correct_answer+'. '+logs[log].correct_answer_details+'</p>';
         }
+        txt+='</dl>';
         swal({
           title: title,
-          text: 'A custom <span style="color:#F8BB86">YEY<span> message.',
+          text: txt,
           html: true
         });
         $('#btnNxt').attr('disable','disabled');
       }
       showNextQuiz(q)
       {
-        console.log('it__'+this.data.CURRENT_QUIZ_ITEMS);
-        console.log('snq__'+q);
+        // console.log('it__'+this.data.CURRENT_QUIZ_ITEMS);
+        // console.log('snq__'+q);
         if (this.data.CURRENT_QUIZ_PAGE<=this.data.CURRENT_QUIZ_ITEMS) {
           this.saveQuizAnswer();
           this.showQuiz(q);
@@ -947,9 +992,9 @@ class Utilities{
       }
       showQuiz(q){
         
-        console.log('pg__'+this.data.CURRENT_QUIZ_PAGE);
+        // console.log('pg__'+this.data.CURRENT_QUIZ_PAGE);
         
-      this.data.CURRENT_QUIZ_PAGE++; 
+        this.data.CURRENT_QUIZ_PAGE++; 
        
         if (q>=0) {
           // console.log(this.data.STUDENT_SUBJECTS_AND_TOPICS_QUIZ[q].id);
@@ -968,7 +1013,7 @@ class Utilities{
       }
       saveQuizAnswer()
       {
-        console.log('sqa__'+this.data.CURRENT_QUIZ_PAGE);
+        // console.log('sqa__'+this.data.CURRENT_QUIZ_PAGE);
         var cA = $('#quiz_radio_a').iCheck('update')[0].checked;
         var cB = $('#quiz_radio_b').iCheck('update')[0].checked;
         var cC = $('#quiz_radio_c').iCheck('update')[0].checked;
@@ -1030,7 +1075,7 @@ class Utilities{
     saveQuizLog(quizlog){
       this.data.STUDENT_QUIZ_LOG.push(quizlog);
       this.resetQuizCheckbox();
-      console.log(this.data.STUDENT_QUIZ_LOG);
+      // console.log(this.data.STUDENT_QUIZ_LOG);
     }
   }
   let util = new Utilities();
