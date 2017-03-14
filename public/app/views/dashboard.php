@@ -294,7 +294,7 @@
             <div class="box quiz-sheet">
               <div class="box-header with-border">
                 <h3 class="box-title subject-chosen">Subject Chosen</h3>
-                <h5 class="box-title pull-right">
+                <h5 class="box-title pull-right" id="quizScore">
                   Items you answered: 0
                 </h5>
                 </div>
@@ -363,19 +363,19 @@
                         <table>
                           <tr>
                             <td valign="top">A.</td>
-                            <td style="padding-left:5px" id="quiz-choice_a">Both the offeror and offeree are merchants.asdfasdfasdfasdf adsfa dfa sdfa sdf asdf asdf asdf asdf asdf asdf adsf asdf asdf adsf asdf asdf asdf asdf asdf asdf asdfasd f</td>
+                            <td style="padding-left:5px" id="quiz-choice_A">Both the offeror and offeree are merchants.asdfasdfasdfasdf adsfa dfa sdfa sdf asdf asdf asdf asdf asdf asdf adsf asdf asdf adsf asdf asdf asdf asdf asdf asdf asdfasd f</td>
                           </tr>
                           <tr>
                             <td valign="top">B.</td>
-                            <td style="padding-left:5px" id="quiz-choice_b">The offer proposes a sale of real estate.</td>
+                            <td style="padding-left:5px" id="quiz-choice_B">The offer proposes a sale of real estate.</td>
                           </tr>
                           <tr>
                             <td valign="top">C.</td>
-                            <td style="padding-left:5px" id="quiz-choice_c">The offer provides that an acceptance shall not be effective until actually received.</td>
+                            <td style="padding-left:5px" id="quiz-choice_C">The offer provides that an acceptance shall not be effective until actually received.</td>
                           </tr>
                           <tr>
                             <td valign="top">D.</td>
-                            <td style="padding-left:5px" id="quiz-choice_d">The duration of the offer is not in excess of 3 months.</td>
+                            <td style="padding-left:5px" id="quiz-choice_D">The duration of the offer is not in excess of 3 months.</td>
                           </tr>
                         </table>
                       </td>
@@ -383,6 +383,7 @@
                     <tr>
                       <td colspan="2">
                         <span id="chosen_intromsg">Please choose a letter now</span>&nbsp;
+                        <div id="quizNxtBtnHere" class="pull-right"><button class="btn btn-success btn-lg" id="btnNxt" onclick="util.showNextQuiz(util.data.CURRENT_QUIZ_PAGE)"><span>Next</span></button></div>
                         <span id="chosen_letter"></span>.&nbsp;&nbsp;
                         <span id="chosen_details"></span>                        
                       </td>
@@ -817,40 +818,53 @@
             });
         });
     }
+    //Quiz Controllers
     function loadQuizSheet(topic_id)
     {
-        console.log('topicid_____'+topic_id);
-        $.ajax({
-            method: "POST",
-            url: "app/models/exam.php",
-            // data:{'subject_id':subject_id}
-            data:{'topic_id':topic_id,'action':'getquiz'}
-        }).done(function(questions){
-            // console.log(questions);
-            // $('#subjectdesc').html(getSubjectDesc(subjectid));
-            quest = JSON.parse(questions);
-            util.data.STUDENT_SUBJECTS_AND_TOPICS_QUIZ = quest;
-            console.log(quest);
-            if(quest.length>0){
-              util.showQuiz(0);
-              let html = ``;
-              for(let i=0;i<quest.length;i++){
-                html+=`<li><a href="#" id="btnQuiz${quest[i].id}" onclick="util.showQuiz(${i})">${util.formatItem(i+1)}</a></li>`;
-              }
-              $('#quiz-nav').html(html);
+      console.log('topicid_____'+topic_id);
+      $.ajax({
+          method: "POST",
+          url: "app/models/exam.php",
+          // data:{'subject_id':subject_id}
+          data:{'topic_id':topic_id,'action':'getquiz'}
+      }).done(function(questions){
+          // console.log(questions);
+          // $('#subjectdesc').html(getSubjectDesc(subjectid));
+          quest = JSON.parse(questions);
+          util.data.STUDENT_SUBJECTS_AND_TOPICS_QUIZ = quest;
+          util.data.CURRENT_QUIZ_ITEMS = quest.length;
+          // console.log(quest);
+          if(quest.length>0){
+            util.showQuiz(util.data.CURRENT_QUIZ_PAGE);
+            let html = ``;
+            for(let i=0;i<quest.length;i++){
+              html+=`<li><a href="#" id="btnQuiz${quest[i].id}" onclick="util.showQuiz(${i})">${util.formatItem(i+1)}</a></li>`;
             }
-            else{
-              util.showQuiz(-1);
-            }
-            $('.chooseSubject1').attr('disabled','disabled');
-            $('.subject-chosen').html(shortText($('.chooseSubject').val()));
-            $('.startquiz').attr('disabled','disabled');
-            $('.chooseagain').attr('disabled','disabled');
-            $('.quiz-sheet').show();
-            // $('.chooseSubject').removeAttr('disabled');
-        });
+            $('#quiz-nav').html(html);
+          }
+          else{
+            util.showQuiz(-1);
+          }
+          $('.chooseSubject1').attr('disabled','disabled');
+          $('.subject-chosen').html(shortText($('.chooseSubject').val()));
+          $('.startquiz').attr('disabled','disabled');
+          $('.chooseagain').attr('disabled','disabled');
+          $('.quiz-sheet').show();
+          // $('.chooseSubject').removeAttr('disabled');
+      });
     }
-    
+    // $("#quiz_radio_a").on("ifChanged", function(){
+    //   util.saveQuizAnswer();
+    // });
+    // $("#quiz_radio_b").on("ifChanged", function(){
+    //   util.saveQuizAnswer();
+    // });
+    // $("#quiz_radio_c").on("ifChanged", function(){
+    //   util.saveQuizAnswer();
+    // });
+    // $("#quiz_radio_d").on("ifChanged", function(){
+    //   util.saveQuizAnswer();
+    // });
     $('.exam-sheet').hide();
     $('.quiz-sheet').hide();
   });
@@ -863,8 +877,12 @@ class Utilities{
           STUDENT_TOPIC_ID_CHOSEN:[],
           STUDENT_SUBJECTS_AND_TOPICS_QUIZ:[],
           STUDENT_SUBJECTS_AND_TOPICS_EXAM:[],
+          STUDENT_QUIZ_LOG:[],
           STUDENT_SUBJECTS_AND_TOPICS_QUIZ_SELECTED_INDEX:-1,
-          CURRENT_QUIZ_ID: 0
+          CURRENT_QUIZ_ID: 0,
+          CURRENT_QUIZ_ITEMS: 0,
+          CURRENT_QUIZ_PAGE: 0,
+          CURRENT_QUIZ_SCORE: 0
         };
       }
       formatItem(val){if(val<10)return '00'+val; else if(val<100)return '0'+val; else return val; }
@@ -884,22 +902,136 @@ class Utilities{
           $('#exam-nav').html("NO QUESTION ASSIGNED!");
         }
       }
+      //End Exam Utils
+      //Quiz Utils
+      showQuizScore(correct_answer,selected_answer)
+      {
+        if (correct_answer===selected_answer) {
+          this.data.CURRENT_QUIZ_SCORE++;
+        }
+        $('#quizScore').html('Score : '+this.data.CURRENT_QUIZ_SCORE+'/'+this.data.CURRENT_QUIZ_ITEMS);
+      }
+      showQuizResult()
+      {
+        this.data.CURRENT_QUIZ_PAGE--;
+        this.saveQuizAnswer();
+        // alert('SCORE: '+this.data.CURRENT_QUIZ_SCORE+'/'+this.data.CURRENT_QUIZ_ITEMS+'__'+this.data.STUDENT_QUIZ_LOG[0].quizID);
+        var title = "QUIZ SCORE: "+this.data.CURRENT_QUIZ_SCORE+"/"+this.data.CURRENT_QUIZ_ITEMS+".";
+        var txt = '';
+        var logs = this.data.STUDENT_QUIZ_LOG;
+        for(log on logs)
+        {
+          console.log(logs[log].id);
+        }
+        swal({
+          title: title,
+          text: 'A custom <span style="color:#F8BB86">YEY<span> message.',
+          html: true
+        });
+        $('#btnNxt').attr('disable','disabled');
+      }
+      showNextQuiz(q)
+      {
+        console.log('it__'+this.data.CURRENT_QUIZ_ITEMS);
+        console.log('snq__'+q);
+        if (this.data.CURRENT_QUIZ_PAGE<=this.data.CURRENT_QUIZ_ITEMS) {
+          this.saveQuizAnswer();
+          this.showQuiz(q);
+        }        
+        if(this.data.CURRENT_QUIZ_PAGE==this.data.CURRENT_QUIZ_ITEMS)
+        {
+          let html = `<button class="btn btn-success btn-lg" id="btnSubmit" onclick="util.showQuizResult()"><span>Submit</span>`;
+          $('#quizNxtBtnHere').html(html);
+        }
+        
+      }
       showQuiz(q){
+        
+        console.log('pg__'+this.data.CURRENT_QUIZ_PAGE);
+        
+      this.data.CURRENT_QUIZ_PAGE++; 
+       
         if (q>=0) {
-          console.log(this.data.STUDENT_SUBJECTS_AND_TOPICS_QUIZ[q].question);
+          // console.log(this.data.STUDENT_SUBJECTS_AND_TOPICS_QUIZ[q].id);
           $('#quiz-table').show();
           $('#quiz-question-sequence').html(this.formatItem(q+1));
           $('#quiz-question').html(this.data.STUDENT_SUBJECTS_AND_TOPICS_QUIZ[q].question);
-          $('#quiz-choice_a').html(this.data.STUDENT_SUBJECTS_AND_TOPICS_QUIZ[q].choice_a);
-          $('#quiz-choice_b').html(this.data.STUDENT_SUBJECTS_AND_TOPICS_QUIZ[q].choice_b);
-          $('#quiz-choice_c').html(this.data.STUDENT_SUBJECTS_AND_TOPICS_QUIZ[q].choice_c);
-          $('#quiz-choice_d').html(this.data.STUDENT_SUBJECTS_AND_TOPICS_QUIZ[q].choice_d); 
+          $('#quiz-choice_A').html(this.data.STUDENT_SUBJECTS_AND_TOPICS_QUIZ[q].choice_a);
+          $('#quiz-choice_B').html(this.data.STUDENT_SUBJECTS_AND_TOPICS_QUIZ[q].choice_b);
+          $('#quiz-choice_C').html(this.data.STUDENT_SUBJECTS_AND_TOPICS_QUIZ[q].choice_c);
+          $('#quiz-choice_D').html(this.data.STUDENT_SUBJECTS_AND_TOPICS_QUIZ[q].choice_d); 
         }
         else{
           $('#quiz-table').hide();
           $('#quiz-nav').html("NO QUESTION ASSIGNED!");
         }
       }
+      saveQuizAnswer()
+      {
+        console.log('sqa__'+this.data.CURRENT_QUIZ_PAGE);
+        var cA = $('#quiz_radio_a').iCheck('update')[0].checked;
+        var cB = $('#quiz_radio_b').iCheck('update')[0].checked;
+        var cC = $('#quiz_radio_c').iCheck('update')[0].checked;
+        var cD = $('#quiz_radio_d').iCheck('update')[0].checked;
+        if(cA){
+          this.saveQuizLog({
+            "quizID":this.data.STUDENT_SUBJECTS_AND_TOPICS_QUIZ[this.data.CURRENT_QUIZ_PAGE].id,
+            "question":$('#quiz-question').html(),
+            "selected_answer":"A",
+            "selected_answer_details":$('#quiz-choice_A').html(),
+            "correct_answer":this.data.STUDENT_SUBJECTS_AND_TOPICS_QUIZ[this.data.CURRENT_QUIZ_PAGE].answer,
+            "correct_answer_details":$('#quiz-choice_'+this.data.STUDENT_SUBJECTS_AND_TOPICS_QUIZ[this.data.CURRENT_QUIZ_PAGE].answer).html()
+          });
+        this.showQuizScore(this.data.STUDENT_SUBJECTS_AND_TOPICS_QUIZ[this.data.CURRENT_QUIZ_PAGE].answer,'A');
+
+        }
+        else if(cB){
+          this.saveQuizLog({
+            "quizID":this.data.STUDENT_SUBJECTS_AND_TOPICS_QUIZ[this.data.CURRENT_QUIZ_PAGE].id,
+            "question":$('#quiz-question').html(),
+            "selected_answer":"B",
+            "selected_answer_details":$('#quiz-choice_B').html(),
+            "correct_answer":this.data.STUDENT_SUBJECTS_AND_TOPICS_QUIZ[this.data.CURRENT_QUIZ_PAGE].answer,
+            "correct_answer_details":$('#quiz-choice_'+this.data.STUDENT_SUBJECTS_AND_TOPICS_QUIZ[this.data.CURRENT_QUIZ_PAGE].answer).html()
+          });
+        this.showQuizScore(this.data.STUDENT_SUBJECTS_AND_TOPICS_QUIZ[this.data.CURRENT_QUIZ_PAGE].answer,'B');
+        }
+        else if(cC){
+          this.saveQuizLog({
+            "quizID":this.data.STUDENT_SUBJECTS_AND_TOPICS_QUIZ[this.data.CURRENT_QUIZ_PAGE].id,
+            "question":$('#quiz-question').html(),
+            "selected_answer":"C",
+            "selected_answer_details":$('#quiz-choice_C').html(),
+            "correct_answer":this.data.STUDENT_SUBJECTS_AND_TOPICS_QUIZ[this.data.CURRENT_QUIZ_PAGE].answer,
+            "correct_answer_details":$('#quiz-choice_'+this.data.STUDENT_SUBJECTS_AND_TOPICS_QUIZ[this.data.CURRENT_QUIZ_PAGE].answer).html()
+          });
+        this.showQuizScore(this.data.STUDENT_SUBJECTS_AND_TOPICS_QUIZ[this.data.CURRENT_QUIZ_PAGE].answer,'C');
+        }
+        else if(cD){
+          this.saveQuizLog({
+            "quizID":this.data.STUDENT_SUBJECTS_AND_TOPICS_QUIZ[this.data.CURRENT_QUIZ_PAGE].id,
+            "question":$('#quiz-question').html(),
+            "selected_answer":"D",
+            "selected_answer_details":$('#quiz-choice_D').html(),
+            "correct_answer":this.data.STUDENT_SUBJECTS_AND_TOPICS_QUIZ[this.data.CURRENT_QUIZ_PAGE].answer,
+            "correct_answer_details":$('#quiz-choice_'+this.data.STUDENT_SUBJECTS_AND_TOPICS_QUIZ[this.data.CURRENT_QUIZ_PAGE].answer).html()
+          });
+        this.showQuizScore(this.data.STUDENT_SUBJECTS_AND_TOPICS_QUIZ[this.data.CURRENT_QUIZ_PAGE].answer,'D');
+        }
+        // console.log(cA);
+        // console.log(cB);
+        // console.log(cC);
+        // console.log(cD);   
+      }
+      resetQuizCheckbox(){$('#quiz_radio_a').prop('disabled',false);$('#quiz_radio_a').iCheck('uncheck'); $('#quiz_radio_b').prop('disabled',false);$('#quiz_radio_b').iCheck('uncheck'); $('#quiz_radio_c').prop('disabled',false);$('#quiz_radio_c').iCheck('uncheck'); $('#quiz_radio_d').prop('disabled',false);$('#quiz_radio_d').iCheck('uncheck'); $('#chosen_intromsg').html("Please choose a letter now"); $('#chosen_letter').html(""); $('#chosen_details').html(""); }
+    getSelectedQuiz(){return this.data.CURRENT_QUIZ_ID; }
+    //NOTE: UPDATE THIS CODE. USER ID MUST BE ASSIGNED USING A SESSION VARIABLE
+    getUserID(){ return 2;}
+    saveQuizLog(quizlog){
+      this.data.STUDENT_QUIZ_LOG.push(quizlog);
+      this.resetQuizCheckbox();
+      console.log(this.data.STUDENT_QUIZ_LOG);
     }
-    let util = new Utilities();
+  }
+  let util = new Utilities();
 </script>
