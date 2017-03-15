@@ -155,130 +155,106 @@
 <!-- modals end-->
 
 <script>
-	// $(document).ready(function() {
-	//     $('#questiontable').DataTable( {
-	//         // initComplete: function () {
-	//             this.api().columns().every( function () {
-	//                 var column = this;
-	//                 var select = $('<select><option value=""></option></select>')
-	//                     .appendTo( $(column.footer()).empty() )
-	//                     .on( 'change', function () {
-	//                         var val = $.fn.dataTable.util.escapeRegex(
-	//                             $(this).val()
-	//                         );
-	 
-	//                         column
-	//                             .search( val ? '^'+val+'$' : '', true, false )
-	//                             .draw();
-	//                     } );
-	 
-	//                 column.data().unique().sort().each( function ( d, j ) {
-	//                     select.append( '<option value="'+d+'">'+d+'</option>' )
-	//                 } );
-	//             } );
-	//         // }
-	//     } );
-	// } );
-	$elm = $('#import');
-	$elm.on('change', function (changeEvent) {
-        var reader = new FileReader();
-        
-        reader.onload = function (evt) {
-			var data = evt.target.result;
-
-			var workbook = XLSX.read(data, {type: 'binary'});
-
-			var headerNames = XLSX.utils.sheet_to_json( workbook.Sheets[workbook.SheetNames[0]], { header: 1 })[0];
-
-			var data = XLSX.utils.sheet_to_json( workbook.Sheets[workbook.SheetNames[0]]);
-
-			// console.log('RAW______'+XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames]));
-			// console.log('head____'+headerNames);
-			// console.log(data);
-
-			// dt = JSON.parse(data);
-			
-			data.map(function(xlobject){
-				// console.log(rowCount);
-				var html = "";
-				html+=  "<tr><td>"+xlobject.__rowNum__+"</td>";
-				html+=  "<td>"+xlobject.question+"</td>";
-				html+=  "<td>"+xlobject.answer+"</td>";
-				html+=  "<td>"+xlobject.choice_a+"</td>";
-				html+=  "<td>"+xlobject.choice_b+"</td>";
-				html+=  "<td>"+xlobject.choice_c+"</td>";
-				html+=  "<td>"+xlobject.choice_d+"</td>";
-				html+=  "<td>"+xlobject.reference+"</td>";
-				html+=  '<td><span class="label label-danger">Not Saved</span></td><tr>';
-				$('#excelData tbody').append(html);
-				$('#count').text('Rows: '+xlobject.__rowNum__);
-				if ($('#questionbtnmodalimport').on('click', function(e){
-					e.preventDefault();
-					if (saveData(xlobject.question,xlobject.answer,xlobject.choice_a,xlobject.choice_b,xlobject.choice_c,xlobject.choice_d,xlobject.reference)) {
-						alert('Saved....');
-					}
-					
-				}));
-			});
-			setTimeout(changeTableStatus('<span class="label label-warning">Already Saved</span>'),10000);
-			$('#questionbtnmodalimport').removeAttr('disabled', 'disable');
-        };
-        
-        reader.readAsBinaryString(changeEvent.target.files[0]);
-  });
-function saveData(question,answer,choice_a,choice_b,choice_c,choice_d,reference)
-{
-	var success = false;
-	$.ajax({
-		method :"POST",
-		url : "app/models/question.php",
-		data : {
-			'action':'importquestion',
-			'question' : question,
-			'answer' : answer,
-			'choice_a' : choice_a,
-			'choice_b' : choice_b,
-			'choice_c' : choice_c,
-			'choice_d' : choice_d,
-			'reference' : reference
-		}
-		}).done(function(res){
-			// alert(res);
-			// console.log(res); 
-			setTimeout(changeTableStatus('<span class="label label-success">Saved</span>'),3000);
-			success = true;
-			
-
-		});
-		return success;
-}
-function changeTableStatus(status)
-{
-	var count = 0;
-	$.ajax({
-		method :"POST",
-		url : "app/models/question.php",
-		data : {
-			'action':'getQuest1'
-		}
-	}).done(function(dt){
-		var dbe = JSON.parse(dt);
-		// console.log(dt);
-		dbe.map(function(dbobject){
-			$('#excelData tbody tr').each(function(row, tr){
-		        if ($(tr).find('td:eq(1)').text() === dbobject.question && $(tr).find('td:eq(2)').text()===dbobject.answer && $(tr).find('td:eq(3)').text()===dbobject.choice_a && $(tr).find('td:eq(4)').text()===dbobject.choice_b && $(tr).find('td:eq(5)').text()===dbobject.choice_c && $(tr).find('td:eq(6)').text()===dbobject.choice_d && $(tr).find('td:eq(7)').text()===dbobject.reference) 
-		        {
-		        	$(tr).find('td:eq(8)').html(status);
-		        	$('#questionbtnmodalimport').attr('disabled','disable');
-		        	count++;
-		        }
+			$elm = $('#import');
+			$elm.on('change', function (changeEvent) {
+		        var reader = new FileReader();
 		        
-		    }); 
-		});
-		 $('#saved').text(' / Rows saved: '+count);
+		        reader.onload = function (evt) {
+					var data = evt.target.result;
 
-	});
-}
-</script>
+					var workbook = XLSX.read(data, {type: 'binary'});
+
+					var headerNames = XLSX.utils.sheet_to_json( workbook.Sheets[workbook.SheetNames[0]], { header: 1 })[0];
+
+					var data = XLSX.utils.sheet_to_json( workbook.Sheets[workbook.SheetNames[0]]);
+
+					// console.log('RAW______'+XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames]));
+					// console.log('head____'+headerNames);
+					// console.log(data);
+
+					// dt = JSON.parse(data);
+					
+					data.map(function(xlobject){
+						// console.log(rowCount);
+						var html = "";
+						html+=  "<tr><td>"+xlobject.__rowNum__+"</td>";
+						html+=  "<td>"+xlobject.question+"</td>";
+						html+=  "<td>"+xlobject.answer+"</td>";
+						html+=  "<td>"+xlobject.choice_a+"</td>";
+						html+=  "<td>"+xlobject.choice_b+"</td>";
+						html+=  "<td>"+xlobject.choice_c+"</td>";
+						html+=  "<td>"+xlobject.choice_d+"</td>";
+						html+=  "<td>"+xlobject.reference+"</td>";
+						html+=  '<td><span class="label label-danger">Not Saved</span></td><tr>';
+						$('#excelData tbody').append(html);
+						$('#count').text('Rows: '+xlobject.__rowNum__);
+						if ($('#questionbtnmodalimport').on('click', function(e){
+							e.preventDefault();
+							if (saveData(xlobject.question,xlobject.answer,xlobject.choice_a,xlobject.choice_b,xlobject.choice_c,xlobject.choice_d,xlobject.reference)) {
+								alert('Saved....');
+							}
+							
+						}));
+					});
+					setTimeout(changeTableStatus('<span class="label label-warning">Already Saved</span>'),10000);
+					$('#questionbtnmodalimport').removeAttr('disabled', 'disable');
+		        };
+		        
+		        reader.readAsBinaryString(changeEvent.target.files[0]);
+	      });
+		function saveData(question,answer,choice_a,choice_b,choice_c,choice_d,reference)
+		{
+			var success = false;
+			$.ajax({
+				method :"POST",
+				url : "app/models/question.php",
+				data : {
+					'action':'importquestion',
+					'question' : question,
+					'answer' : answer,
+					'choice_a' : choice_a,
+					'choice_b' : choice_b,
+					'choice_c' : choice_c,
+					'choice_d' : choice_d,
+					'reference' : reference
+				}
+				}).done(function(res){
+					// alert(res);
+					// console.log(res); 
+					setTimeout(changeTableStatus('<span class="label label-success">Saved</span>'),3000);
+					success = true;
+					
+
+				});
+				return success;
+		}
+		function changeTableStatus(status)
+		{
+			var count = 0;
+			$.ajax({
+				method :"POST",
+				url : "app/models/question.php",
+				data : {
+					'action':'getQuest1'
+				}
+			}).done(function(dt){
+				var dbe = JSON.parse(dt);
+				// console.log(dt);
+				dbe.map(function(dbobject){
+					$('#excelData tbody tr').each(function(row, tr){
+				        if ($(tr).find('td:eq(1)').text() === dbobject.question && $(tr).find('td:eq(2)').text()===dbobject.answer && $(tr).find('td:eq(3)').text()===dbobject.choice_a && $(tr).find('td:eq(4)').text()===dbobject.choice_b && $(tr).find('td:eq(5)').text()===dbobject.choice_c && $(tr).find('td:eq(6)').text()===dbobject.choice_d && $(tr).find('td:eq(7)').text()===dbobject.reference) 
+				        {
+				        	$(tr).find('td:eq(8)').html(status);
+				        	$('#questionbtnmodalimport').attr('disabled','disable');
+				        	count++;
+				        }
+				        
+				    }); 
+				});
+				 $('#saved').text(' / Rows saved: '+count);
+
+			});
+		}
+		</script>
 
 
