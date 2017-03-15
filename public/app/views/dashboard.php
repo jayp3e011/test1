@@ -415,8 +415,9 @@
                     </tr>
                     <tr>
                       <td colspan="2">
-                        <span id="chosen_intromsg">Please choose a letter now</span>&nbsp;
+                        <!-- <span id="chosen_intromsg">Please choose a letter now</span>&nbsp; -->
                         <div id="quizNxtBtnHere" class="pull-right"><button class="btn btn-success btn-lg" id="btnNxt" onclick="util.showNextQuiz(util.data.CURRENT_QUIZ_PAGE)"><span>Next</span></button></div>
+                        <div id="quizPrevBtnHere" class="pull-left"><button class="btn btn-success btn-lg" id="btnPrev" onclick="util.ShowPrevQuiz(util.data.PREV_QUIZ_PAGE)"><span>Previous</span></button></div>
                         <span id="chosen_letter"></span>.&nbsp;&nbsp;
                         <span id="chosen_details"></span>                        
                       </td>
@@ -866,6 +867,7 @@
           quest = JSON.parse(questions);
           util.data.STUDENT_SUBJECTS_AND_TOPICS_QUIZ = quest;
           util.data.CURRENT_QUIZ_ITEMS = quest.length;
+          util.data.PREV_QUIZ_ITEMS = util.data.CURRENT_QUIZ_PAGE-1;
           // console.log(quest);
           if(quest.length>0){
             util.showQuiz(util.data.CURRENT_QUIZ_PAGE);
@@ -915,6 +917,7 @@ class Utilities{
           CURRENT_QUIZ_ID: 0,
           CURRENT_QUIZ_ITEMS: 0,
           CURRENT_QUIZ_PAGE: 0,
+          PREV_QUIZ_PAGE: 0,
           CURRENT_QUIZ_SCORE: 0
         };
       }
@@ -955,7 +958,7 @@ class Utilities{
         var logs = this.data.STUDENT_QUIZ_LOG;
         var p = 1;
         var i = 1;
-        txt+='<dl>';
+        txt+='<font size="2.5">';
         for(log in logs)
         {
           // txt+='<p class="text-muted">Quiz No: </p>';
@@ -967,7 +970,7 @@ class Utilities{
           // txt+='<p class="text-green">Correct Answer: </p>';
           txt+='<p class="text-green">Correct Answer'+logs[log].correct_answer+'. '+logs[log].correct_answer_details+'</p>';
         }
-        txt+='</dl>';
+        txt+='</font>';
         swal({
           title: title,
           text: txt,
@@ -975,12 +978,17 @@ class Utilities{
         });
         $('#btnNxt').attr('disable','disabled');
       }
+      ShowPrevQuiz(page)
+      {
+        this.showQuiz(page);
+        this.data.CURRENT_QUIZ_PAGE--;
+      }
       showNextQuiz(q)
       {
         // console.log('it__'+this.data.CURRENT_QUIZ_ITEMS);
         // console.log('snq__'+q);
         if (this.data.CURRENT_QUIZ_PAGE<=this.data.CURRENT_QUIZ_ITEMS) {
-          this.saveQuizAnswer();
+          // this.saveQuizAnswer();
           this.showQuiz(q);
         }        
         if(this.data.CURRENT_QUIZ_PAGE==this.data.CURRENT_QUIZ_ITEMS)
@@ -988,23 +996,45 @@ class Utilities{
           let html = `<button class="btn btn-success btn-lg" id="btnSubmit" onclick="util.showQuizResult()"><span>Submit</span>`;
           $('#quizNxtBtnHere').html(html);
         }
-        
+        console.log(this.data.STUDENT_QUIZ_LOG);
       }
       showQuiz(q){
+
+        var save = true;
+        var log = 0;
+        var logs = this.data.STUDENT_QUIZ_LOG;
+
         
         // console.log('pg__'+this.data.CURRENT_QUIZ_PAGE);
-        
-        this.data.CURRENT_QUIZ_PAGE++; 
+        // if (this.data.CURRENT_QUIZ_PAGE<=0) {
+        //   $('#btnPrev').attr('disabled','disable');
+        // }
+        this.data.CURRENT_QUIZ_PAGE++;
+
        
         if (q>=0) {
           // console.log(this.data.STUDENT_SUBJECTS_AND_TOPICS_QUIZ[q].id);
+          
           $('#quiz-table').show();
           $('#quiz-question-sequence').html(this.formatItem(q+1));
           $('#quiz-question').html(this.data.STUDENT_SUBJECTS_AND_TOPICS_QUIZ[q].question);
           $('#quiz-choice_A').html(this.data.STUDENT_SUBJECTS_AND_TOPICS_QUIZ[q].choice_a);
           $('#quiz-choice_B').html(this.data.STUDENT_SUBJECTS_AND_TOPICS_QUIZ[q].choice_b);
           $('#quiz-choice_C').html(this.data.STUDENT_SUBJECTS_AND_TOPICS_QUIZ[q].choice_c);
-          $('#quiz-choice_D').html(this.data.STUDENT_SUBJECTS_AND_TOPICS_QUIZ[q].choice_d); 
+          $('#quiz-choice_D').html(this.data.STUDENT_SUBJECTS_AND_TOPICS_QUIZ[q].choice_d);
+          for(log in logs)
+          {  
+            
+            if (logs[log].quizID==this.formatItem(q+1)) {
+              save=false;
+              console.log(this.formatItem(q+1)+'__'+logs[log].quizID+'__'+save);
+              this.quizSelectAnswer(logs[log].selected_answer);
+            }
+          }
+          if (q>=1 && save) {
+            this.saveQuizAnswer();
+          }
+
         }
         else{
           $('#quiz-table').hide();
@@ -1020,10 +1050,14 @@ class Utilities{
         var cD = $('#quiz_radio_d').iCheck('update')[0].checked;
         if(cA){
           this.saveQuizLog({
-            "quizID":this.data.STUDENT_SUBJECTS_AND_TOPICS_QUIZ[this.data.CURRENT_QUIZ_PAGE].id,
+            "quizID":$('#quiz-question-sequence').html(),
+            "quesID":this.data.STUDENT_SUBJECTS_AND_TOPICS_QUIZ[this.data.CURRENT_QUIZ_PAGE].id,
             "question":$('#quiz-question').html(),
             "selected_answer":"A",
             "selected_answer_details":$('#quiz-choice_A').html(),
+            "B_answer_details":$('#quiz-choice_B').html(),
+            "C_answer_details":$('#quiz-choice_C').html(),
+            "D_answer_details":$('#quiz-choice_D').html(),
             "correct_answer":this.data.STUDENT_SUBJECTS_AND_TOPICS_QUIZ[this.data.CURRENT_QUIZ_PAGE].answer,
             "correct_answer_details":$('#quiz-choice_'+this.data.STUDENT_SUBJECTS_AND_TOPICS_QUIZ[this.data.CURRENT_QUIZ_PAGE].answer).html()
           });
@@ -1032,10 +1066,14 @@ class Utilities{
         }
         else if(cB){
           this.saveQuizLog({
-            "quizID":this.data.STUDENT_SUBJECTS_AND_TOPICS_QUIZ[this.data.CURRENT_QUIZ_PAGE].id,
+            "quizID":$('#quiz-question-sequence').html(),
+            "quesID":this.data.STUDENT_SUBJECTS_AND_TOPICS_QUIZ[this.data.CURRENT_QUIZ_PAGE].id,
             "question":$('#quiz-question').html(),
             "selected_answer":"B",
             "selected_answer_details":$('#quiz-choice_B').html(),
+            "A_answer_details":$('#quiz-choice_A').html(),
+            "C_answer_details":$('#quiz-choice_C').html(),
+            "D_answer_details":$('#quiz-choice_D').html(),
             "correct_answer":this.data.STUDENT_SUBJECTS_AND_TOPICS_QUIZ[this.data.CURRENT_QUIZ_PAGE].answer,
             "correct_answer_details":$('#quiz-choice_'+this.data.STUDENT_SUBJECTS_AND_TOPICS_QUIZ[this.data.CURRENT_QUIZ_PAGE].answer).html()
           });
@@ -1043,10 +1081,14 @@ class Utilities{
         }
         else if(cC){
           this.saveQuizLog({
-            "quizID":this.data.STUDENT_SUBJECTS_AND_TOPICS_QUIZ[this.data.CURRENT_QUIZ_PAGE].id,
+            "quizID":$('#quiz-question-sequence').html(),
+            "quesID":this.data.STUDENT_SUBJECTS_AND_TOPICS_QUIZ[this.data.CURRENT_QUIZ_PAGE].id,
             "question":$('#quiz-question').html(),
             "selected_answer":"C",
             "selected_answer_details":$('#quiz-choice_C').html(),
+            "B_answer_details":$('#quiz-choice_B').html(),
+            "A_answer_details":$('#quiz-choice_A').html(),
+            "D_answer_details":$('#quiz-choice_D').html(),
             "correct_answer":this.data.STUDENT_SUBJECTS_AND_TOPICS_QUIZ[this.data.CURRENT_QUIZ_PAGE].answer,
             "correct_answer_details":$('#quiz-choice_'+this.data.STUDENT_SUBJECTS_AND_TOPICS_QUIZ[this.data.CURRENT_QUIZ_PAGE].answer).html()
           });
@@ -1054,10 +1096,14 @@ class Utilities{
         }
         else if(cD){
           this.saveQuizLog({
-            "quizID":this.data.STUDENT_SUBJECTS_AND_TOPICS_QUIZ[this.data.CURRENT_QUIZ_PAGE].id,
+            "quizID":$('#quiz-question-sequence').html(),
+            "quesID":this.data.STUDENT_SUBJECTS_AND_TOPICS_QUIZ[this.data.CURRENT_QUIZ_PAGE].id,
             "question":$('#quiz-question').html(),
             "selected_answer":"D",
             "selected_answer_details":$('#quiz-choice_D').html(),
+            "B_answer_details":$('#quiz-choice_B').html(),
+            "C_answer_details":$('#quiz-choice_C').html(),
+            "A_answer_details":$('#quiz-choice_A').html(),
             "correct_answer":this.data.STUDENT_SUBJECTS_AND_TOPICS_QUIZ[this.data.CURRENT_QUIZ_PAGE].answer,
             "correct_answer_details":$('#quiz-choice_'+this.data.STUDENT_SUBJECTS_AND_TOPICS_QUIZ[this.data.CURRENT_QUIZ_PAGE].answer).html()
           });
@@ -1076,6 +1122,46 @@ class Utilities{
       this.data.STUDENT_QUIZ_LOG.push(quizlog);
       this.resetQuizCheckbox();
       // console.log(this.data.STUDENT_QUIZ_LOG);
+    }
+    quizSelectAnswer(answer){
+      let btnQuiz = '#btnQuiz'+this.getSelectedQuiz();
+      $(btnQuiz).addClass('bg-green');
+      if(answer=="A"){
+          $('#quiz_radio_a').iCheck('check');
+          $('#quiz_radio_b').attr('disabled','disabled');
+          $('#quiz_radio_c').attr('disabled','disabled');
+          $('#quiz_radio_d').attr('disabled','disabled');
+          $('#chosen_intromsg').html("You choose ");
+          $('#chosen_letter').html("A");
+          $('#chosen_details').html($('#quiz-choice_a').html());
+      }
+      else if(answer=="B"){
+          $('#quiz_radio_b').iCheck('check');
+          $('#quiz_radio_a').attr('disabled','disabled');
+          $('#quiz_radio_c').attr('disabled','disabled');
+          $('#quiz_radio_d').attr('disabled','disabled');
+          $('#chosen_intromsg').html("You choose ");
+          $('#chosen_letter').html("B");
+          $('#chosen_details').html($('#quiz-choice_a').html());
+      }
+      else if(answer=="C"){
+          $('#quiz_radio_c').iCheck('check');
+          $('#quiz_radio_a').attr('disabled','disabled');
+          $('#quiz_radio_b').attr('disabled','disabled');
+          $('#quiz_radio_d').attr('disabled','disabled');
+          $('#chosen_intromsg').html("You choose ");
+          $('#chosen_letter').html("C");
+          $('#chosen_details').html($('#quiz-choice_c').html());
+      }
+      else if(answer=="D"){
+          $('#quiz_radio_d').iCheck('check');
+          $('#quiz_radio_a').attr('disabled','disabled');
+          $('#quiz_radio_b').attr('disabled','disabled');
+          $('#quiz_radio_c').attr('disabled','disabled');
+          $('#chosen_intromsg').html("You choose ");
+          $('#chosen_letter').html("D");
+          $('#chosen_details').html($('#quiz-choice_d').html());
+      }
     }
   }
   let util = new Utilities();
