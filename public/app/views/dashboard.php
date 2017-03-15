@@ -417,7 +417,7 @@
                       <td colspan="2">
                         <!-- <span id="chosen_intromsg">Please choose a letter now</span>&nbsp; -->
                         <div id="quizNxtBtnHere" class="pull-right"><button class="btn btn-success btn-lg" id="btnNxt" onclick="util.showNextQuiz(util.data.CURRENT_QUIZ_PAGE)"><span>Next</span></button></div>
-                        <div id="quizPrevBtnHere" class="pull-left"><button class="btn btn-success btn-lg" id="btnPrev" onclick="util.ShowPrevQuiz(util.data.PREV_QUIZ_PAGE)"><span>Previous</span></button></div>
+                        <div id="quizPrevBtnHere" class="pull-left"><button class="btn btn-success btn-lg" id="btnPrev" onclick="util.ShowPrevQuiz(util.data.CURRENT_QUIZ_PAGE--)"><span>Previous</span></button></div>
                         <span id="chosen_letter"></span>.&nbsp;&nbsp;
                         <span id="chosen_details"></span>                        
                       </td>
@@ -981,12 +981,12 @@ class Utilities{
       ShowPrevQuiz(page)
       {
         this.showQuiz(page);
-        this.data.CURRENT_QUIZ_PAGE--;
+        // this.data.CURRENT_QUIZ_PAGE--;
       }
       showNextQuiz(q)
       {
         // console.log('it__'+this.data.CURRENT_QUIZ_ITEMS);
-        // console.log('snq__'+q);
+        console.log('snq__'+q);
         if (this.data.CURRENT_QUIZ_PAGE<=this.data.CURRENT_QUIZ_ITEMS) {
           // this.saveQuizAnswer();
           this.showQuiz(q);
@@ -1025,7 +1025,7 @@ class Utilities{
           for(log in logs)
           {  
             
-            if (logs[log].quizID==this.formatItem(q+1)) {
+            if(logs[log].quizID==this.formatItem(q+1)) {
               save=false;
               console.log(this.formatItem(q+1)+'__'+logs[log].quizID+'__'+save);
               this.quizSelectAnswer(logs[log].selected_answer);
