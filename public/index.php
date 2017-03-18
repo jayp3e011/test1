@@ -12,6 +12,7 @@
 		<?php include_once 'layout/routes.php'; ?>
 		<!-- Modals -->
 		<?php include_once 'layout/modals.php'; ?>
+		<?php include_once 'app/views/home.html'; ?>
 	</div>
 <!-- Scripts and Footer -->
 <?php include_once 'layout/footer.php'; ?>

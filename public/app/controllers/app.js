@@ -156,14 +156,14 @@ let userForm = `
 				<option value="1">Admin</option>
 			</select>
 		</div>
-		<div class="form-group has-feedback">
-			<label for="recipient-name" class="control-label">Password:</label>
-			<input type="password" data-minlength="6" class="form-control" placeholder="Password" id="password" required>
-			<span class="glyphicon glyphicon-lock form-control-feedback"></span>
-			<div class="help-block">Minimum of 6 characters</div>
-		</div>
 	</form>
 `;
+let inPass = `<div class="form-group has-feedback password">
+				<label for="recipient-name" class="control-label">Password:</label>
+				<input type="password" data-minlength="6" class="form-control" placeholder="Password" id="password" required>
+				<span class="glyphicon glyphicon-lock form-control-feedback"></span>
+				<div class="help-block">Minimum of 6 characters</div>
+			</div>`;
 let topicForm = `
 	<form data-toggle="validator" role="form" id="addTopic-form">
 		<div class="form-group has-feedback">
@@ -586,11 +586,13 @@ function renderUserModals(){
 	$(_USERTABLE_SELECTED_ID + 'modal-create').on('show.bs.modal', function (event) {
 		var modal =$(this);
 		modal.find('.modal-body').html(userForm);
+		modal.find('.modal-body form').append(inPass);
 	});
 
 	$(_USERTABLE_SELECTED_ID + 'modal-update').on('show.bs.modal', function (event) {
 		var modal =$(this);
 		modal.find('.modal-body').html(userForm);
+		modal.find('#password').hide();
 		_USERTABLE_DATA.map(function(userobj){
   			if(userobj.id===_EXAMTABLE_SELECTED_ID){
   				$("#isadmin option").each(function(i){
@@ -601,7 +603,7 @@ function renderUserModals(){
 				modal.find('#firstname').val(userobj.firstname);
 				modal.find('#lastname').val(userobj.lastname);
 				modal.find('#email').val(userobj.email);
-				modal.find('#password').val(userobj.password);
+				// modal.find('#password').val(userobj.password);
 						  									  				
 				modal.find('#createdat').val(userobj.createdat);
 				// console.log(userobj);
@@ -689,7 +691,7 @@ function renderUserModals(){
 				firstname:$('#firstname').val(),
 				lastname:$('#lastname').val(),
 				email:$('#email').val(),
-				password:$('#password').val(),
+				// password:$('#password').val(),
 				isadmin:$('#isadmin').val()
 			};
 			// console.log(newUser);
@@ -702,14 +704,14 @@ function renderUserModals(){
 		        	firstname:newUser.firstname,
 		        	lastname:newUser.lastname,	        	
 		        	email:newUser.email,	        	
-		        	password:newUser.password,	        	
+		        	// password:newUser.password,	        	
 		        	isadmin:newUser.isadmin     	
 		        }
 		    }).done(function(res){
 		    	// console.log(res);
 		    	$('#usermodal-update').modal('hide');
 		    	$('#firstname').val("");$('#lastname').val("");
-		    	$('#email').val("");$('#password').val("");
+		    	// $('#email').val("");$('#password').val("");
 		    	$('#createdat').val("");$('#isadmin').val("");
 		    	$('#confirmpassword').val("");
 		    	setTimeout(function(){
@@ -789,6 +791,7 @@ function renderNewsModals(){
 	$(_NEWSTABLE_SELECTED_ID + 'modal-create').on('show.bs.modal', function (event) {
 		var modal = $(this);
 		modal.find('.modal-body').html(newsForm);
+		modal.find('#userid').val(`<?php echo $_SESSION['id']; ?>`);
 	});
 
 	$(_NEWSTABLE_SELECTED_ID + 'modal-update').on('show.bs.modal', function (event) {
@@ -966,6 +969,7 @@ function renderFeedbackModals(){
 	$(_FEEDBACKTABLE_SELECTED_ID + 'modal-create').on('show.bs.modal', function (event) {
 		var modal = $(this);
 		modal.find('.modal-body').html(feedBackForms);
+		modal.find('#userid').val(`<?php echo $_SESSION['id']; ?>`);
 	});
 
 	$(_FEEDBACKTABLE_SELECTED_ID + 'modal-update').on('show.bs.modal', function (event) {
@@ -1143,6 +1147,7 @@ function renderGuidelinesModals(){
 	$(_GUIDELINESTABLE_SELECTED_ID + 'modal-create').on('show.bs.modal', function (event) {
 		var modal = $(this);
 		modal.find('.modal-body').html(guidelinesForm);
+		modal.find('#userid').val(`<?php echo $_SESSION['id']; ?>`);
 		// _SUBJECTTABLE_DATA.map(function(subjectobj){
 		// 	// modal.find('.modal-body #createdat').val(Date.now());
 		// 	modal.find('#createdat').val(new Date().getTime("Y-m-d H:i:s")).attr('readonly','readonly');

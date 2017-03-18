@@ -9,7 +9,7 @@ function doRenderTable(id){
     		url: "app/models/news.php",
     	}).done(function(newsdata){
     		_NEWSTABLE_DATA = JSON.parse(newsdata);
-    		renderTable(id,newsdata,['id', 'userid', 'name', 'content', 'date'],['create','read','update','delete']);	
+    		renderTable(id,newsdata,['id', 'userid', 'name', 'content', 'date'],['create','read','update','delete']);                     	
     	})
 	});
 }
@@ -17,4 +17,5 @@ function doRenderTable(id){
 $(function () {	
 	setTimeout(doRenderTable('#news'),3000);
 });
+
 

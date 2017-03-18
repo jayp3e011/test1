@@ -10,7 +10,7 @@
 				$user_id = $_POST['userid'];
 				$name = $_POST['name'];
 				$content = $_POST['content'];
-				$date = $_POST['date'];
+				$date = date("Y-m-d H:i:s");
 				$sql = "insert into $table VALUES('','$user_id','$name', '$content','$date')";
 				$result = mysqli_query($link, $sql) or die("Invalid query" . mysqli_error($link));
 				echo "ok";

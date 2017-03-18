@@ -22,12 +22,21 @@
 				echo "update user ok!";
 				$id = $_POST['id'];
 				$email = $_POST['email'];
-				$password = $_POST['password'];
 				$firstname = $_POST['firstname'];
 				$lastname = $_POST['lastname'];
 				$isadmin = $_POST['isadmin'];
+				$sql = "update $table SET email='$email',firstname='$firstname',lastname='$lastname',isadmin='$isadmin' where id='$id'";
+				$result = mysqli_query($link, $sql) or die("Invalid query" . mysqli_error($link));
+				echo "ok";
+			}
+			if($_POST['action']=="updateuser"){
+				echo "update user ok!";
+				$id = $_POST['id'];
+				$password = $_POST['password'];
+				$new_password = $_POST['new_password'];
 				$password = md5($password);
-				$sql = "update $table SET email='$email',password='$password', firstname='$firstname',lastname='$lastname',isadmin='$isadmin' where id='$id'";
+				$new_password = md5($new_password);
+				$sql = "update $table SET password='$new_password' where id='$id' and password='$password'";
 				$result = mysqli_query($link, $sql) or die("Invalid query" . mysqli_error($link));
 				echo "ok";
 			}

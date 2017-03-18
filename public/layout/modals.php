@@ -3,7 +3,7 @@
 		<div class="login-modal-container">
 			<form id="login-form" data-toggle="validator" role="form">
 				<div class="modal-header" style="background-color: #00A65A;">
-					<h1 style="color: white; text-align: center;">iMock</h1>
+					<h1 class="login-logo">iMock</h1>
 				</div>
 				<div class="modal-body">
 					<h2>Login To Your Account </h2>

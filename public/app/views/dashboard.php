@@ -1,5 +1,4 @@
-
-<script type="text/javascript" src="dist/js/jquery.bootpag.min.js"></script>
+<script src="app/controllers/news.js"></script>
 <style>  
   html, body{
     height:100%;
@@ -507,32 +506,49 @@
 
     //Home Tab Controllers
     function shortText(text){if(text.length<10)return text; var shortText = jQuery.trim(text).substring(0, 50).split(" ").slice(0, -1).join(" ") + "..."; return shortText; }
-    function render_StudentNews(){
-      let html = ``;
-      for(let i=0;i<5;i++){
-        html += `
-          <div class="post" style="border:1px solid #ddd;padding:5px;">
-            <div class="user-block">
-              <img class="img-circle img-bordered-sm" src="dist/img/avatar.png" alt="user image">
-              <span class="username">
-                <a href="#">The Administrator</a>
-                <!-- <a href="#" class="pull-right btn-box-tool"><i class="fa fa-times"></i></a> -->
-              </span>
-              <span class="description">Shared publicly - 7:30 PM today</span>
-            </div>
-            <p>
-              Lorem ipsum represents a long-held tradition for designers,
-              typographers and the like. Some people hate it and argue for
-              its demise, but others ignore the hate as they create awesome
-              tools to help create filler text for everyone from bacon lovers
-              to Charlie Sheen fans.
-            </p>
-            <ul class="list-inline">
-              <li><a href="#" class="link-black text-sm"><i class="fa fa-commenting-o margin-r-5"></i> General Announcement</a></li>
-              <li class="pull-right"><a href="#" class="link-black text-sm"><i class="fa fa-eye margin-r-5"></i> Seen (5)</a></li>
-            </ul>
-          </div>
-        `;
+    var news=[];
+    var user=[];
+    $.ajax({
+        method: "POST",
+        url: "app/models/user.php"
+    }).done(function(userdata){
+        user = JSON.parse(userdata);
+      $.ajax({
+        method: "POST",
+        url: "app/models/news.php",
+      }).done(function(newsdata){
+          news = JSON.parse(newsdata);
+            render_StudentNews(news,user);  
+      })
+  });
+    function render_StudentNews(newsdata,usersdata){
+    
+      let html = '';  
+      var i = 0;
+      var j = 0;
+      for(i in newsdata){
+        for(j in usersdata){
+          console.log(newsdata[i]);
+          console.log(usersdata[j]);
+          if (newsdata[i].user_id===usersdata[j].firstname+' '+usersdata[j].lastname) {
+            html += '<div class="post" style="border:1px solid #ddd;padding:5px;">';
+               html +=  '<div class="user-block">';
+                 html +=  '<img class="img-circle img-bordered-sm" src="dist/img/avatar.png" alt="user image">';
+                 html +=  '<span class="username">';
+                   html +=  '<a href="#">'+usersdata[j].firstname+' '+usersdata[j].lastname+'</a>';
+                   html +=  '<!-- <a href="#" class="pull-right btn-box-tool"><i class="fa fa-times"></i></a> -->';
+                 html +=  '</span>';
+                 html +=  '<span class="description">Shared publicly - 7:30 PM today</span>';
+               html +=  '</div>';
+               html +=  '<p>'+newsdata[i].content;
+                html += '</p>'
+               html +=  '<ul class="list-inline">';
+                 html +=  '<li><a href="#" class="link-black text-sm"><i class="fa fa-commenting-o margin-r-5"></i> General Announcement</a></li>';
+                 html +=  '<li class="pull-right"><a href="#" class="link-black text-sm"><i class="fa fa-eye margin-r-5"></i> Seen (5)</a></li>';
+             html +=  '</ul>';
+             html +=  '</div>';
+          }
+        }
       }
       $('.news').html(html);
     }

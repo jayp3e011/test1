@@ -73,7 +73,7 @@
   <title>iMock <?php if(isset($titlepage)) echo $titlepage; ?></title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-  <link rel="icon" type="image/png" href="favicon16.png">
+  <link rel="icon" type="image/png" href="dist/img/favicon.png" />
   <link rel="stylesheet" href="dist/css/font-awesome.min.css">
   <link rel="stylesheet" href="dist/css/ionicons.min.css">
   <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
@@ -103,9 +103,9 @@
     <!-- Logo -->
     <a href="#" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
-      <span class="logo-mini"><b>iMk</b></span>
+      <span class="logo-mini imc-logo"><b>iMc</b></span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><b>iMock</b></span>
+      <span class="logo-lg imc-logo"><b>iMock</b></span>
     </a>
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top">

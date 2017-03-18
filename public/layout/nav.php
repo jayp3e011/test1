@@ -2,7 +2,7 @@
 	<nav class="navbar navbar-static-top">
 		<div class="" style="margin-left: 8px;margin-right: 8px;">
 			<div class="navbar-header">
-				<a href="?page=login" class="navbar-brand"><b>i</b>MOCK</a>
+				<a href="?page=login" class="navbar-brand imc-logo"><b>i</b>Mock</a>
 				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
 					<i class="fa fa-bars"></i>
 				</button>

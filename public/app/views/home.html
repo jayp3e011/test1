@@ -1,0 +1,292 @@
+<style>
+	html {
+	  font-family: 'Open Sans', sans-serif !important;
+	  padding:0;
+	}
+	.news-background {
+	  /*background:url('//c2.staticflickr.com/8/7318/13938474860_9290b06341_h.jpg');*/
+	  background:url('http://dekhnews.com/wp-content/uploads/2015/04/accounting1-1024x683.jpg');	 
+	  background-size: cover;
+	  position: relative;
+	  font-family:Raleway, Open Sans, Droid Sans, Roboto,arial, sans-serif;
+	}
+	.news-block h2 {
+	  font-family:'Abel', sans-serif;
+	  font-size:32pt;
+	  float:left;
+	  width:auto;
+	  color:#002743;
+	}
+	.news-block a{
+	  text-decoration:none;
+	}
+	 .news-block .article-link {
+	  height:330px;
+	  width:100%;
+	  position: relative;
+	  min-height: 150px;
+	  overflow: hidden;
+	  overflow-x: hidden;
+	  z-index: 1;
+	}
+
+	.news-block .article-link img {
+	  width: auto;
+	  height: 126%;
+	  position:absolute;
+	  top:50%;
+	  left:50%;
+	  transform:translate(-50%, -50%) scale(.92);
+	  transition: all .3s ease-in-out;
+	}
+	.news-block .article-link:hover img{
+	  transform:translate(-50%, -50%) scale(1);
+	}
+
+	.news-block .article-link .title {
+	  width: 100%;
+	  height: auto;
+	  background: rgba(0, 85, 150, .75);
+	}
+
+	.news-block .article-link .content-body {
+	  position: absolute;
+	  bottom: 0;
+	}
+
+	.news-block .article-link .title {
+	  color: #fff;
+	  padding: 6px 10px;
+	  font-family: 'Oswald', sans-serif;
+	  font-size: 20pt !important;
+	}
+
+	.news-block .article-link .info {
+	  bottom: 0;
+	  left: 0;
+	  width: auto;
+	  max-height: 0;
+	  background: #fff;
+	  text-align: left;
+	  overflow: hidden;
+	  transition: max-height .3s ease-in-out;
+	  text-overflow: ellipsis;
+	}
+	.news-block .article-link:hover .info {
+	  max-height: 190px;
+	}
+	.news-block .article-link .info p {
+	    padding: 5px 10px;
+	    font-family: 'helvetica', sans-serif;
+	    font-style: normal;
+	    font-size: 13pt;
+	    line-height: 15pt;
+	    color: #333;
+	    margin: 0;
+	}
+	.news-block .article-link .share {
+	  position: absolute;
+	  color: #fff;
+	  display: block;
+	  background: #faa634;
+	  right: -25px;
+	  font-size: 14px;
+	  padding: 5px 8px;
+	  transition: all .3s ease-in-out;
+	  z-index: 200;
+	  cursor: pointer;
+	  font-family:'Oswald',sans-serif;
+	  line-height:1.5em;
+	}
+	.news-block .article-link .share:after {
+	  content:'\f017';
+	  font-family:'FontAwesome';
+	  font-size: 18px;
+	  margin-left:5px;
+	}
+
+	.news-block .article-link:hover .share {
+	  right: 0;
+	}
+	.news-block .article-link .share:hover {
+	  background:#ca7a02;
+	}
+	/*blurred bg*/
+
+	.blurred-bg {
+	  background-image: url("https://lh3.googleusercontent.com/-m8TxQMObg6c/U474EWu7Y9I/AAAAAAAAI2k/xkRGoIEC1iU/s1600/blur.jpg");
+	  background-repeat: no-repeat;
+	  -moz-background-size: cover;
+	  -o-background-size: cover;
+	  -webkit-background-size: cover;
+	  background-size: cover;
+	  background-attachment: fixed;
+	}
+	.blurred-bg.tinted {
+	  background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4gPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkIiBncmFkaWVudFVuaXRzPSJvYmplY3RCb3VuZGluZ0JveCIgeDE9IjAuNSIgeTE9IjEuMCIgeDI9IjAuNSIgeTI9IjAuMCI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIwLjIiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmZmZmZmYiIHN0b3Atb3BhY2l0eT0iMC4yIi8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNncmFkKSIgLz48L3N2Zz4g'), url("https://lh3.googleusercontent.com/-m8TxQMObg6c/U474EWu7Y9I/AAAAAAAAI2k/xkRGoIEC1iU/s1600/blur.jpg");
+	  background-size: 100%;
+	  background-image: -moz-linear-gradient(90deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1)), url("https://lh3.googleusercontent.com/-m8TxQMObg6c/U474EWu7Y9I/AAAAAAAAI2k/xkRGoIEC1iU/s1600/blur.jpg");
+	  background-image: -webkit-linear-gradient(90deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1)), url("https://lh3.googleusercontent.com/-m8TxQMObg6c/U474EWu7Y9I/AAAAAAAAI2k/xkRGoIEC1iU/s1600/blur.jpg");
+	  background-image: linear-gradient(0deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1)), url("https://lh3.googleusercontent.com/-m8TxQMObg6c/U474EWu7Y9I/AAAAAAAAI2k/xkRGoIEC1iU/s1600/blur.jpg");
+	}
+	.blurred-bg.shaded {
+	  background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4gPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkIiBncmFkaWVudFVuaXRzPSJvYmplY3RCb3VuZGluZ0JveCIgeDE9IjAuNSIgeTE9IjEuMCIgeDI9IjAuNSIgeTI9IjAuMCI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzAwMDAwMCIgc3RvcC1vcGFjaXR5PSIwLjIiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMwMDAwMDAiIHN0b3Atb3BhY2l0eT0iMC4yIi8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNncmFkKSIgLz48L3N2Zz4g'), url("https://lh3.googleusercontent.com/-m8TxQMObg6c/U474EWu7Y9I/AAAAAAAAI2k/xkRGoIEC1iU/s1600/blur.jpg");
+	  background-size: 100%;
+	  background-image: -moz-linear-gradient(90deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url("https://lh3.googleusercontent.com/-m8TxQMObg6c/U474EWu7Y9I/AAAAAAAAI2k/xkRGoIEC1iU/s1600/blur.jpg");
+	  background-image: -webkit-linear-gradient(90deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url("https://lh3.googleusercontent.com/-m8TxQMObg6c/U474EWu7Y9I/AAAAAAAAI2k/xkRGoIEC1iU/s1600/blur.jpg");
+	  background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url("https://lh3.googleusercontent.com/-m8TxQMObg6c/U474EWu7Y9I/AAAAAAAAI2k/xkRGoIEC1iU/s1600/blur.jpg");
+	}
+
+	.box {
+	  width: 500px;
+	  height: 600px;
+	  left: -webkit-calc( 50% - 250px );
+	  top: 10%;
+	  position: absolute;
+	  border-radius: 5px;
+	  -moz-box-shadow: 0 20px 30px rgba(0, 0, 0, 0.6);
+	  -webkit-box-shadow: 0 20px 30px rgba(0, 0, 0, 0.6);
+	  box-shadow: 0 20px 30px rgba(0, 0, 0, 0.6);
+	  border: 1px solid rgba(255, 255, 255, 0.3);
+	  padding: 1	0px;
+	  text-align: center;
+	  -moz-box-sizing: border-box;
+	  -webkit-box-sizing: border-box;
+	  box-sizing: border-box;
+	  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);
+	  display: flex;
+	  transition: box-shadow .3s ease;
+	}
+	.box:active {
+	  cursor: move;
+	  -moz-box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9);
+	  -webkit-box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9);
+	  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9);
+	}
+	.box .content {
+	  margin: auto;
+	}
+
+	h1, h2, a, p {
+	  color: white;
+	  font-weight: 100;
+	}
+	.tinted h1, .tinted h2, .tinted a, .tinted p {
+	  color: black;
+	  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.2);
+	}
+
+	h2 {
+	  font-size: 14px;
+	}
+/*
+	p {
+	  margin: 20px;
+	}
+	p.related {
+	  text-transform: uppercase;
+	  font-weight: 700;
+	  color: #444;
+	}
+	p.related a {
+	  font-weight: 700;
+	  text-decoration: none;
+	}
+	p.related a:hover {
+	  text-decoration: underline;
+	}*/
+</style>
+<link rel='stylesheet prefetch' href='https://fonts.googleapis.com/css?family=Abel|Oswald'>
+
+<div class="content-wrapper news-background">
+	<div class="container layer">
+		<div class="col-xs-6">
+		</div>
+		<div class="col-xs-6"><br>
+			<div id="box1" class="box blurred-bg tinted">
+				<div class="content">
+					<h1>---------------News--------------</h1>
+					<h2>From: <a href="http://philcpa.org/news" rel="follow" target="_blank">philcpa.org</a></h2>
+					<marquee behavior="scroll" direction="up" onmouseover="this.stop();" onmouseout="this.start();" height="400">
+						<div class="news-block">
+						</div>
+					</marquee>
+
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>
+<script type="text/javascript" src="dist/js/jquery.feed.min.js"></script>
+<script>
+	// FEEDS JS GIKAN https://github.com/sdepold/jquery-rss
+
+    // url: the url to the post
+    // author: the author of the post
+    // date: the publishing date
+    // title: the title of the post
+    // body: the complete content of the post
+    // shortBody: the shortened content of the post
+    // bodyPlain: the complete content of the post without html
+    // shortBodyPlain: the shortened content of the post without html
+    // teaserImage: the first image in the post's body
+    // teaserImageUrl: the url of the first image in the post's body
+    // index: the index of the current entry
+    // totalEntries: the total count of the entries
+    // feed: contains high level information of the feed (e.g. title of the website)
+    //https://i1.wp.com/philcpa.org/wp-content/uploads/2016/10/October-2014-CPA-Board-Exam-Results-Top-101.jpg
+
+	jQuery(function($) {
+       $('.news-block').rss("http://philcpa.org/feed/", {
+       		dateFormat: 'MMMM Do YYYY',
+       		limit: 10,
+			layoutTemplate: `{entries}`,
+			entryTemplate: `<div class="article-link">
+								<span class="share" aria-label="clock">{date}</span>
+								<!--must have larger width than height-->
+								<img alt="this is an image" src="https://i2.wp.com/philcpa.org/wp-content/uploads/2016/06/161.jpg" />
+								<div class="content-body">
+									<div class="title">{title}</div>
+									<div class="info">
+										<p>{shortBody}...<a class="label label-primary" href="{url}" target="_blank">Read More</a></p>
+									</div>
+								</div>
+							</div><br>`
+			});
+       		$(function() {
+				$('.box').draggable();
+			});
+  //      $('.list-group').rss("http://philcpa.org/feed/", {
+		//   layoutTemplate: `<li data-target="#myCarousel" data-slide-to="{index}" class="list-group-item active"></h4>{entries}</h4></li>`,
+		//   entryTemplate: `{title}`
+		// });
+
+  //      $('.carousel-inner').rss("http://philcpa.org/feed/", {
+		//   layoutTemplate: `<div class="item">{entries}</div>`,
+		//   entryTemplate: `img src="http://placehold.it/iMock/999999/cccccc">
+		// 		           <div class="carousel-caption">
+		// 		            <h4><a href="{url}">{title}</a></h4>
+		// 		            <p>{shortBodyPlain} <a class="label label-primary" href="{url}" target="_blank">Read More</a></p>
+		// 		          </div>`
+		// })
+			// $.get("http://www.feedvalidator.org/check.cgi?url=http%3A//philcpa.org/feed/", function(data) {
+		 //    var $xml = $(data);
+		 //    $xml.find("item").each(function() {
+		 //        var $this = $(this),
+		 //            items = {
+		 //                title: $this.find("title").text(),
+		 //                link: $this.find("link").text(),
+		 //                description: $this.find("description").text(),
+		 //                pubDate: $this.find("publishedDate").text(),
+		 //                author: $this.find("author").text(),
+		 //                body: $this.find("content").text(),
+		 //                shortBody: $this.find("contentSnippet").text(),
+		 //                img: body.match(/(<img.*?>)/gi)[0],
+		 //                img: body.match(/(<img.*?>)/gi)[0].match(/src="(.*?)"/)[1]
+			//         }
+			//         //Do something with item here...
+			//     });
+			// });
+    })
+</script>
