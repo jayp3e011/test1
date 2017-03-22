@@ -80,7 +80,7 @@
           <div class="col-md-8">
             <div class="box exam-sheet">
               <div class="box-header with-border">
-                <h3 class="box-title subject-chosen">Subject Chosen</h3>
+                <h3 class="box-title subject-chosen1">Subject Chosen</h3>
                 <h5 class="box-title pull-right">
                   Items you answered: 0
                 </h5>
@@ -200,7 +200,7 @@
                   <div class="col-lg-3 col-xs-6">         
                     <div class="small-box bg-aqua">
                       <div class="inner">
-                        <h3 class="subject-totalitems">100</h3>
+                        <h3 class="subject-totalitems1">100</h3>
                         <p>Total items</p>
                       </div>
                       <div class="icon">
@@ -212,7 +212,7 @@
                   <div class="col-lg-3 col-xs-6">
                     <div class="small-box bg-green">
                       <div class="inner">
-                        <h3 class="subject-passingrate">75<sup style="font-size: 20px">%</sup></h3>
+                        <h3 class="subject-passingrate1">75<sup style="font-size: 20px">%</sup></h3>
                         <p>Passing Rate</p>
                       </div>
                       <div class="icon">
@@ -224,7 +224,7 @@
                   <div class="col-lg-3 col-xs-6">
                     <div class="small-box bg-yellow">
                       <div class="inner">
-                        <h3 class="subject-timeduration">60</h3>
+                        <h3 class="subject-timeduration1">60</h3>
                         <p>Time duration in minutes</p>
                       </div>
                       <div class="icon">
@@ -236,7 +236,7 @@
                   <div class="col-lg-3 col-xs-6">
                     <div class="small-box bg-red">
                       <div class="inner">
-                        <h3 class="subject-attempts">1</h3>
+                        <h3 class="subject-attempts1">1</h3>
                         <p>Number of attempts</p>
                       </div>
                       <div class="icon">
@@ -848,7 +848,7 @@
           */
           let html = ``;
          util.data.STUDENT_SUBJECTS_AND_TOPICS.map((obj)=>{
-            html += `<option>${obj.name}</option>`;          
+            html += `<option value="${obj.id}">${obj.name}</option>`;          
           });
           $('.chooseSubject').html(html);
         }
@@ -888,7 +888,7 @@
           $('.subject-passingrate').html(util.data.STUDENT_SUBJECTS_AND_TOPICS[index].passingrate);
           $('.subject-timeduration').html(util.data.STUDENT_SUBJECTS_AND_TOPICS[index].timeduration);
           $('.subject-attempts').html(util.data.STUDENT_SUBJECTS_AND_TOPICS[index].attempts);
-          $('.subject-chosen').html(shortText($('.chooseSubject').val()));
+          $('.subject-chosen').html(shortText($('.chooseSubject1').val()));
           util.data.STUDENT_SUBJECT_INDEX = index;
           util.data.STUDENT_SUBJECT_ID_CHOSEN = util.data.STUDENT_SUBJECTS_AND_TOPICS[index].id;
           util.data.STUDENT_TOPIC_ID_CHOSEN = $('.chooseTopic').val();
@@ -899,6 +899,23 @@
         $('.chooseSubject1').change(function(){
           loadChooseTopic($('.chooseSubject1').val());          
           // console.log($('.chooseSubject').val());
+        });
+        $('.chooseSubject').change(function(){
+          let index=0;
+          for(let obj of util.data.STUDENT_SUBJECTS_AND_TOPICS){
+            // console.log(`${obj.name}===${subject}`);
+            if(obj.id==$('.chooseSubject').val()){
+              break;
+            }
+            index++;
+          }          
+          $('.subject-totalitems1').html(util.data.STUDENT_SUBJECTS_AND_TOPICS[index].items);
+          $('.subject-passingrate1').html(util.data.STUDENT_SUBJECTS_AND_TOPICS[index].passingrate);
+          $('.subject-timeduration1').html(util.data.STUDENT_SUBJECTS_AND_TOPICS[index].timeduration);
+          $('.subject-attempts1').html(util.data.STUDENT_SUBJECTS_AND_TOPICS[index].attempts);
+          $('.subject-chosen1').html(shortText($('.chooseSubject').val()));
+          util.data.STUDENT_SUBJECT_INDEX1 = index;
+          util.data.STUDENT_SUBJECT_ID_CHOSEN1 = $('.chooseSubject').val();
         });
         $('.chooseTopic').change(function(){
           // loadChooseTopic($('.chooseSubject').val());
@@ -917,7 +934,7 @@
             "timeremaining":`00:${$('.subject-timeduration').html()}:00`
           };
           // $("#exams1").load("app/models/exam2.php", {'subject_id':util.data.STUDENT_SUBJECT_ID_CHOSEN});
-          loadExamSheet(util.data.STUDENT_SUBJECT_ID_CHOSEN);
+          loadExamSheet(util.data.STUDENT_SUBJECT_ID_CHOSEN1);
           // console.log(examLog);
           // $.ajax({
           //   url:"app/models/exam.php",
@@ -1083,9 +1100,9 @@
           else{
             util.showQuiz(-1);
           }
-          $('.chooseSubject1').attr('disabled','disabled');
-          $('.subject-chosen').html(shortText($('.chooseSubject').val()));
-          $('.startquiz').attr('disabled','disabled');
+          // $('.chooseSubject1').attr('disabled','disabled');
+          $('.subject-chosen').html(shortText($('.chooseSubject1').val()));
+          // $('.startquiz').attr('disabled','disabled');
           $('.chooseagain').attr('disabled','disabled');
           $('.quiz-sheet').show();
           // $('.chooseSubject').removeAttr('disabled');
@@ -1112,6 +1129,8 @@ class Utilities{
           STUDENT_SUBJECTS_AND_TOPICS:[],
           STUDENT_SUBJECT_INDEX:[],
           STUDENT_SUBJECT_ID_CHOSEN:[],
+          STUDENT_SUBJECT_INDEX1:[],
+          STUDENT_SUBJECT_ID_CHOSEN1:[],
           STUDENT_TOPIC_ID_CHOSEN:[],
           STUDENT_SUBJECTS_AND_TOPICS_QUIZ:[],
           STUDENT_SUBJECTS_AND_TOPICS_EXAM:[],
