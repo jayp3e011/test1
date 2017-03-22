@@ -167,15 +167,9 @@ let inPass = `<div class="form-group has-feedback password">
 let topicForm = `
 	<form data-toggle="validator" role="form" id="addTopic-form">
 		<div class="form-group has-feedback">
-			<label for="recipient-name" class="control-label">User Name:</label>
-			<input type="text" class="form-control" placeholder="first name" id="userid" required>
-			<span class="glyphicon glyphicon-topic form-control-feedback"></span>
-		</div>
-		<div class="form-group has-feedback">
 			<label for="recipient-name" class="control-label">Subject:</label>
 			<select name="colors" class="form-control" id="subjectid">
 			</select>
-			<span class="glyphicon glyphicon-user form-control-feedback"></span>
 		</div>
 		<div class="form-group has-feedback">
 			<label for="recipient-name" class="control-label">Name:</label>
@@ -194,11 +188,11 @@ let subjectForm = `
 				</div>
 				<div class="col-sm-4">
 					<label for="recipient-name" class="control-label">Time Duration:</label>
-					<input type="text" class="form-control" id="timeduration">
+					<input type="number" class="form-control" id="timeduration">
 				</div>
 				<div class="col-sm-4">
 					<label for="recipient-name" class="control-label">Passing Rate:</label>
-					<input type="text" class="form-control" id="passingrate">
+					<input type="number" class="form-control" id="passingrate">
 				</div>
 			</div>
 		</div>
@@ -210,11 +204,11 @@ let subjectForm = `
 			<div class="row">
 				<div class="col-sm-6">
 					<label for="recipient-name" class="control-label">No. of attempts:</label>
-					<input type="text" class="form-control" id="attempt">
+					<input type="number" class="form-control" id="attempt">
 				</div>
 				<div class="col-sm-6">
 					<label for="recipient-name" class="control-label">No. of items:</label>
-					<input type="text" class="form-control" id="items">
+					<input type="number" class="form-control" id="items">
 				</div>
 			</div>
 		</div>
@@ -223,7 +217,7 @@ let subjectForm = `
 let newsForm = `
 	<form data-toggle="validator" role="form" id="addNews-form">
 		<div class="form-group has-feedback">
-			<label for="recipient-name" class="control-label">User Name:</label>
+			<label for="recipient-name" class="control-label">User:</label>
 			<input type="text" class="form-control" placeholder="first name" id="userid" required>
 			<span class="glyphicon glyphicon-news form-control-feedback"></span>
 		</div>
@@ -243,7 +237,7 @@ let newsForm = `
 let guidelinesForm = `
 	<form data-toggle="validator" role="form" id="addGuidelines-form">
 		<div class="form-group has-feedback">
-			<label for="recipient-name" class="control-label">User Name:</label>
+			<label for="recipient-name" class="control-label">User:</label>
 			<input type="text" class="form-control" placeholder="first name" id="userid" required>
 			<span class="glyphicon glyphicon-guidelines form-control-feedback"></span>
 		</div>
@@ -270,7 +264,7 @@ let guidelinesForm = `
 let feedBackForms = `
 	<form data-toggle="validator" role="form" id="addFeddback-form">
 		<div class="form-group has-feedback">
-			<label for="recipient-name" class="control-label">User Name:</label>
+			<label for="recipient-name" class="control-label">User:</label>
 			<input type="text" class="form-control" placeholder="first name" id="userid" required>
 			<span class="glyphicon glyphicon-feedback form-control-feedback"></span>
 		</div>
@@ -346,11 +340,11 @@ function renderSubjectModals(){
 	  		_SUBJECTTABLE_DATA.map(function(subjectobj){
 	  			if(subjectobj.id===_EXAMTABLE_SELECTED_ID){
 					modal.find('#name').val(subjectobj.name);
-					modal.find('#timeduration').val(subjectobj.timeduration);
-					modal.find('#passingrate').val(subjectobj.passingrate);
+					modal.find('#timeduration').attr('value',subjectobj.timeduration);
+					modal.find('#passingrate').attr('value',subjectobj.passingrate);
 					modal.find('#description').val(subjectobj.description);
-					modal.find('#attempt').val(subjectobj.attempt);		  									  				
-					modal.find('#items').val(subjectobj.items);		  									  				
+					modal.find('#attempt').attr('value',subjectobj.attempt);		  									  				
+					modal.find('#items').attr('value',subjectobj.items);		  									  				
 					return;
 				}
 			});
@@ -373,11 +367,11 @@ function renderSubjectModals(){
 	  		_SUBJECTTABLE_DATA.map(function(subjectobj){
 	  			if(subjectobj.id===_EXAMTABLE_SELECTED_ID){
 					modal.find('#name').val(subjectobj.name);
-					modal.find('#timeduration').val(subjectobj.timeduration);
-					modal.find('#passingrate').val(subjectobj.passingrate);
+					modal.find('#timeduration').attr('value',subjectobj.timeduration);
+					modal.find('#passingrate').attr('value',subjectobj.passingrate);
 					modal.find('#description').val(subjectobj.description);
-					modal.find('#attempt').val(subjectobj.attempt);		  									  				
-					modal.find('#items').val(subjectobj.items);		  									  				
+					modal.find('#attempt').attr('value',subjectobj.attempt);		  									  				
+					modal.find('#items').attr('value',subjectobj.items);		  									  				
 					return;
 				}
 			});
@@ -397,11 +391,11 @@ function renderSubjectModals(){
 	  		_SUBJECTTABLE_DATA.map(function(subjectobj){
 	  			if(subjectobj.id===_EXAMTABLE_SELECTED_ID){
 					modal.find('#name').val(subjectobj.name);
-					modal.find('#timeduration').val(subjectobj.timeduration);
-					modal.find('#passingrate').val(subjectobj.passingrate);
+					modal.find('#timeduration').attr('value',subjectobj.timeduration);
+					modal.find('#passingrate').attr('value',subjectobj.passingrate);
 					modal.find('#description').val(subjectobj.description);
-					modal.find('#attempt').val(subjectobj.attempt);		  									  				
-					modal.find('#items').val(subjectobj.items);		  									  				
+					modal.find('#attempt').attr('value',subjectobj.attempt);		  									  				
+					modal.find('#items').attr('value',subjectobj.items);		  									  				
 					return;
 				}
 			});
@@ -645,7 +639,7 @@ function renderUserModals(){
 			password:$('#password').val(),
 			isadmin:$('#isadmin').val()
 		};
-		console.log(newUser);
+		// console.log(newUser);
 		$.ajax({
 	        method: "POST",
 	        url: "app/models/user.php",
@@ -791,7 +785,7 @@ function renderNewsModals(){
 	$(_NEWSTABLE_SELECTED_ID + 'modal-create').on('show.bs.modal', function (event) {
 		var modal = $(this);
 		modal.find('.modal-body').html(newsForm);
-		modal.find('#userid').val(`<?php echo $_SESSION['id']; ?>`);
+		modal.find('#userid').val(getUID());
 	});
 
 	$(_NEWSTABLE_SELECTED_ID + 'modal-update').on('show.bs.modal', function (event) {
@@ -836,7 +830,7 @@ function renderNewsModals(){
 			name:$('#name').val(),
 			content:$('#content').val()
 		};
-		console.log(newNews);
+		// console.log(newNews);
 		$.ajax({
 	        method: "POST",
 	        url: "app/models/news.php",
@@ -969,7 +963,7 @@ function renderFeedbackModals(){
 	$(_FEEDBACKTABLE_SELECTED_ID + 'modal-create').on('show.bs.modal', function (event) {
 		var modal = $(this);
 		modal.find('.modal-body').html(feedBackForms);
-		modal.find('#userid').val(`<?php echo $_SESSION['id']; ?>`);
+		modal.find('#userid').val(getUID());
 	});
 
 	$(_FEEDBACKTABLE_SELECTED_ID + 'modal-update').on('show.bs.modal', function (event) {
@@ -1136,8 +1130,8 @@ function renderGuidelinesModals(){
   		_GUIDELINESTABLE_DATA.map(function(guidelinesobj){
   			if(guidelinesobj.id===_EXAMTABLE_SELECTED_ID){
 				modal.find('#userid').val(guidelinesobj.user_id.toUpperCase());	  									  				
-				modal.find('#subjectstopass').val(guidelinesobj.subjects_toPass);	  									  				
-				modal.find('#createdat').val(guidelinesobj.date);
+				modal.find('#subjectstopass').attr('value',guidelinesobj.subject_toPass);	  									  				
+				modal.find('#createdat').attr('value',guidelinesobj.date);
 				// console.log(guidelinesobj);
 				return;
   			}
@@ -1147,7 +1141,7 @@ function renderGuidelinesModals(){
 	$(_GUIDELINESTABLE_SELECTED_ID + 'modal-create').on('show.bs.modal', function (event) {
 		var modal = $(this);
 		modal.find('.modal-body').html(guidelinesForm);
-		modal.find('#userid').val(`<?php echo $_SESSION['id']; ?>`);
+		modal.find('#userid').val(getUID());
 		// _SUBJECTTABLE_DATA.map(function(subjectobj){
 		// 	// modal.find('.modal-body #createdat').val(Date.now());
 		// 	modal.find('#createdat').val(new Date().getTime("Y-m-d H:i:s")).attr('readonly','readonly');
@@ -1163,9 +1157,9 @@ function renderGuidelinesModals(){
 		modal.find('#userid').attr('readonly','readonly');
   		_GUIDELINESTABLE_DATA.map(function(guidelinesobj){
   			if(guidelinesobj.id===_EXAMTABLE_SELECTED_ID){
-				guidelinesobj.subjects_toPass=parseInt(guidelinesobj.subjects_toPass);	
+				// guidelinesobj.subjects_toPass=parseInt(guidelinesobj.subjects_toPass);	
 				modal.find('#userid').val(guidelinesobj.user_id.toUpperCase());	  									  				
-				modal.find('#subjectstopass').val(guidelinesobj.subjects_toPass);	  									  				
+				modal.find('#subjectstopass').attr('value',guidelinesobj.subject_toPass);	  									  				
 				modal.find('#createdat').val(guidelinesobj.date);
 				// console.log(guidelinesobj);
 				return;
@@ -1183,7 +1177,7 @@ function renderGuidelinesModals(){
   		_GUIDELINESTABLE_DATA.map(function(guidelinesobj){
   			if(guidelinesobj.id===_EXAMTABLE_SELECTED_ID){
 				modal.find('#userid').val(guidelinesobj.user_id.toUpperCase());	  									  				
-				modal.find('#subjectstopass').val(guidelinesobj.subjects_toPass);	  									  				
+				modal.find('#subjectstopass').attr('value',guidelinesobj.subject_toPass);	  									  				
 				modal.find('#createdat').val(guidelinesobj.date);
 				return;
   			}
@@ -1197,7 +1191,7 @@ function renderGuidelinesModals(){
 			user_id:$('#userid').val(),
 			subjects_toPass:$('#subjectstopass').val()
 		};
-		console.log(newGuidelines);
+		// console.log(newGuidelines);
 		$.ajax({
 	        method: "POST",
 	        url: "app/models/guidelines.php",
@@ -1239,7 +1233,7 @@ function renderGuidelinesModals(){
 				subjects_toPass:$('#subjectstopass').val()
 				// date:$('#createdat').val()
 			};
-			console.log(newGuidelines);
+			// console.log(newGuidelines);
 			$.ajax({
 		        method: "POST",
 		        url: "app/models/guidelines.php",
@@ -1326,7 +1320,7 @@ function renderTopicModals(){
 	  						$(this).attr("selected","selected");
 	  					}
 				    });
-					modal.find('#userid').val(topicobj.user_id.toUpperCase());	  									  				
+					modal.find('#userid').val(topicobj.user_id);	  									  				
 					modal.find('#name').val(topicobj.name);	  									  				
 					modal.find('#createdat').val(topicobj.date);
 					// console.log(topicobj);
@@ -1340,10 +1334,10 @@ function renderTopicModals(){
 		var modal = $(this);
 		modal.find('.modal-body').html(topicForm);
 		modal.find('#userid').attr('readonly','readonly');
-		modal.find('#userid').val(`<?php echo $_SESSION['id']; ?>`);
+		modal.find('#userid').val(getUID());
 		_SUBJECTTABLE_DATA.map(function(subjectobj){
 			// modal.find('.modal-body #createdat').val(Date.now());
-			modal.find('#createdat').val(new Date().getTime("Y-m-d H:i:s")).attr('readonly','readonly');
+			// modal.find('#createdat').val(new Date().getTime("Y-m-d H:i:s")).attr('readonly','readonly');
             $('#subjectid').append($('<option>').text(subjectobj.name).attr('value', subjectobj.id));
 		});
 	});
@@ -1361,8 +1355,7 @@ function renderTopicModals(){
 			        if (topicobj.subject_id==this.text) {
   						$(this).attr("selected","selected");
   					}
-			    });
-				modal.find('#userid').val(topicobj.user_id.toUpperCase());	  									  				
+			    });	  									  				
 				modal.find('#name').val(topicobj.name);	  									  				
 				modal.find('#createdat').val(topicobj.date);
 				// console.log(topicobj);
@@ -1386,8 +1379,7 @@ function renderTopicModals(){
 			        if (topicobj.subject_id==this.text) {
   						$(this).attr("selected","selected");
   					}
-			    });
-				modal.find('#userid').val(topicobj.user_id.toUpperCase());	  									  				
+			    });									  				
 				modal.find('#name').val(topicobj.name);	  									  				
 				modal.find('#createdat').val(topicobj.date);
 				// console.log(topicobj);
@@ -1399,7 +1391,6 @@ function renderTopicModals(){
 	$('#topicbtnmodalcreate').on('click',function(){				
 		// console.log("clicked");
 		var newTopic = {
-			user_id:$('#userid').val(),
 			subject_id:$('#subjectid').val(),
 			name:$('#name').val()
 		};
@@ -1408,15 +1399,13 @@ function renderTopicModals(){
 	        method: "POST",
 	        url: "app/models/topic.php",
 	        data: {
-	        	action:'createtopic',
-	        	user_id:newTopic.user_id,	        	
+	        	action:'createtopic',        	
 	        	subject_id:newTopic.subject_id,	        	
 	        	name:newTopic.name        
 	        }
 	    }).done(function(res){
 	    	// console.log(res);
 	    	$('#topicmodal-create').modal('hide');
-	    	$('#userid').val("");
 	    	$('#subjectid').val("");$('#name').val("");
 	    	$('#createdat').val("");
 	    	setTimeout(function(){
@@ -1442,25 +1431,22 @@ function renderTopicModals(){
 		function(isConfirm){
 		  if (isConfirm) {
 			var newTopic = {
-				user_id:$('#userid').val(),
 				subject_id:$('#subjectid').val(),
 				name:$('#name').val()
 			};
-			console.log(newTopic);
+			// console.log(newTopic);
 			$.ajax({
 		        method: "POST",
 		        url: "app/models/topic.php",
 		        data: {
 		        	action:'updatetopic',
-		        	id:_EXAMTABLE_SELECTED_ID,
-		        	user_id:newTopic.user_id,	        	
+		        	id:_EXAMTABLE_SELECTED_ID,        	
 		        	subject_id:newTopic.subject_id,	        	
 		        	name:newTopic.name	
 		        }
 		    }).done(function(res){
 		    	// console.log(res);
 		    	$('#topicmodal-update').modal('hide');
-		    	$('#userid').val("");
 		    	$('#subjectid').val("");$('#name').val("");
 		    	$('#createdat').val("");
 		    	setTimeout(function(){
@@ -1491,7 +1477,6 @@ function renderTopicModals(){
 		function(isConfirm){
 		  if (isConfirm) {
 		  	var newTopic = {
-				user_id:$('#userid').val(),
 				subject_id:$('#subjectid').val(),
 				name:$('#name').val(),
 			};
@@ -1505,7 +1490,6 @@ function renderTopicModals(){
 		    }).done(function(res){
 		    	// console.log(res);
 		    	$('#topicmodal-delete').modal('hide');
-		    	$('#userid').val("");
 		    	$('#subjectid').val("");$('#name').val("");
 		    	$('#createdat').val("");
 		    	setTimeout(function(){

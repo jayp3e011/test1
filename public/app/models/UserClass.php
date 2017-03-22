@@ -26,7 +26,7 @@ class UserClass
             // this login var will use for the session thing
             $_SESSION['id']= $user_data['id'];
             $_SESSION['level']= intval($user_data['isadmin']);
-            $_SESSION['fullname'] = $user_data['firstname'].' '.$user_data['lastname'];
+            $_SESSION['fullname'] = ucfirst($user_data['firstname']).' '.ucfirst($user_data['lastname']);
             return true;
         }
         else{

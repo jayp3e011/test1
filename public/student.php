@@ -1,5 +1,8 @@
 <html>
 <head>
+ <?php if (isset($_SESSION['id'])) {
+ 	echo '<script> function getUID(){return '.$_SESSION['id'].';} function getUName(){return '.$_SESSION['fullname'].';} </script>';
+ }?>
 	<?php include_once 'layout/header.php'; ?>
 </head>
 <!-- ADD THE CLASS layout-top-nav TO REMOVE THE SIDEBAR. -->
