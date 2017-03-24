@@ -147,7 +147,7 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-outline" id="subjectbtnupdate">Save changes</button>
+				<button type="button" class="btn btn-outline" id="subjectbtnmodalupdate">Save changes</button>
 				<!-- <button type="button" class="btn btn-outline" data-dismiss="modal">Close</button>  -->
 			</div>
 		</div>
@@ -168,7 +168,7 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-outline" id="subjectbtndelete">Save changes</button>
+				<button type="button" class="btn btn-outline" id="subjectbtnmodaldelete">Save changes</button>
 			</div>
 		</div>
 	</div>

@@ -85,40 +85,44 @@
 
 let questionForm = `
 	<form data-toggle="validator" role="form" id="addFeddback-form">
-		
+		<div class="form-group has-feedback">
+			<label for="recipient-name" class="control-label">Subject:</label>
+			<select name="colors" class="form-control" id="subjectid">
+			</select>
+		</div>
 		<div class="form-group has-feedback">
 			<label for="recipient-name" class="control-label">Question:</label>
-			<textarea class="form-control" placeholder="content" id="question" data-maxlength="255" data-error="not less than 255 characters" required></textarea>
+			<textarea class="form-control" placeholder="content" id="question" data-maxlength="250" data-error="not less than 250 characters" required></textarea>
 			<span class="glyphicon glyphicon-envelope form-control-feedback"></span>
 			<div class="help-block with-errors"></div>
 		</div>
 		<div class="form-group has-feedback">
 			<label for="recipient-name" class="control-label">Choice A:</label>
-			<textarea class="form-control" placeholder="choice_a" id="choice_a" data-maxlength="255" data-error="not less than 255 characters" required></textarea>
+			<textarea class="form-control" placeholder="choice_a" id="choice_a" data-maxlength="250" data-error="not less than 250 characters" required></textarea>
 			<span class="glyphicon glyphicon-envelope form-control-feedback"></span>
 			<div class="help-block with-errors"></div>
 		</div>
 		<div class="form-group has-feedback">
 			<label for="recipient-name" class="control-label">Choice B:</label>
-			<textarea class="form-control" placeholder="choice_b" id="choice_b" data-maxlength="255" data-error="not less than 255 characters" required></textarea>
+			<textarea class="form-control" placeholder="choice_b" id="choice_b" data-maxlength="250" data-error="not less than 250 characters" required></textarea>
 			<span class="glyphicon glyphicon-envelope form-control-feedback"></span>
 			<div class="help-block with-errors"></div>
 		</div>
 		<div class="form-group has-feedback">
 			<label for="recipient-name" class="control-label">Choice C:</label>
-			<textarea class="form-control" placeholder="choice_c" id="choice_c" data-maxlength="255" data-error="not less than 255 characters" required></textarea>
+			<textarea class="form-control" placeholder="choice_c" id="choice_c" data-maxlength="250" data-error="not less than 250 characters" required></textarea>
 			<span class="glyphicon glyphicon-envelope form-control-feedback"></span>
 			<div class="help-block with-errors"></div>
 		</div>
 		<div class="form-group has-feedback">
 			<label for="recipient-name" class="control-label">Choice D:</label>
-			<textarea class="form-control" placeholder="choice_d" id="choice_d" data-maxlength="255" data-error="not less than 255 characters" required></textarea>
+			<textarea class="form-control" placeholder="choice_d" id="choice_d" data-maxlength="250" data-error="not less than 250 characters" required></textarea>
 			<span class="glyphicon glyphicon-envelope form-control-feedback"></span>
 			<div class="help-block with-errors"></div>
 		</div>
 		<div class="form-group has-feedback">
 			<label for="recipient-name" class="control-label">Answer:</label>
-			<textarea class="form-control" placeholder="answer" id="answer" data-maxlength="255" data-error="not less than 255 characters" required></textarea>
+			<input type="text" class="form-control" placeholder="answer" id="answer" data-maxlength="1" data-error="not less than 1 characters" required></input>
 			<span class="glyphicon glyphicon-envelope form-control-feedback"></span>
 			<div class="help-block with-errors"></div>
 		</div>
@@ -182,6 +186,7 @@ let subjectForm = `
 	<form>
 		<div class="form-group">
 			<div class="row">
+				<input type="hidden" id="subjectid">
 				<div class="col-sm-4">
 					<label for="recipient-name" class="control-label">Name:</label>
 					<input type="text" class="form-control" id="name">
@@ -339,6 +344,7 @@ function renderSubjectModals(){
 		_EXAMTABLE_DATA.map(function(examobj){
 	  		_SUBJECTTABLE_DATA.map(function(subjectobj){
 	  			if(subjectobj.id===_EXAMTABLE_SELECTED_ID){
+					modal.find('#subjectid').val(subjectobj.id);
 					modal.find('#name').val(subjectobj.name);
 					modal.find('#timeduration').attr('value',subjectobj.timeduration);
 					modal.find('#passingrate').attr('value',subjectobj.passingrate);
@@ -360,12 +366,13 @@ function renderSubjectModals(){
 	$(_SUBJECTTABLE_SELECTED_ID + 'modal-update').on('show.bs.modal', function (event) {
 		var modal =$(this);
 		modal.find('.modal-body').html(subjectForm);
-		modal.find('.modal-title').text('Edit Entry ID: ' + _SUBJECTTABLE_SELECTED_ID)	  
+		modal.find('.modal-title').text('Edit Entry ID: ' + _SUBJECTTABLE_SELECTED_ID);	  
 		modal.find('.modal-body').html(subjectForm);
 
 		_EXAMTABLE_DATA.map(function(examobj){
 	  		_SUBJECTTABLE_DATA.map(function(subjectobj){
 	  			if(subjectobj.id===_EXAMTABLE_SELECTED_ID){
+					modal.find('#subjectid').val(subjectobj.id);
 					modal.find('#name').val(subjectobj.name);
 					modal.find('#timeduration').attr('value',subjectobj.timeduration);
 					modal.find('#passingrate').attr('value',subjectobj.passingrate);
@@ -390,6 +397,7 @@ function renderSubjectModals(){
 		_EXAMTABLE_DATA.map(function(examobj){
 	  		_SUBJECTTABLE_DATA.map(function(subjectobj){
 	  			if(subjectobj.id===_EXAMTABLE_SELECTED_ID){
+					modal.find('#subjectid').val(subjectobj.id);
 					modal.find('#name').val(subjectobj.name);
 					modal.find('#timeduration').attr('value',subjectobj.timeduration);
 					modal.find('#passingrate').attr('value',subjectobj.passingrate);
@@ -403,7 +411,7 @@ function renderSubjectModals(){
 		});
 	});
 
-	$('#subjectbtncreate').on('click',function(){				
+	$('#subjectbtnmodalcreate').on('click',function(){				
 		// console.log("clicked");
 		var newSubject = {
 			name:$('#name').val(),
@@ -440,7 +448,7 @@ function renderSubjectModals(){
 	    });
 	});
 
-	$('#subjectbtnupdate').on('click',function(){				
+	$('#subjectbtnmodalupdate').on('click',function(){				
 		// console.log("updateclicked");
 		swal({
 		  title: "Are you sure?",
@@ -495,7 +503,7 @@ function renderSubjectModals(){
 		});
 	});
 
-	$('#subjectbtndelete').on('click',function(){				
+	$('#subjectbtnmodaldelete').on('click',function(){				
 		// console.log("delete  clicked");
 		swal({
 		  title: "Are you sure?",
@@ -1281,7 +1289,7 @@ function renderGuidelinesModals(){
 		        url: "app/models/guidelines.php",
 		        data: {
 		        	action:'deleteguidelines',
-		        	id:_EXAMTABLE_SELECTED_ID,	
+		        	id:_EXAMTABLE_SELECTED_ID	
 		        }
 		    }).done(function(res){
 		    	// console.log(res);
@@ -1534,11 +1542,24 @@ function renderQuestionModals(){
 				// return;
 			}
   		});
+  // 		_SUBJECTTABLE_DATA.map(function(subjectobj){
+		// 	$('#subjectid').append($('<option>').text(subjectobj.name).attr('value', subjectobj.id));
+		// 	$("#subjectid option").each(function(i){
+	 //        if (topicobj.subject_id==this.text) {
+		// 			$(this).attr("selected","selected");
+		// 		}
+	 //    	});
+		// });
 	});
 
 	$(_QUESTIONTABLE_SELECTED_ID + 'modal-create').on('show.bs.modal', function (event) {
 		var modal = $(this);
 		modal.find('.modal-body').html(questionForm);
+		_SUBJECTTABLE_DATA.map(function(subjectobj){
+			// modal.find('.modal-body #createdat').val(Date.now());
+			// modal.find('#createdat').val(new Date().getTime("Y-m-d H:i:s")).attr('readonly','readonly');
+            $('#subjectid').append($('<option>').text(subjectobj.name).attr('value', subjectobj.id));
+		});
 		// _TOPICTABLE_DATA.map(function(topicobj){
   //           $('#topic_id').append($('<option>').text(topicobj.name).attr('value', topicobj.id));
 		// });

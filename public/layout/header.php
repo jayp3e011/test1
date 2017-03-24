@@ -29,9 +29,11 @@
 	  <!-- js plugins -->
 	  <script src="plugins/jQuery/jquery-2.2.3.min.js"></script>  
 	  <script src="plugins/iCheck/icheck.min.js"></script>
-	  <script src="plugins/countdown/jquery.countdown.min.js"></script>
+	  <script src="plugins/countdown/jquery.countdownTimer.min.js"></script>
 	  <script src="dist/js/validator.min.js"></script>
-
+	  <?php if (isset($_SESSION['id'])) {
+ 	echo '<script> function getUID(){return '.$_SESSION['id'].';} function getUName(){return "'.$_SESSION['fullname'].'";} </script>';
+ }?>
 	  <script src="plugins/datatables/jquery.dataTables.min.js"></script>
 	  <script src="plugins/datatables/dataTables.bootstrap.min.js"></script>
 	  <script src="app/controllers/app.js"></script>

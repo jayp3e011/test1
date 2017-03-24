@@ -33,133 +33,7 @@
 </style>
 <div class="row take-exam-tab"></div>
 <script>
-	// function loadExamSheet(subject_id)
- //    {
- //        // console.log('subjectid_____'+subject_id);
- //        $.ajax({
- //            method: "POST",
- //            url: "app/models/exam.php",
- //            // data:{'subject_id':subject_id}
- //            data:{'subject_id':subject_id,'action':'getquestions'}
- //        }).done(function(questions){
- //            // console.log(questions);
- //            // $('#subjectdesc').html(getSubjectDesc(subjectid));
- //            quest = JSON.parse(questions);
- //            util.data.STUDENT_SUBJECTS_AND_TOPICS_EXAM = quest;
- //            // console.log(quest);
- //            if(quest.length>0){
- //              util.showExam(0);
- //              let html = ``;
- //              for(let i=0;i<quest.length;i++){
- //                html+=`<li><a href="#" id="btnQuiz${quest[i].id}" onclick="util.showExam(${i})">${util.formatItem(i+1)}</a></li>`;
- //              }
- //              $('#exam-nav').html(html);
- //            }
- //            else{
- //              util.showExam(-1);
- //            }
- //            $('.chooseSubject').attr('disabled','disabled');
- //            $('.subject-chosen').html(shortText($('.chooseSubject').val()));
- //            $('.startexam').attr('disabled','disabled');
- //            $('.chooseaTopic').attr('disabled','disabled');
- //            $('.exam-sheet').show();
- //            // $('.chooseSubject').removeAttr('disabled');
-
- //            $(".exam-timer")
- //            .countdown("2018/01/01", function(event) {
- //              $(this).text(
- //                event.strftime('%H:%M:%S')
- //              );
- //            });
- //        });
- //    }
-	// $('.startexam').click(function(){
- //      // console.log("Start Exam");
- //      let examLog = {
- //        "user_id":1,
- //        "subject_id":util.data.STUDENT_SUBJECT_ID_CHOSEN,
- //        "topic_id":util.data.STUDENT_TOPIC_ID_CHOSEN,
- //        "question_id":1,
- //        "answer":"X",
- //        "timeremaining":`00:${$('.subject-timeduration').html()}:00`
- //      };
- //      // $("#exams1").load("app/models/exam2.php", {'subject_id':util.data.STUDENT_SUBJECT_ID_CHOSEN});
- //      loadExamSheet(util.data.STUDENT_SUBJECT_ID_CHOSEN);
- //      // console.log(examLog);
- //      // $.ajax({
- //      //   url:"app/models/exam.php",
- //      //   method: "post",
- //      //   data: {
- //      //     action:"setlog",
- //      //     examlog: examLog
- //      //   }
- //      // }).done(function(res){
- //      //   data = JSON.parse(res);
- //      //   // console.log(data.result);
- //      //   if(data.result=="ok"){
- //      //     $('.chooseSubject').attr('disabled','disabled');
- //      //     $('.subject-chosen').html(shortText($('.chooseSubject').val()));
- //      //     $('.startexam').attr('disabled','disabled');
- //      //     $('.chooseagain').attr('disabled','disabled');
- //      //     $('.exam-sheet').show();
- //      //     // $('.chooseSubject').removeAttr('disabled');
-
- //      //       $(".exam-timer")
- //      //       .countdown("2018/01/01", function(event) {
- //      //         $(this).text(
- //      //           event.strftime('%H:%M:%S')
- //      //         );
- //      //       });
- //      //   }
- //      //   else{
- //      //     console.log("Contact your admin! Course previously taken.");
- //      //   }
- //      //   // console.log(res);
- //      //   // if(res=="not ok"){
- //      //   //   console.log("Need to consult your admin! Exam previously taken!");
- //      //   // }
- //      //   // else{
- //      //   //   $('.chooseSubject').attr('disabled','disabled');
- //      //   //   $('.subject-chosen').html(shortText($('.chooseSubject').val()));
- //      //   //   $('.startexam').attr('disabled','disabled');
- //      //   //   $('.chooseagain').attr('disabled','disabled');
- //      //   //   $('.exam-sheet').show();
- //      //   //   // $('.chooseSubject').removeAttr('disabled');
- //      //   // }
- //      // });
- //    });
- //    function loadChooseSubject1(){
- //      /*
- //        bootstrap css select guide
- //        <option selected="selected">Alabama</option>
- //        <option>Alaska</option>
- //        <option disabled="disabled">California (disabled)</option>
- //      */
- //      let html = ``;
- //     util.data.STUDENT_SUBJECTS_AND_TOPICS.map((obj)=>{
- //        html += `<option>${obj.name}</option>`;          
- //      });
- //      $('.chooseSubject1').html(html);  
- //      if(util.data.STUDENT_SUBJECTS_AND_TOPICS.length>0){        
- //        loadChooseTopic(util.data.STUDENT_SUBJECTS_AND_TOPICS[0].name);            
- //      }
- //    }
- //    showExam(q){
- //      if (q>=0) {
- //        // console.log(this.data.STUDENT_SUBJECTS_AND_TOPICS_EXAM[q].question);
- //        $('#exam-table').show();
- //        $('#exam-question-sequence').html(this.formatItem(q+1));
- //        $('#exam-question').html(this.data.STUDENT_SUBJECTS_AND_TOPICS_EXAM[q].question);
- //        $('#exam-choice_a').html(this.data.STUDENT_SUBJECTS_AND_TOPICS_EXAM[q].choice_a);
- //        $('#exam-choice_b').html(this.data.STUDENT_SUBJECTS_AND_TOPICS_EXAM[q].choice_b);
- //        $('#exam-choice_c').html(this.data.STUDENT_SUBJECTS_AND_TOPICS_EXAM[q].choice_c);
- //        $('#exam-choice_d').html(this.data.STUDENT_SUBJECTS_AND_TOPICS_EXAM[q].choice_d); 
- //      }
- //      else{
- //        $('#exam-table').hide();
- //        $('#exam-nav').html("NO QUESTION ASSIGNED!");
- //      }
- //    }
+	
 	class Exam{
 		/*
 			NOTE: The following are the status on exam_user table
@@ -187,6 +61,36 @@
 			// this.main();			
 			this.initialize();
 		}
+		loadExamSheet(subject_id)
+	    {
+	    	// var quest =[];
+	        // console.log('subjectid_____'+subject_id);
+	        $.ajax({
+	            method: "POST",
+	            url: "app/models/exam.php",
+	            // data:{'subject_id':subject_id}
+	            data:{'subject_id':subject_id,'action':'getquestions'}
+	        }).done(function(questions){
+	            // console.log(questions);
+	            // $('#subjectdesc').html(getSubjectDesc(subjectid));
+	            let quest = JSON.parse(questions);
+	            exam.data.STUDENT_SUBJECTS_AND_TOPICS_EXAM = quest;
+	            // console.log(quest);
+	            if(quest.length>0){
+	              exam.showExam(0);
+	              let html = ``;
+	              for(let i=0;i<quest.length;i++){
+	                // html+=`<li><a href="#" id="btnQuiz${quest[i].id}" onclick="exam.showExam(${i})">${exam.formatItem(i+1)}</a></li>`;
+	                let btnvalue = exam.formatItem(i+1);
+	                html+=`<button type="button" id="exam-student-btn${btnvalue}" class="btn btn-default btn-flat btn-xs" onclick="exam.showExam(${i})">${btnvalue}</button>`;
+	              }
+	              $('#exam-student-item-buttons').html(html);
+	            }
+	            else{
+	              exam.showExam(-1);
+	            }
+	        });
+	    }
 		verifyExamInfo(){
 			let html = `
 				<div class="col-md-6 col-md-offset-3 take-exam-comp-main">
@@ -208,6 +112,12 @@
 									<dd id="exam-user-password-notif" style="color:maroon">
 										Invalid account. Try Again!
 									</dd>
+								<dt>Subject</dt>
+									<dd>
+										<select class="form-control select2 chooseSubject" style="width: 100%;">
+											<option selected="selected">Loading Subjects...</option>
+										</select>
+									</dd>
 							</dl>
 							<button id="exam-user-btnverify" class="btn btn-block bg-maroon">Verify account and Take the exam!</button>
 						</div>
@@ -222,18 +132,21 @@
 			$('#exam-user-btnverify').click(function(){
 				$('#exam-user-btnverify').html("Loading...");
 				setTimeout(function(){
+					exam.data.STUDENT_SUBJECT_ID_CHOSEN = $('.chooseSubject').val();
+					console.log(exam.data.STUDENT_SUBJECT_ID_CHOSEN);
 					exam.verifyUser();
+					
 				},500);
 			});
-			let buttons = ``;
-			for(let i=1;i<=200;i++){
-				let btnvalue = this.formatItem(i);
-				buttons += `
-					<button type="button" id="exam-student-btn${btnvalue}" class="btn btn-default btn-flat btn-xs">${btnvalue}</button>										
-				`;
-			}			
-			$('#exam-student-item-buttons').html(buttons);
-			$('#exam-student-btn0001').addClass('active');
+			// let buttons = ``;
+			// for(let i=1;i<=200;i++){
+			// 	let btnvalue = this.formatItem(i);
+			// 	buttons += `
+			// 		<button type="button" id="exam-student-btn${btnvalue}" class="btn btn-default btn-flat btn-xs">${btnvalue}</button>										
+			// 	`;
+			// }			
+			// $('#exam-student-item-buttons').html(buttons);
+			
 			// $('#exam-student-btn0001').removeClass('active');
 			$('#exam-student-btnsubmitnow').click(function(){
 				$('#exam-student-submitnow').modal('show');
@@ -264,6 +177,7 @@
 				if(data.result=="ok"){
 					if(data.data.length>0){
 						// console.log("Verified");
+						exam.loadExamSheet(exam.data.STUDENT_SUBJECT_ID_CHOSEN);
 						exam.main();
 					}
 					else{
@@ -307,75 +221,75 @@
 								<div class="col-md-12">
 
 
-                  <table class="table" id="quiz-table">
+                  <table class="table" id="exam-table">
                     <tr>
                       <th style="width:150px">Choose Answer</th>
-                      <th style="padding-left:30px">Question: <span id="quiz-question-sequence">001</span></th>
+                      <th style="padding-left:30px">Question: <span id="exam-question-sequence">001</span></th>
                     </tr>
                     <tr>
-                      <td>
+                      <td width="30%">
                         <div class="form-group">
                           <div class="row">
                             <div class="col-sm-3">
-                              <label id="quiz_handle_a">
-                                <div id="quiz_select1_a" style="position: absolute;margin-left: 6.5px;margin-top:1px;">A</div>
-                                <div id="quiz_select2_a" class="iradio_flat-green" aria-checked="false" aria-disabled="false" style="position: relative;">
-                                  <input id="quiz_radio_a" type="radio" name="r3" class="flat-red" style="position: absolute; opacity: 0;">
-                                  <ins id="quiz_select_a" class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
+                              <label id="exam_handle_a">
+                                <div id="exam_select1_a" style="position: absolute;margin-left: 6.5px;margin-top:1px;">A</div>
+                                <div id="exam_select2_a" class="iradio_flat-green" aria-checked="false" aria-disabled="false" style="position: relative;">
+                                  <input id="exam_radio_a" type="radio" name="r3" class="flat-red" style="position: absolute; opacity: 0;">
+                                  <ins id="exam_select_a" class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
                                 </div>
                               </label>                              
                             </div>
                             <div class="col-sm-3">
-                              <label id="quiz_handle_b">
+                              <label id="exam_handle_b">
                                 <div style="position: absolute;margin-left: 6.5px;margin-top:1px;">B</div>
                                 <div class="iradio_flat-green" aria-checked="false" aria-disabled="false" style="position: relative;">
-                                  <input id="quiz_radio_b" type="radio" name="r3" class="flat-red" style="position: absolute; opacity: 100;">
-                                  <ins id="quiz_select_b" class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
+                                  <input id="exam_radio_b" type="radio" name="r3" class="flat-red" style="position: absolute; opacity: 100;">
+                                  <ins id="exam_select_b" class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
                                 </div>
                               </label>   
                             </div>
                             <div class="col-sm-3">
-                              <label id="quiz_handle_c">
+                              <label id="exam_handle_c">
                                 <div style="position: absolute;margin-left: 6.5px;margin-top:1px;">C</div>
                                 <div class="iradio_flat-green" aria-checked="false" aria-disabled="false" style="position: relative;">
-                                  <input id="quiz_radio_c" type="radio" name="r3" class="flat-red" style="position: absolute; opacity: 0;">
-                                  <ins id="quiz_select_c" class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
+                                  <input id="exam_radio_c" type="radio" name="r3" class="flat-red" style="position: absolute; opacity: 0;">
+                                  <ins id="exam_select_c" class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
                                 </div>
                               </label>   
                             </div>
                             <div class="col-sm-3">
-                              <label id="quiz_handle_d">
+                              <label id="exam_handle_d">
                                 <div style="position: absolute;margin-left: 6.5px;margin-top:1px;">D</div>
                                 <div class="iradio_flat-green" aria-checked="false" aria-disabled="false" style="position: relative;">
-                                  <input id="quiz_radio_d" type="radio" name="r3" class="flat-red" style="position: absolute; opacity: 0;">
-                                  <ins id="quiz_select_d" class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
+                                  <input id="exam_radio_d" type="radio" name="r3" class="flat-red" style="position: absolute; opacity: 0;">
+                                  <ins id="exam_select_d" class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
                                 </div>
                               </label>   
                             </div>
                           </div>
                         </div>
                       </td>
-                      <td style="padding-left:30px">
-                        <div id="quiz-question">
+                      <td style="padding-left:30px" width="70%">
+                        <div id="exam-question">
                           The mailbox rule generally makes acceptance of an offer effective at the time the acceptance is dispatched. The mailbox rule does not apply if
                         </div>
                         <div>&nbsp;</div>
                         <table>
                           <tr>
                             <td valign="top">A.</td>
-                            <td style="padding-left:5px" id="quiz-choice_a">Both the offeror and offeree are merchants.asdfasdfasdfasdf adsfa dfa sdfa sdf asdf asdf asdf asdf asdf asdf adsf asdf asdf adsf asdf asdf asdf asdf asdf asdf asdfasd f</td>
+                            <td style="padding-left:5px" id="exam-choice_a">Both the offeror and offeree are merchants.asdfasdfasdfasdf adsfa dfa sdfa sdf asdf asdf asdf asdf asdf asdf adsf asdf asdf adsf asdf asdf asdf asdf asdf asdf asdfasd f</td>
                           </tr>
                           <tr>
                             <td valign="top">B.</td>
-                            <td style="padding-left:5px" id="quiz-choice_b">The offer proposes a sale of real estate.</td>
+                            <td style="padding-left:5px" id="exam-choice_b">The offer proposes a sale of real estate.</td>
                           </tr>
                           <tr>
                             <td valign="top">C.</td>
-                            <td style="padding-left:5px" id="quiz-choice_c">The offer provides that an acceptance shall not be effective until actually received.</td>
+                            <td style="padding-left:5px" id="exam-choice_c">The offer provides that an acceptance shall not be effective until actually received.</td>
                           </tr>
                           <tr>
                             <td valign="top">D.</td>
-                            <td style="padding-left:5px" id="quiz-choice_d">The duration of the offer is not in excess of 3 months.</td>
+                            <td style="padding-left:5px" id="exam-choice_d">The duration of the offer is not in excess of 3 months.</td>
                           </tr>
                         </table>
                       </td>
@@ -416,6 +330,24 @@
 
 
 		}
+
+		showExam(q){
+        if (q>=0) {
+          // console.log(this.data.STUDENT_SUBJECTS_AND_TOPICS_EXAM[q].question);
+          $('#exam-table').show();
+          $('#exam-question-sequence').html(this.formatItem(q+1));
+          $('#exam-question').html(this.data.STUDENT_SUBJECTS_AND_TOPICS_EXAM[q].question);
+          $('#exam-choice_a').html(this.data.STUDENT_SUBJECTS_AND_TOPICS_EXAM[q].choice_a);
+          $('#exam-choice_b').html(this.data.STUDENT_SUBJECTS_AND_TOPICS_EXAM[q].choice_b);
+          $('#exam-choice_c').html(this.data.STUDENT_SUBJECTS_AND_TOPICS_EXAM[q].choice_c);
+          $('#exam-choice_d').html(this.data.STUDENT_SUBJECTS_AND_TOPICS_EXAM[q].choice_d); 
+          $('#exam-student-btn0001').addClass('active');
+        }
+        else{
+          $('#exam-table').hide();
+          $('#exam-student-item-buttons').html("NO QUESTION ASSIGNED!");
+        }
+      }
 
 		modals(){
 			return `

@@ -32,7 +32,7 @@
 				// $date = $_POST['date'];
 				$sql = "delete from $table where id='$id'";
 				$result = mysqli_query($link, $sql) or die("Invalid query" . mysqli_error($link));
-				echo "ok";
+				echo "ok"; 
 			}
 		}
 		else{	

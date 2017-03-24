@@ -92,7 +92,7 @@
   <script src="plugins/datatables/jquery.dataTables.min.js"></script>
   <script src="plugins/datatables/dataTables.bootstrap.min.js"></script>
   <?php if (isset($_SESSION['id'])) {
-  echo '<script> function getUID(){return '.$_SESSION['id'].';} </script>';
+  echo '<script> function getUID(){return "'.$_SESSION['id'].'";} </script>';
  }?>
   <!-- <script src="dist/js/jquery.routes.js"></script> -->
   <script src="app/controllers/app.js"></script>
