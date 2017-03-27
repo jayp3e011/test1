@@ -66,30 +66,32 @@
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 				<h4 class="modal-title" id="exampleModalLabel">Create</h4>
 			</div>
-			<div class="modal-body">
-				<!-- <form data-toggle="validator" role="form" id="addFeddback-form">
-					<div class="form-group has-feedback">
-						<label for="recipient-name" class="control-label">User Name:</label>
-						<input type="text" class="form-control" placeholder="first name" id="createfeedbackuserid" required>
-						<span class="glyphicon glyphicon-feedback form-control-feedback"></span>
-					</div>
-					<div class="form-group has-feedback">
-						<label for="recipient-name" class="control-label">Content:</label>
-						<textarea class="form-control" placeholder="content" id="createfeedbackcontent" data-maxlength="255" data-error="not less than 255 characters" required></textarea>
-						<span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-						<div class="help-block with-errors"></div>
-					</div>
-					<div class="form-group has-feedback">
-						<label for="recipient-name" class="control-label">Created at:</label>
-						<input type="datepicker" class="form-control" id="createfeedbackcreatedad" required>
-						<span class="glyphicon glyphicon-feedback form-control-feedback"></span>
-					</div>
-				</form> -->
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-outline" id="feedbackbtnmodalcreate">Save changes</button>
-			</div>
+			<form data-toggle="validator" role="form" id="addFeddback-form">
+				<div class="modal-body"> 
+					<!-- <form data-toggle="validator" role="form" id="addFeddback-form">
+						<div class="form-group has-feedback">
+							<label for="recipient-name" class="control-label">User Name:</label>
+							<input type="text" class="form-control" placeholder="first name" id="createfeedbackuserid" required>
+							<span class="glyphicon glyphicon-feedback form-control-feedback"></span>
+						</div>
+						<div class="form-group has-feedback">
+							<label for="recipient-name" class="control-label">Content:</label>
+							<textarea class="form-control" placeholder="content" id="createfeedbackcontent" data-maxlength="255" data-error="not less than 255 characters" required></textarea>
+							<span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+							<div class="help-block with-errors"></div>
+						</div>
+						<div class="form-group has-feedback">
+							<label for="recipient-name" class="control-label">Created at:</label>
+							<input type="datepicker" class="form-control" id="createfeedbackcreatedad" required>
+							<span class="glyphicon glyphicon-feedback form-control-feedback"></span>
+						</div>
+					</form> -->
+				</div>
+				<div class="modal-footer">
+					<button type="submit" class="btn btn-outline" id="feedbackbtnmodalcreate">Save changes</button>
+			</form>
+					<button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
+				</div>
 		</div>
 	</div>
 </div>
@@ -103,13 +105,15 @@
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 				<h4 class="modal-title" id="exampleModalLabel">Update</h4>
 			</div>
-			<div class="modal-body">
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-outline" id="feedbackbtnmodalupdate">Save changes</button>
-				<!-- <button type="button" class="btn btn-outline" data-dismiss="modal">Close</button>  -->
-			</div>
+			<form data-toggle="validator" role="form" id="updateFeddback-form">
+				<div class="modal-body">
+				</div>
+				<div class="modal-footer">
+					<button type="submit" class="btn btn-outline" id="feedbackbtnmodalupdate">Save changes</button>
+			</form>
+					<button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
+					<!-- <button type="button" class="btn btn-outline" data-dismiss="modal">Close</button>  -->
+				</div>
 		</div>
 	</div>
 </div>
@@ -123,12 +127,13 @@
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 				<h4 class="modal-title" id="exampleModalLabel">Delete</h4>
 			</div>
-			<div class="modal-body">
+				<div class="modal-body">
 
-			</div>
-			<div class="modal-footer">
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-outline" id="feedbackbtnmodaldelete">Save changes</button>
+			
 				<button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-outline" id="feedbackbtnmodaldelete">Save changes</button>
 			</div>
 		</div>
 	</div>

@@ -3,7 +3,7 @@
 	<div class="box-header with-border">
 		<h3 class="box-title">Manage Guidelines</h3>
 	</div>
-	<div class="box-body">
+	<div class="box-body"> 
 		<div class="btn-group" role="group" aria-label="...">
 			<button id="guidelinestable-btncreate" type="button" class="btn btn-primary" data-toggle="modal" data-target="#guidelinesmodal-create" data-id="0" style="display:none;">
 				<i class="fa fa-plus text-gray"></i> &nbsp;&nbsp;Create </button>
@@ -38,18 +38,6 @@
 				<h4 class="modal-title" id="exampleModalLabel">New message</h4>
 			</div>
 			<div class="modal-body">
-				<!-- <form>
-					<div class="form-group">
-						<label for="recipient-name" class="control-label">User Name:</label>
-						<input type="text" class="form-control" id="guidelinesuserid">
-						<label for="recipient-name" class="control-label">Subject:</label>
-						<input type="text" class="form-control" id="guidelinessubjectid">
-						<label for="recipient-name" class="control-label">No. of Subjects to pass</label>
-						<input type="text" class="form-control" id="guidelinessubjectstopass">
-						<label for="recipient-name" class="control-label">Created at:</label>
-						<input type="text" class="form-control" id="guidelinescreatedat">
-					</div>
-				</form> -->
 			</div>
 			<div class="modal-footer">
 				<!-- <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
@@ -69,35 +57,26 @@
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 				<h4 class="modal-title" id="exampleModalLabel">Create</h4>
 			</div>
-			<div class="modal-body">
-				<!-- <form data-toggle="validator" role="form" id="addGuidelines-form">
-					<div class="form-group has-feedback">
-						<label for="recipient-name" class="control-label">User Name:</label>
-						<input type="text" class="form-control" placeholder="first name" id="createguidelinesuserid" required>
-						<span class="glyphicon glyphicon-guidelines form-control-feedback"></span>
-					</div>
-					<div class="form-group has-feedback">
-						<label for="recipient-name" class="control-label">Subject:</label>
-						<select name="colors" class="form-control" id="createguidelinessubjectid">
-						</select>
-						<span class="glyphicon glyphicon-user form-control-feedback"></span>
-					</div>
-					<div class="form-group has-feedback">
-						<label for="recipient-name" class="control-label">No.of Subject to Pass:</label>
-						<input type="number" class="form-control" placeholder="Subjects to Pass" id="createguidelinessubjectstopass" required>
-						<span class="glyphicon glyphicon-guidelines form-control-feedback"></span>
-					</div>
-					<div class="form-group has-feedback">
-						<label for="recipient-name" class="control-label">Date:</label>
-						<input type="datepicker" class="form-control" id="createguidelinescreatedad" required>
-						<span class="glyphicon glyphicon-guidelines form-control-feedback"></span>
-					</div>
-				</form> -->
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-outline" id="guidelinesbtnmodalcreate">Save changes</button>
-			</div>
+				<div class="modal-body">
+					<form data-toggle="validator" role="form">
+						<div class="form-group has-feedback">
+							<label for="recipient-name" class="control-label">User:</label>
+							<input type="text" class="form-control" placeholder="first name" id="useridCreate" required>
+						</div>
+						
+						<div class="form-group has-feedback">
+							<label for="recipient-name" class="control-label">No.of Subject to Pass:</label>
+							<input type="number" class="form-control" placeholder="Subjects to Pass" id="subjectstopassCreate" required>
+						</div>		
+						<div class="form-group">
+							<button type="submit" class="btn btn-outline pull-right" id="guidelinesbtnmodalcreate">Save</button>
+						</div>
+					</form><br><br>
+				</div>
+				<!-- <div class="modal-footer">
+					
+					<button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
+				</div> -->
 		</div>
 	</div>
 </div>
@@ -112,12 +91,25 @@
 				<h4 class="modal-title" id="exampleModalLabel">Update</h4>
 			</div>
 			<div class="modal-body">
+				<form data-toggle="validator" role="form">
+					<div class="form-group has-feedback">
+						<label for="recipient-name" class="control-label">User:</label>
+						<input type="text" class="form-control" placeholder="first name" id="useridUpdate" required>
+					</div>
+					
+					<div class="form-group has-feedback">
+						<label for="recipient-name" class="control-label">No.of Subject to Pass:</label>
+						<input type="number" class="form-control" placeholder="Subjects to Pass" id="subjectstopassUpdate" required>
+					</div>		
+					<div class="form-group">
+						<button type="submit" class="btn btn-outline pull-right" id="guidelinesbtnmodalupdate">Save changes</button>
+					</div>
+				</form><br><br>
 			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-outline" id="guidelinesbtnmodalupdate">Save changes</button>
-				<!-- <button type="button" class="btn btn-outline" data-dismiss="modal">Close</button>  -->
-			</div>
+		</div>
+		<!-- <div class="modal-footer">
+			<button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
+		</div> -->
 		</div>
 	</div>
 </div>
@@ -136,7 +128,7 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-outline" id="guidelinesbtnmodaldelete">Save changes</button>
+				<button type="button" class="btn btn-outline" id="guidelinesbtnmodaldelete">Delete</button>
 			</div>
 		</div>
 	</div>

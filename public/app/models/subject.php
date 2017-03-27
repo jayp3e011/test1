@@ -6,7 +6,7 @@
 		$table='subject';
 		if(isset($_POST['action'])){
 			if($_POST['action']=="createsubject"){
-				echo "create subject ok!";
+				// echo "create subject ok!";
 				$name = $_POST['name'];
 				$description = $_POST['description'];
 				$timeduration = $_POST['timeduration'];
@@ -14,11 +14,11 @@
 				$attempt = $_POST['attempt'];
 				$items = $_POST['items'];
 				$sql = "insert into $table VALUES('','$name','$description', '$timeduration','$passingrate','$attempt','$items')";
-				$result = mysqli_query($link, $sql) or die("Invalid query" . mysqli_error($link));
-				echo "ok";
+				$result = mysqli_query($link, $sql) or die(json_encode(["result" => "not ok","message" => "Invalid query" . mysqli_error($link)]));				
+				echo json_encode(["result" => "ok"]);
 			}
 			else if($_POST['action']=="updatesubject"){
-				echo "update subject ok!";
+				// echo "update subject ok!";
 				$id = $_POST['id'];
 				$name = $_POST['name'];
 				$description = $_POST['description'];
@@ -27,15 +27,15 @@
 				$attempt = $_POST['attempt'];
 				$items = $_POST['items'];
 				$sql = "update $table SET name='$name',description='$description', timeduration='$timeduration',passingrate='$passingrate',attempt='$attempt', items='$items' where id='$id'";
-				$result = mysqli_query($link, $sql) or die("Invalid query" . mysqli_error($link));
-				echo "ok";
+				$result = mysqli_query($link, $sql) or die(json_encode(["result" => "not ok","message" => "Invalid query" . mysqli_error($link)]));				
+				echo json_encode(["result" => "ok"]);
 			}
 			else if($_POST['action']=="deletesubject"){
-				echo "delete subject ok!";
+				// echo "delete subject ok!";
 				$id = $_POST['id'];
 				$sql = "delete from $table where id='$id'";
-				$result = mysqli_query($link, $sql) or die("Invalid query" . mysqli_error($link));
-				echo "ok";
+				$result = mysqli_query($link, $sql) or die(json_encode(["result" => "not ok","message" => "Invalid query" . mysqli_error($link)]));				
+				echo json_encode(["result" => "ok"]);
 			}
 			else if($_POST['action']=="topics"){	
 				$table2 = "topic";

@@ -6,7 +6,7 @@
 		$table='question';
 		if(isset($_POST['action'])){
 			if($_POST['action']=="createquestion"){
-				echo "create question ok!";
+				// echo "create question ok!";
 				$subject_id = $_POST['subjectid'];
 				$topic_id = $_POST['topicid'];
 				$question = $_POST['question'];
@@ -17,11 +17,11 @@
 				$answer = $_POST['answer'];
 				$reference = $_POST['reference'];
 				$sql = "insert into $table VALUES('','$subject_id','$topic_id', '$question','$choice_a','$choice_b','$choice_c','$choice_d','$answer','$reference')";
-				$result = mysqli_query($link, $sql) or die("Invalid query" . mysqli_error($link));
-				echo "ok";
+				$result = mysqli_query($link, $sql) or die(json_encode(["result" => "not ok","message" => "Invalid query" . mysqli_error($link)]));				
+				echo json_encode(["result" => "ok"]);
 			}
 			if($_POST['action']=="updatequestion"){
-				echo "update question ok!";
+				// echo "update question ok!";
 				$id = $_POST['id'];
 				$subject_id = $_POST['subjectid'];
 				$topic_id = $_POST['topicid'];
@@ -33,17 +33,17 @@
 				$answer = $_POST['answer'];
 				$reference = $_POST['reference'];
 				$sql = "update $table SET subject_id='$subject_id',topic_id='$topic_id', question='$question',choice_a='$choice_a',choice_b='$choice_b',choice_c='$choice_c',choice_d='$choice_d',answer='$answer',reference='$reference' where id='$id'";
-				$result = mysqli_query($link, $sql) or die("Invalid query" . mysqli_error($link));
-				echo "ok";
+				$result = mysqli_query($link, $sql) or die(json_encode(["result" => "not ok","message" => "Invalid query" . mysqli_error($link)]));				
+				echo json_encode(["result" => "ok"]);
 			}
 			if($_POST['action']=="deletequestion"){
-				echo "delete question ok!";
+				// echo "delete question ok!";
 				$id = $_POST['id'];
 				$answer= $_POST['answer'];
 				$reference = $_POST['reference'];
 				$sql = "delete from $table where id='$id'";
-				$result = mysqli_query($link, $sql) or die("Invalid query" . mysqli_error($link));
-				echo "ok";
+				$result = mysqli_query($link, $sql) or die(json_encode(["result" => "not ok","message" => "Invalid query" . mysqli_error($link)]));				
+				echo json_encode(["result" => "ok"]);
 			}
 			if($_POST['action']=="importquestion"){
 				$question = $_POST['question'];

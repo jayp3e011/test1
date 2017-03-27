@@ -14,7 +14,7 @@
 			<button id="topictable-btndelete" type="button" class="btn btn-danger" data-toggle="modal" data-target="#topicmodal-delete" data-id="0" style="display:none;" disabled>
 				<i class="fa fa-times text-gray"></i> &nbsp;&nbsp;Delete</button>
 			</div>
-		<div id="topictable-status" style="text-align: center"></div>
+		<div id="topictable-status" style="text-align: center"></div> 
 		<div>&nbsp;</div>
 		<!-- datatable start-->
 		<table id="topictable" class="table table-bordered table-hover">
@@ -70,34 +70,25 @@
 				<h4 class="modal-title" id="exampleModalLabel">Create</h4>
 			</div>
 			<div class="modal-body">
-				<!-- <form data-toggle="validator" role="form" id="addTopic-form">
-					<div class="form-group has-feedback">
-						<label for="recipient-name" class="control-label">User Name:</label>
-						<input type="text" class="form-control" placeholder="first name" id="createtopicuserid" required>
-						<span class="glyphicon glyphicon-topic form-control-feedback"></span>
-					</div>
+				<form data-toggle="validator" role="form" id="addTopic-form">
 					<div class="form-group has-feedback">
 						<label for="recipient-name" class="control-label">Subject:</label>
-						<select name="colors" class="form-control" id="createtopicsubjectid">
+						<select name="colors" class="form-control" id="subjectidCreate" data-error="must select a subject" required=>
 						</select>
-						<span class="glyphicon glyphicon-user form-control-feedback"></span>
 					</div>
 					<div class="form-group has-feedback">
 						<label for="recipient-name" class="control-label">Name:</label>
-						<input type="text" class="form-control" placeholder="Enter title" id="createtopicname" required>
+						<input type="text" class="form-control" placeholder="Enter title" id="nameCreate" data-error="input cannot be empty" required>
 						<span class="glyphicon glyphicon-topic form-control-feedback"></span>
 					</div>
-					<div class="form-group has-feedback">
-						<label for="recipient-name" class="control-label">Date:</label>
-						<input type="datepicker" class="form-control" id="createtopiccreatedad" required>
-						<span class="glyphicon glyphicon-topic form-control-feedback"></span>
+					<div class="form-group">
+						<button type="submit" class="btn btn-outline pull-right" id="topicbtnmodalcreate">Save</button>
 					</div>
-				</form> -->
+				</form><br><br>
 			</div>
-			<div class="modal-footer">
+			<!-- <div class="modal-footer">
 				<button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-outline" id="topicbtnmodalcreate">Save changes</button>
-			</div>
+			</div> -->
 		</div>
 	</div>
 </div>
@@ -112,12 +103,25 @@
 				<h4 class="modal-title" id="exampleModalLabel">Update</h4>
 			</div>
 			<div class="modal-body">
+				<form data-toggle="validator" role="form" id="addTopic-form">
+					<div class="form-group has-feedback">
+						<label for="recipient-name" class="control-label">Subject:</label>
+						<select name="colors" class="form-control" id="subjectidUpdate" data-error="must select a subject" required=>
+						</select>
+					</div>
+					<div class="form-group has-feedback">
+						<label for="recipient-name" class="control-label">Name:</label>
+						<input type="text" class="form-control" placeholder="Enter title" id="nameUpdate" data-error="input cannot be empty" required>
+						<span class="glyphicon glyphicon-topic form-control-feedback"></span>
+					</div>
+					<div class="form-group">
+						<button type="submit" class="btn btn-outline pull-right" id="topicbtnmodalupdate">Save changes</button>
+					</div>
+				</form><br><br>
 			</div>
-			<div class="modal-footer">
+			<!-- <div class="modal-footer">
 				<button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-outline" id="topicbtnmodalupdate">Save changes</button>
-				<!-- <button type="button" class="btn btn-outline" data-dismiss="modal">Close</button>  -->
-			</div>
+			</div> -->
 		</div>
 	</div>
 </div>
@@ -136,7 +140,7 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-outline" id="topicbtnmodaldelete">Save changes</button>
+				<button type="button" class="btn btn-outline" id="topicbtnmodaldelete">Delete</button>
 			</div>
 		</div>
 	</div>

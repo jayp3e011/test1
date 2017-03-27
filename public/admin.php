@@ -34,6 +34,9 @@
             else if($_GET['page'] == "question"){
               $page_url = "app/views/question.php";
             }
+            else if($_GET['page'] == "report"){
+              $page_url = "app/views/report.php";
+            }
             else{
               $page_url = "app/views/error404.php";
             }

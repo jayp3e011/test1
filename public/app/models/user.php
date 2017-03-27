@@ -6,7 +6,7 @@
 		$table='user';
 		if(isset($_POST['action'])){
 			if($_POST['action']=="createuser"){
-				echo "create user ok!";
+				// echo "create user ok!";
 				$email = $_POST['email'];
 				$password = $_POST['password'];
 				$firstname = $_POST['firstname'];
@@ -14,34 +14,34 @@
 				$isadmin = $_POST['isadmin'];
 				$date = date("Y-m-d H:i:s");
 				$password = md5($password);
-				$sql = "insert into $table VALUES('','$email','$password', '$firstname','$lastname', '$date', $isadmin')";
-				$result = mysqli_query($link, $sql) or die("Invalid query" . mysqli_error($link));
-				echo "ok";
+				$sql = "insert into $table VALUES('','$email','$password', '$firstname','$lastname', '$date', '$isadmin')";
+				$result = mysqli_query($link, $sql) or die(json_encode(["result" => "not ok","message" => "Invalid query" . mysqli_error($link)]));				
+				echo json_encode(["result" => "ok"]);
 			}
 			if($_POST['action']=="updateuser"){
-				echo "update user ok!";
+				// echo "update user ok!";
 				$id = $_POST['id'];
 				$email = $_POST['email'];
 				$firstname = $_POST['firstname'];
 				$lastname = $_POST['lastname'];
 				$isadmin = $_POST['isadmin'];
 				$sql = "update $table SET email='$email',firstname='$firstname',lastname='$lastname',isadmin='$isadmin' where id='$id'";
-				$result = mysqli_query($link, $sql) or die("Invalid query" . mysqli_error($link));
-				echo "ok";
+				$result = mysqli_query($link, $sql) or die(json_encode(["result" => "not ok","message" => "Invalid query" . mysqli_error($link)]));				
+				echo json_encode(["result" => "ok"]);
 			}
-			if($_POST['action']=="updateuser"){
-				echo "update user ok!";
+			if($_POST['action']=="updateuserpass"){
+				// echo "update user ok!";
 				$id = $_POST['id'];
 				$password = $_POST['password'];
 				$new_password = $_POST['new_password'];
 				$password = md5($password);
 				$new_password = md5($new_password);
 				$sql = "update $table SET password='$new_password' where id='$id' and password='$password'";
-				$result = mysqli_query($link, $sql) or die("Invalid query" . mysqli_error($link));
-				echo "ok";
+				$result = mysqli_query($link, $sql) or die(json_encode(["result" => "not ok","message" => "Invalid query" . mysqli_error($link)]));				
+				echo json_encode(["result" => "ok"]);
 			}
 			if($_POST['action']=="deleteuser"){
-				echo "delete user ok!";
+				// echo "delete user ok!";
 				$id = $_POST['id'];
 				$email = $_POST['email'];
 				$password = $_POST['password'];
@@ -49,8 +49,17 @@
 				$lastname = $_POST['lastname'];
 				$isadmin = $_POST['isadmin'];
 				$sql = "delete from $table where id='$id'";
-				$result = mysqli_query($link, $sql) or die("Invalid query" . mysqli_error($link));
-				echo "ok";
+				$result = mysqli_query($link, $sql) or die(json_encode(["result" => "not ok","message" => "Invalid query" . mysqli_error($link)]));				
+				echo json_encode(["result" => "ok"]);
+			}
+			if($_POST['action']=="filterstudents"){
+				$sql = "select * from $table where isadmin=0 ";
+			    $result = mysqli_query($link, $sql) or die("Invalid query" . mysqli_error($link));
+				$arr = array();
+				while($row=mysqli_fetch_assoc($result)){
+					$arr[] = $row;
+				}
+				echo json_encode($arr);
 			}
 		}
 		else{	

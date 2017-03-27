@@ -28,7 +28,7 @@ function doRenderTable(id){
                         //     });
                         // });
                         
-                        renderTable(id,questiondata,['id','subject','topic','question','choice_a','choice_b','choice_c','choice_d','answer','reference'],['create','read','update','delete','import']);
+                        renderTable(id,questiondata,['id','subject','topic','question','choice_a','choice_b','choice_c','choice_d','answer','reference'],['create','read','update','delete']);
                     });
                 });         
             // }); 

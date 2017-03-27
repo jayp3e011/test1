@@ -6,36 +6,36 @@
 		$table='news';
 		if(isset($_POST['action'])){
 			if($_POST['action']=="createnews"){
-				echo "create news ok!";
+				// echo "create news ok!";
 				$user_id = $_POST['userid'];
 				$name = $_POST['name'];
 				$content = $_POST['content'];
 				$date = date("Y-m-d H:i:s");
 				$sql = "insert into $table VALUES('','$user_id','$name', '$content','$date')";
-				$result = mysqli_query($link, $sql) or die("Invalid query" . mysqli_error($link));
-				echo "ok";
+				$result = mysqli_query($link, $sql) or die(json_encode(["result" => "not ok","message" => "Invalid query" . mysqli_error($link)]));				
+				echo json_encode(["result" => "ok"]);
 			}
 			if($_POST['action']=="updatenews"){
-				echo "update news ok!";
+				// echo "update news ok!";
 				$id = $_POST['id'];
 				// $user_id = $_POST['userid'];
 				$name = $_POST['name'];
 				$content = $_POST['content'];
 				// $date = $_POST['date'];
 				$sql = "update $table SET name='$name', content='$content' where id='$id'";//,date='$date'user_id='$user_id',
-				$result = mysqli_query($link, $sql) or die("Invalid query" . mysqli_error($link));
-				echo "ok";
+				$result = mysqli_query($link, $sql) or die(json_encode(["result" => "not ok","message" => "Invalid query" . mysqli_error($link)]));				
+				echo json_encode(["result" => "ok"]);
 			}
 			if($_POST['action']=="deletenews"){
-				echo "delete news ok!";
+				// echo "delete news ok!";
 				$id = $_POST['id'];
 				// $user_id = $_POST['userid'];
 				// $name = $_POST['name'];
 				// $content = $_POST['content'];
 				// $date = $_POST['date'];
 				$sql = "delete from $table where id='$id'";
-				$result = mysqli_query($link, $sql) or die("Invalid query" . mysqli_error($link));
-				echo "ok";
+				$result = mysqli_query($link, $sql) or die(json_encode(["result" => "not ok","message" => "Invalid query" . mysqli_error($link)]));				
+				echo json_encode(["result" => "ok"]);
 			}
 		}
 		else{	

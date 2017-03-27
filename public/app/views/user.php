@@ -15,7 +15,7 @@
 				<i class="fa fa-times text-gray"></i> &nbsp;&nbsp;Delete</button>
 		</div>
 		<div id="usertable-status" style="text-align: center"></div>
-		<div>&nbsp;</div>
+		<div>&nbsp;</div> 
 		<!-- datatable start-->
 		<table id="usertable" class="table table-bordered table-hover table-responsive">
 			<div id="usertable-loading" style="text-align: center;">
@@ -35,7 +35,7 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title" id="exampleModalLabel">New message</h4>
+				<h4 class="modal-title" id="exampleModalLabel">Read User</h4>
 			</div>
 			<div class="modal-body">
 				<!-- <form>
@@ -75,56 +75,47 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title" id="exampleModalLabel">Create</h4>
+				<h4 class="modal-title" id="exampleModalLabel">Create User</h4>
 			</div>
 			<div class="modal-body">
-				<!-- <form data-toggle="validator" role="form" id="addUser-form">
+				<form data-toggle="validator" role="form">
 					<div class="form-group has-feedback">
 						<label for="recipient-name" class="control-label">First Name:</label>
-						<input type="text" class="form-control" placeholder="first name" id="createuserfirstname" required>
+						<input type="text" class="form-control" placeholder="first name" id="firstnameCreate" data-error="Input cannot be empty" required>
 						<span class="glyphicon glyphicon-user form-control-feedback"></span>
 					</div>
 					<div class="form-group has-feedback">
 						<label for="recipient-name" class="control-label">Last Name:</label>
-						<input type="text" class="form-control" placeholder="Last name" id="createuserlastname" required>
+						<input type="text" class="form-control" placeholder="Last name" id="lastnameCreate" data-error="Input cannot be empty" required>
 						<span class="glyphicon glyphicon-user form-control-feedback"></span>
 					</div>
 					<div class="form-group has-feedback">
 						<label for="recipient-name" class="control-label">E-mail:</label>
-						<input type="email" class="form-control" placeholder="Email" id="createuseremail" data-error="This email address is invalid" required>
+						<input type="email" class="form-control" placeholder="Email" id="emailCreate" data-error="This email address is invalid" required>
 						<span class="glyphicon glyphicon-envelope form-control-feedback"></span>
 						<div class="help-block with-errors"></div>
 					</div>
 					<div class="form-group has-feedback">
 						<label for="recipient-name" class="control-label">Role:</label>
-						<select name="colors" class="form-control" id="userisadmin">
+						<select name="colors" class="form-control" id="isadminCreate" required>
 							<option value="0">Student</option>
 							<option value="1">Admin</option>
 						</select>
-						<span class="glyphicon glyphicon-user form-control-feedback"></span>
 					</div>
-					<div class="form-group has-feedback">
-						<label for="recipient-name" class="control-label">Created at:</label>
-						<input type="date" class="form-control" id="createusercreatedad" required>
-						<span class="glyphicon glyphicon-user form-control-feedback"></span>
-					</div>
-					<div class="form-group has-feedback">
+					<div class="form-group has-feedback password">
 						<label for="recipient-name" class="control-label">Password:</label>
-						<input type="password" data-minlength="6" class="form-control" placeholder="Password" id="createuserpassword" required>
+						<input type="password" data-minlength="6" class="form-control" placeholder="Password" id="passwordCreate" required>
 						<span class="glyphicon glyphicon-lock form-control-feedback"></span>
 						<div class="help-block">Minimum of 6 characters</div>
 					</div>
-					<div class="form-group has-feedback">
-						<input type="password" class="form-control" placeholder="Retype password" id="createuserconfirmpassword" data-match="#createuserpassword" data-match-error="Password mismatch">
-						<span class="glyphicon glyphicon-log-in form-control-feedback"></span>
-						<div class="help-block with-errors"></div>
+					<div class="form-group">
+						<button type="submit" class="btn btn-outline pull-right" id="userbtnmodalcreate">Save</button>
 					</div>
-				</form> -->
+				</form><br><br>
 			</div>
-			<div class="modal-footer">
+			<!-- <div class="modal-footer">
 				<button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-outline" id="userbtnmodalcreate">Save changes</button>
-			</div>
+			</div> -->
 		</div>
 	</div>
 </div>
@@ -136,16 +127,41 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title" id="exampleModalLabel">New message</h4>
+				<h4 class="modal-title" id="exampleModalLabel">Edit User</h4>
 			</div>
 			<div class="modal-body">
-				
+				<form data-toggle="validator" role="form">
+					<div class="form-group has-feedback">
+						<label for="recipient-name" class="control-label">First Name:</label>
+						<input type="text" class="form-control" placeholder="first name" id="firstnameUpdate" data-error="Input cannot be empty" required>
+						<span class="glyphicon glyphicon-user form-control-feedback"></span>
+					</div>
+					<div class="form-group has-feedback">
+						<label for="recipient-name" class="control-label">Last Name:</label>
+						<input type="text" class="form-control" placeholder="Last name" id="lastnameUpdate" data-error="Input cannot be empty" required>
+						<span class="glyphicon glyphicon-user form-control-feedback"></span>
+					</div>
+					<div class="form-group has-feedback">
+						<label for="recipient-name" class="control-label">E-mail:</label>
+						<input type="email" class="form-control" placeholder="Email" id="emailUpdate" data-error="This email address is invalid" required>
+						<span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+						<div class="help-block with-errors"></div>
+					</div>
+					<div class="form-group has-feedback">
+						<label for="recipient-name" class="control-label">Role:</label>
+						<select name="colors" class="form-control" id="isadminUpdate" required>
+							<option value="0">Student</option>
+							<option value="1">Admin</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<button type="submit" class="btn btn-outline pull-right" id="userbtnmodalupdate">Save changes</button>
+					</div>
+				</form><br><br>
 			</div>
-			<div class="modal-footer">
+			<!-- <div class="modal-footer">
 				<button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-outline" id="userbtnmodalupdate">Save changes</button>
-				<!-- <button type="button" class="btn btn-outline" data-dismiss="modal">Close</button>  -->
-			</div>
+			</div> -->
 		</div>
 	</div>
 </div>
@@ -157,14 +173,14 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title" id="exampleModalLabel">New message</h4>
+				<h4 class="modal-title" id="exampleModalLabel">Delete User</h4>
 			</div>
 			<div class="modal-body">
 
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-outline" id="userbtnmodaldelete">Save changes</button>
+				<button type="button" class="btn btn-outline" id="userbtnmodaldelete">Delete</button>
 				<!-- <button type="button" class="btn btn-outline" data-dismiss="modal">Close</button>  -->
 			</div>
 		</div>

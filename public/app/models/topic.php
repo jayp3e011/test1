@@ -6,36 +6,36 @@
 		$table='topic';
 		if(isset($_POST['action'])){
 			if($_POST['action']=="createtopic"){
-				echo "create topic ok!";
+				// echo "create topic ok!";
 				// $user_id = $_POST['user_id'];
 				$subject_id = $_POST['subject_id'];
 				$name = $_POST['name'];
 				$date = date("Y-m-d H:i:s"); 
 				$sql = "insert into $table VALUES('', '$subject_id', '$name','$date')";//
-				$result = mysqli_query($link, $sql) or die("Invalid query" . mysqli_error($link));
-				echo "ok";
+				$result = mysqli_query($link, $sql) or die(json_encode(["result" => "not ok","message" => "Invalid query" . mysqli_error($link)]));				
+				echo json_encode(["result" => "ok"]);
 			}
 			if($_POST['action']=="updatetopic"){
-				echo "update topic ok!";
+				// echo "update topic ok!";
 				$id = $_POST['id'];
 				// $user_id = $_POST['user_id'];
 				$subject_id = $_POST['subject_id'];
 				$name = $_POST['name'];
 				// $date = $_POST['date'];
 				$sql = "update $table SET subject_id='$subject_id', name='$name' where id='$id'";//,date='$date'user_id='$user_id',
-				$result = mysqli_query($link, $sql) or die("Invalid query" . mysqli_error($link));
-				echo "ok";
+				$result = mysqli_query($link, $sql) or die(json_encode(["result" => "not ok","message" => "Invalid query" . mysqli_error($link)]));				
+				echo json_encode(["result" => "ok"]);
 			}
 			if($_POST['action']=="deletetopic"){
-				echo "delete topic ok!";
+				// echo "delete topic ok!";
 				$id = $_POST['id'];
 				// $user_id = $_POST['user_id'];
 				// $subject_id = $_POST['subject_id'];
 				// $name = $_POST['name'];
 				// $date = $_POST['date'];
 				$sql = "delete from $table  where id='$id'";
-				$result = mysqli_query($link, $sql) or die("Invalid query" . mysqli_error($link));
-				echo "ok";
+				$result = mysqli_query($link, $sql) or die(json_encode(["result" => "not ok","message" => "Invalid query" . mysqli_error($link)]));				
+				echo json_encode(["result" => "ok"]);
 			}
 		}
 		else{	

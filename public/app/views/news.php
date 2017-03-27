@@ -1,6 +1,6 @@
 <script src="app/controllers/news.js"></script>
 <div class="box box-success">
-	<div class="box-header with-border">
+	<div class="box-header with-border"> 
 		<h3 class="box-title">Manage News</h3>
 	</div>
 	<div class="box-body">
@@ -18,7 +18,7 @@
 		<div>&nbsp;</div>
 		<!-- datatable start-->
 		<table id="newstable" class="table table-bordered table-hover">
-			<div id="newstable-loading" style="text-align: center;">
+			<div id="newstable-loading" style="text-align: center;">Create
 				<img src="dist/img/loading1.gif">
 			</div>
 		</table>
@@ -69,35 +69,32 @@
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 				<h4 class="modal-title" id="exampleModalLabel">Create</h4>
 			</div>
-			<div class="modal-body">
-				<!-- <form data-toggle="validator" role="form" id="addNews-form">
-					<div class="form-group has-feedback">
-						<label for="recipient-name" class="control-label">User Name:</label>
-						<input type="text" class="form-control" placeholder="first name" id="createnewsuserid" required>
-						<span class="glyphicon glyphicon-news form-control-feedback"></span>
-					</div>
-					<div class="form-group has-feedback">
-						<label for="recipient-name" class="control-label">Title:</label>
-						<input type="text" class="form-control" placeholder="Enter title" id="createnewsname" required>
-						<span class="glyphicon glyphicon-news form-control-feedback"></span>
-					</div>
-					<div class="form-group has-feedback">
-						<label for="recipient-name" class="control-label">Content:</label>
-						<textarea class="form-control" placeholder="content" id="createnewscontent" data-maxlength="255" data-error="not less than 255 characters" required></textarea>
-						<span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-						<div class="help-block with-errors"></div>
-					</div>
-					<div class="form-group has-feedback">
-						<label for="recipient-name" class="control-label">Created at:</label>
-						<input type="datepicker" class="form-control" id="createnewscreatedad" required>
-						<span class="glyphicon glyphicon-news form-control-feedback"></span>
-					</div>
-				</form> -->
+				<div class="modal-body">
+					<form data-toggle="validator" role="form" id="addNews-form">
+						<div class="form-group has-feedback">
+							<label for="recipient-name" class="control-label">User:</label>
+							<input type="text" class="form-control" placeholder="first name" id="useridCreate" data-minlength="1" data-error="input cannot be empty" required>
+							<div class="help-block with-errors"></div>
+						</div>
+						<div class="form-group has-feedback">
+							<label for="recipient-name" class="control-label">Title:</label>
+							<input type="text" class="form-control" placeholder="Enter title" data-minlength="1"  id="nameCreate" data-error="input cannot be empty required" required>
+							<div class="help-block with-errors"></div>
+						</div>
+						<div class="form-group has-feedback">
+							<label for="recipient-name" class="control-label">Content:</label>
+							<textarea class="form-control" placeholder="content" id="contentCreate" data-maxlength="250" data-minlength="1" data-error="input cannot be empty or more than 250 characters" required></textarea>
+							<div class="help-block with-errors"></div>
+						</div>
+						<!-- <div class="form-group"> -->
+							<button type="submit" class="btn btn-outline pull-right" id="newsbtnmodalcreate">Save</button>
+						<!-- </div> -->
+					</form>
+					<br><br>
+				</div>
 			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-outline" id="newsbtnmodalcreate">Save changes</button>
-			</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
 		</div>
 	</div>
 </div>
@@ -111,13 +108,32 @@
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 				<h4 class="modal-title" id="exampleModalLabel">Update</h4>
 			</div>
-			<div class="modal-body">
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-outline" id="newsbtnmodalupdate">Save changes</button>
-				<!-- <button type="button" class="btn btn-outline" data-dismiss="modal">Close</button>  -->
-			</div>
+				<div class="modal-body">
+					<form data-toggle="validator" role="form" id="updateNews-form">
+						<div class="form-group has-feedback">
+							<label for="recipient-name" class="control-label">User:</label>
+							<input type="text" class="form-control" placeholder="first name" id="useridUpdate" data-minlength="1" data-error="input cannot be empty" required>
+							<div class="help-block with-errors"></div>
+						</div>
+						<div class="form-group has-feedback">
+							<label for="recipient-name" class="control-label">Title:</label>
+							<input type="text" class="form-control" placeholder="Enter title" data-minlength="1"  id="nameUpdate" data-error="input cannot be empty required" required>
+							<div class="help-block with-errors"></div>
+						</div>
+						<div class="form-group has-feedback">
+							<label for="recipient-name" class="control-label">Content:</label>
+							<textarea class="form-control" placeholder="content" id="contentUpdate" data-maxlength="250" data-minlength="1" data-error="input cannot be empty or more than 250 characters" required></textarea>
+							<div class="help-block with-errors"></div>
+						</div>
+						<!-- <div class="form-group"> -->
+						<button type="submit" class="btn btn-outline pull-right" id="newsbtnmodalupdate">Save changes</button>
+						<!-- </div> -->
+					</form>
+					<br><br>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
+					<!-- <button type="button" class="btn btn-outline" data-dismiss="modal">Close</button>  -->
+				</div>
 		</div>
 	</div>
 </div>

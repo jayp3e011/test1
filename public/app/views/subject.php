@@ -18,7 +18,7 @@
 		<!-- datatable start-->
 		<table id="subjecttable" class="table table-bordered table-hover">
 			<div id="subjecttable-loading" style="text-align: center;">
-				<img src="dist/img/loading1.gif">
+				<img src="dist/img/loading1.gif"> 
 			</div>
 		</table>
 		<!-- datatable end-->
@@ -91,45 +91,49 @@
 				<h4 class="modal-title" id="exampleModalLabel">Create</h4>
 			</div>
 			<div class="modal-body">
-				<!-- <form>
+				<form data-toggle="validator" role="form" id="add-subject" action="app/models/subject.php">
 					<div class="form-group">
 						<div class="row">
-							<div class="col-sm-4">
+							<input type="hidden" id="subjectid">
+							<div class="col-sm-4 has-feedback">
 								<label for="recipient-name" class="control-label">Name:</label>
-								<input type="text" class="form-control" id="subjectcreatename">
+								<input type="text" class="form-control" id="nameCreate" data-error="input cannot be empty" required>
 							</div>
-							<div class="col-sm-4">
+							<div class="col-sm-4 has-feedback">
 								<label for="recipient-name" class="control-label">Time Duration:</label>
-								<input type="text" class="form-control" id="subjectcreatetimeduration">
+								<input type="number" class="form-control" id="timedurationCreate" data-error="input cannot be empty" required>
 							</div>
-							<div class="col-sm-4">
+							<div class="col-sm-4 has-feedback">
 								<label for="recipient-name" class="control-label">Passing Rate:</label>
-								<input type="text" class="form-control" id="subjectcreatepassingrate">
+								<input type="number" class="form-control" id="passingrateCreate" data-error="input cannot be empty" required>
 							</div>
 						</div>
 					</div>
-					<div class="form-group">
+					<div class="form-group has-feedback">
 						<label for="message-text" class="control-label">Description:</label>
-						<textarea class="form-control" id="subjectcreatedescription"></textarea>
+						<textarea class="form-control" id="descriptionCreate" data-maxlength="250" data-error="input connot be empty" required></textarea>
 					</div>
 					<div class="form-group">
 						<div class="row">
-							<div class="col-sm-6">
+							<div class="col-sm-6 has-feedback">
 								<label for="recipient-name" class="control-label">No. of attempts:</label>
-								<input type="text" class="form-control" id="subjectcreateattempt">
+								<input type="number" class="form-control" id="attemptCreate" data-error="input cannot be empty" required>
 							</div>
-							<div class="col-sm-6">
+							<div class="col-sm-6 has-feedback">
 								<label for="recipient-name" class="control-label">No. of items:</label>
-								<input type="text" class="form-control" id="subjectcreateitems">
+								<input type="number" class="form-control" id="itemsCreate" data-error="input cannot be empty" required>
 							</div>
 						</div>
 					</div>
-				</form> -->
+					<div class="form-group">
+						<button type="submit" class="btn btn-outline pull-right" id="subjectbtnmodalcreate">Save</button>
+					</div>
+				</form><br><br>
 			</div>
-			<div class="modal-footer">
+			<!-- <div class="modal-footer">
+				<button type="button" class="btn btn-outline pull-right" id="subjectbtnmodalcreate">Save</button>
 				<button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-outline" id="subjectbtnmodalcreate">Save changes</button>
-			</div>
+			</div> -->
 		</div>
 	</div>
 </div>
@@ -144,12 +148,48 @@
 				<h4 class="modal-title" id="exampleModalLabel">Update</h4>
 			</div>
 			<div class="modal-body">
+				<form data-toggle="validator" role="form" id="update-subject">
+					<div class="form-group">
+						<div class="row">
+							<input type="hidden" id="subjectid">
+							<div class="col-sm-4 has-feedback">
+								<label for="recipient-name" class="control-label">Name:</label>
+								<input type="text" class="form-control" id="nameUpdate" data-error="input cannot be empty" required>
+							</div>
+							<div class="col-sm-4 has-feedback">
+								<label for="recipient-name" class="control-label">Time Duration:</label>
+								<input type="number" class="form-control" id="timedurationUpdate" data-error="input cannot be empty" required>
+							</div>
+							<div class="col-sm-4 has-feedback">
+								<label for="recipient-name" class="control-label">Passing Rate:</label>
+								<input type="number" class="form-control" id="passingrateUpdate" data-error="input cannot be empty" required>
+							</div>
+						</div>
+					</div>
+					<div class="form-group has-feedback">
+						<label for="message-text" class="control-label">Description:</label>
+						<textarea class="form-control" id="descriptionUpdate" data-maxlength="250" data-error="input connot be empty" required></textarea>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<div class="col-sm-6 has-feedback">
+								<label for="recipient-name" class="control-label">No. of attempts:</label>
+								<input type="number" class="form-control" id="attemptUpdate" data-error="input cannot be empty" required>
+							</div>
+							<div class="col-sm-6 has-feedback">
+								<label for="recipient-name" class="control-label">No. of items:</label>
+								<input type="number" class="form-control" id="itemsUpdate" data-error="input cannot be empty" required>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<button type="submit" class="btn btn-outline pull-right" id="subjectbtnmodalupdate">Save changes</button>
+					</div>
+				</form><br><br>
 			</div>
-			<div class="modal-footer">
+			<!-- <div class="modal-footer">
 				<button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-outline" id="subjectbtnmodalupdate">Save changes</button>
-				<!-- <button type="button" class="btn btn-outline" data-dismiss="modal">Close</button>  -->
-			</div>
+			</div> -->
 		</div>
 	</div>
 </div>

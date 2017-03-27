@@ -220,27 +220,24 @@ let subjectForm = `
 	</form>
 `;
 let newsForm = `
-	<form data-toggle="validator" role="form" id="addNews-form">
+	<form data-toggle="validator" role="form">
 		<div class="form-group has-feedback">
 			<label for="recipient-name" class="control-label">User:</label>
-			<input type="text" class="form-control" placeholder="first name" id="userid" required>
+			<input type="text" class="form-control" placeholder="first name" id="userid" data-minlength="1" data-error="input cannot be empty" required>
 			<span class="glyphicon glyphicon-news form-control-feedback"></span>
 		</div>
 		<div class="form-group has-feedback">
 			<label for="recipient-name" class="control-label">Title:</label>
-			<input type="text" class="form-control" placeholder="Enter title" id="name" required>
-			<span class="glyphicon glyphicon-news form-control-feedback"></span>
+			<input type="text" class="form-control" placeholder="Enter title" data-minlength="1"  id="name" data-error="input cannot be empty required>
 		</div>
 		<div class="form-group has-feedback">
 			<label for="recipient-name" class="control-label">Content:</label>
-			<textarea class="form-control" placeholder="content" id="content" data-maxlength="255" data-error="not less than 255 characters" required></textarea>
-			<span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+			<textarea class="form-control" placeholder="content" id="content" data-maxlength="250" data-minlength="1" data-error="input cannot be empty or more than 250 characters" required></textarea>
 			<div class="help-block with-errors"></div>
 		</div>
 	</form>
 `;
 let guidelinesForm = `
-	<form data-toggle="validator" role="form" id="addGuidelines-form">
 		<div class="form-group has-feedback">
 			<label for="recipient-name" class="control-label">User:</label>
 			<input type="text" class="form-control" placeholder="first name" id="userid" required>
@@ -252,7 +249,6 @@ let guidelinesForm = `
 			<input type="number" class="form-control" placeholder="Subjects to Pass" id="subjectstopass" required>
 			<span class="glyphicon glyphicon-guidelines form-control-feedback"></span>
 		</div>
-	</form>
 `;
 /* 
 <div class="form-group has-feedback">
@@ -267,7 +263,6 @@ let guidelinesForm = `
 
 
 let feedBackForms = `
-	<form data-toggle="validator" role="form" id="addFeddback-form">
 		<div class="form-group has-feedback">
 			<label for="recipient-name" class="control-label">User:</label>
 			<input type="text" class="form-control" placeholder="first name" id="userid" required>
@@ -275,11 +270,10 @@ let feedBackForms = `
 		</div>
 		<div class="form-group has-feedback">
 			<label for="recipient-name" class="control-label">Content:</label>
-			<textarea class="form-control" placeholder="content" id="content" data-maxlength="255" data-error="not less than 255 characters" required></textarea>
+			<textarea class="form-control" data-minlength="1" placeholder="content" id="content" data-maxlength="250" data-error="input cannot be empty or more than 250 characters" required></textarea>
 			<span class="glyphicon glyphicon-envelope form-control-feedback"></span>
 			<div class="help-block with-errors"></div>
 		</div>
-	</form>
 `;
 function renderExamModals(){
 	/*
@@ -360,25 +354,24 @@ function renderSubjectModals(){
 
 	$(_SUBJECTTABLE_SELECTED_ID + 'modal-create').on('show.bs.modal', function (event) {
 		var modal =$(this);
-		modal.find('.modal-body').html(subjectForm);
+
 	});
 
 	$(_SUBJECTTABLE_SELECTED_ID + 'modal-update').on('show.bs.modal', function (event) {
 		var modal =$(this);
-		modal.find('.modal-body').html(subjectForm);
 		modal.find('.modal-title').text('Edit Entry ID: ' + _SUBJECTTABLE_SELECTED_ID);	  
-		modal.find('.modal-body').html(subjectForm);
+		// modal.find('.modal-body').html(subjectForm);
 
 		_EXAMTABLE_DATA.map(function(examobj){
 	  		_SUBJECTTABLE_DATA.map(function(subjectobj){
 	  			if(subjectobj.id===_EXAMTABLE_SELECTED_ID){
-					modal.find('#subjectid').val(subjectobj.id);
-					modal.find('#name').val(subjectobj.name);
-					modal.find('#timeduration').attr('value',subjectobj.timeduration);
-					modal.find('#passingrate').attr('value',subjectobj.passingrate);
-					modal.find('#description').val(subjectobj.description);
-					modal.find('#attempt').attr('value',subjectobj.attempt);		  									  				
-					modal.find('#items').attr('value',subjectobj.items);		  									  				
+					modal.find('#subjectidUpdate').val(subjectobj.id);
+					modal.find('#nameUpdate').val(subjectobj.name);
+					modal.find('#timedurationUpdate').attr('value',subjectobj.timeduration);
+					modal.find('#passingrateUpdate').attr('value',subjectobj.passingrate);
+					modal.find('#descriptionUpdate').val(subjectobj.description);
+					modal.find('#attemptUpdate').attr('value',subjectobj.attempt);		  									  				
+					modal.find('#itemsUpdate').attr('value',subjectobj.items);		  									  				
 					return;
 				}
 			});
@@ -411,51 +404,70 @@ function renderSubjectModals(){
 		});
 	});
 
-	$('#subjectbtnmodalcreate').on('click',function(){				
+	// modal.find('.modal-body').html(subjectForm);
+	$('#subjectbtnmodalcreate').on('click',function(e){	
+		e.preventDefault();
+		var modal =$('#subjectmodal-create');			
 		// console.log("clicked");
-		var newSubject = {
-			name:$('#name').val(),
-			timeduration:$('#timeduration').val(),
-			passingrate:$('#passingrate').val(),
-			description:$('#description').val(),
-			attempt:$('#attempt').val(),
-			items:$('#items').val()
-		};
+		// var newSubject = {
+			var name=modal.find('#nameCreate').val();
+			var timeduration=modal.find('#timedurationCreate').val();
+			var passingrate=modal.find('#passingrateCreate').val();
+			var description=modal.find('#descriptionCreate').val();
+			var attempt=modal.find('#attemptCreate').val();
+			var items=modal.find('#itemsCreate').val();
+			var action = modal.find("form").attr("action");
+		// };
 		// console.log(newSubject);
-		$.ajax({
-	        method: "POST",
-	        url: "app/models/subject.php",
-	        data: {
-	        	action:'createsubject',
-	        	name:newSubject.name,	        	
-	        	timeduration:newSubject.timeduration,	        	
-	        	passingrate:newSubject.passingrate,	        	
-	        	description:newSubject.description,	        	
-	        	attempt:newSubject.attempt,	        	
-	        	items:newSubject.items     	
-	        }
-	    }).done(function(res){
-	    	// console.log(res);
-	    	$('#subjectmodal-create').modal('hide');
-	    	$('#name').val("");$('#timeduration').val("");
-	    	$('#passingrate').val("");$('#description').val("");
-	    	$('#attempt').val("");$('#items').val("");
-	    	setTimeout(function(){
-	    		$('#subjecttable-loading').html('<img src="dist/img/loading1.gif">');
-	    		doRenderTable('#subject');
-	    		swal("Success!", "New subject has been created!", "success");
-	    	},1000);	    	
-	    });
+		if(name != '' && timeduration != '' && passingrate != '' && description != '' && attempt != '' && items != '' ) {
+			$.ajax({
+		        method: "POST",
+		        url: action,
+		        data: {
+		        	action:'createsubject',
+		        	name:name,	        	
+		        	timeduration:timeduration,	        	
+		        	passingrate:passingrate,	        	
+		        	description:description,	        	
+		        	attempt:attempt,	        	
+		        	items:items     	
+		        }
+		    }).done(function(res){
+		    	// console.log(res);
+		    	modal.modal('hide');
+		    	modal.find('#nameCreate').val('');modal.find('#timedurationCreate').val('');
+		    	modal.find('#passingrateCreate').val('');modal.find('#descriptionCreate').val('');
+		    	modal.find('#attemptCreate').val('');modal.find('#itemsCreate').val('');
+		    	let data = JSON.parse(res);
+		    	if (data.result=="ok") {
+		    		$('#subjectbtnmodalcreate').unbind();
+		    		$('#subjectbtnmodalcreate').bind('click');
+		    		setTimeout(function(){
+			    		$('#subjecttable-loading').html('<img src="dist/img/loading1.gif">');
+			    		doRenderTable('#subject');
+			    		swal("Success!", "New subject has been created!", "success");
+			    	},1000);	
+		    	}
+		    	else{
+		    		swal("Failed!", "Subject not Saved!", "error");
+		    	}		    	
+		    });
+		}
+		else{
+			swal("Error","Please fill all the boxes","error");
+		}
+		
 	});
 
-	$('#subjectbtnmodalupdate').on('click',function(){				
+	$('#subjectbtnmodalupdate').on('click',function(e){		
+		e.preventDefault();		
 		// console.log("updateclicked");
 		swal({
 		  title: "Are you sure?",
 		  text: "You wanna edit this data?",
 		  type: "info",
 		  showCancelButton: true,
-		  confirmButtonColor: "#DD6B55",
+		  confirmButtonColor: "#00c0ef",
 		  confirmButtonText: "Yes",
 		  cancelButtonText: "No",
 		  closeOnConfirm: false,
@@ -463,14 +475,17 @@ function renderSubjectModals(){
 		},
 		function(isConfirm){
 		  if (isConfirm) {
-			var newSubject = {
-				name:$('#name').val(),
-				timeduration:$('#timeduration').val(),
-				passingrate:$('#passingrate').val(),
-				description:$('#description').val(),
-				attempt:$('#attempt').val(),
-				items:$('#items').val()
-			};
+			var modal =$('#subjectmodal-update');			
+			// console.log("clicked");
+			// var newSubject = {
+			var name=modal.find('#nameUpdate').val();
+			var timeduration=modal.find('#timedurationUpdate').val();
+			var passingrate=modal.find('#passingrateUpdate').val();
+			var description=modal.find('#descriptionUpdate').val();
+			var attempt=modal.find('#attemptUpdate').val();
+			var items=modal.find('#itemsUpdate').val();
+			// var action = modal.find("form").attr("action");
+			// };
 			// console.log(newSubject);
 			$.ajax({
 		        method: "POST",
@@ -478,24 +493,31 @@ function renderSubjectModals(){
 		        data: {
 		        	action:'updatesubject',
 		        	id:_EXAMTABLE_SELECTED_ID,
-		        	name:newSubject.name,	        	
-		        	timeduration:newSubject.timeduration,	        	
-		        	passingrate:newSubject.passingrate,	        	
-		        	description:newSubject.description,	        	
-		        	attempt:newSubject.attempt,	        	
-		        	items:newSubject.items     	
+		        	name:name,	        	
+		        	timeduration:timeduration,	        	
+		        	passingrate:passingrate,	        	
+		        	description:description,	        	
+		        	attempt:attempt,	        	
+		        	items:items  	
 		        }
 		    }).done(function(res){
-		    	// console.log(res);
-		    	$('#subjectmodal-update').modal('hide');
-		    	$('#name').val("");$('#timeduration').val("");
-		    	$('#passingrate').val("");$('#description').val("");
-		    	$('#attempt').val("");$('#items').val("");
-		    	setTimeout(function(){
-		    		$('#subjecttable-loading').html('<img src="dist/img/loading1.gif">');
-		    		doRenderTable('#subject');
-		    		swal("Success!", "Subject has been updated!", "success");
-		    	},1000);	    	
+		    	modal.modal('hide');
+		    	modal.find('#nameUpdate').val('');modal.find('#timedurationUpdate').val('');
+		    	modal.find('#passingrateUpdate').val('');modal.find('#descriptionUpdate').val('');
+		    	modal.find('#attemptUpdate').val('');modal.find('#itemsUpdate').val('');
+		    	let data = JSON.parse(res);
+		    	if (data.result=="ok") {
+		    		$('#subjectbtnmodalupdate').unbind();
+		    		$('#subjectbtnmodalupdate').bind('click');
+		    		setTimeout(function(){
+			    		$('#subjecttable-loading').html('<img src="dist/img/loading1.gif">');
+			    		doRenderTable('#subject');
+			    		swal("Success!", "New subject has been updated!", "success");
+			    	},1000);	
+		    	}
+		    	else{
+		    		swal("Failed!", "Subject not Saved!", "error");
+		    	}	    	
 	    	});
 		  } else {
 			    swal("Cancelled", "Subject data is safe :)", "error");
@@ -587,27 +609,23 @@ function renderUserModals(){
 	});
 	$(_USERTABLE_SELECTED_ID + 'modal-create').on('show.bs.modal', function (event) {
 		var modal =$(this);
-		modal.find('.modal-body').html(userForm);
-		modal.find('.modal-body form').append(inPass);
 	});
 
 	$(_USERTABLE_SELECTED_ID + 'modal-update').on('show.bs.modal', function (event) {
 		var modal =$(this);
-		modal.find('.modal-body').html(userForm);
-		modal.find('#password').hide();
 		_USERTABLE_DATA.map(function(userobj){
   			if(userobj.id===_EXAMTABLE_SELECTED_ID){
-  				$("#isadmin option").each(function(i){
+  				$("#isadminUpdate option").each(function(i){
 			        if (userobj.isadmin==this.value) {
   						$(this).attr("selected","selected");
   					}
 			    });
-				modal.find('#firstname').val(userobj.firstname);
-				modal.find('#lastname').val(userobj.lastname);
-				modal.find('#email').val(userobj.email);
+				modal.find('#firstnameUpdate').val(userobj.firstname);
+				modal.find('#lastnameUpdate').val(userobj.lastname);
+				modal.find('#emailUpdate').val(userobj.email);
 				// modal.find('#password').val(userobj.password);
 						  									  				
-				modal.find('#createdat').val(userobj.createdat);
+				modal.find('#createdatUpdate').val(userobj.createdat);
 				// console.log(userobj);
 				return;
   			}
@@ -638,50 +656,66 @@ function renderUserModals(){
   		});
 	});
 
-	$('#userbtnmodalcreate').on('click',function(){				
+	$('#userbtnmodalcreate').on('click',function(e){
+		e.preventDefault();				
 		// console.log("clicked");
-		var newUser = {
-			firsname:$('#firstname').val(),
-			lastname:$('#lastname').val(),
-			email:$('#email').val(),
-			password:$('#password').val(),
-			isadmin:$('#isadmin').val()
-		};
+		// var newUser = {
+			var firstname = $('#firstnameCreate').val();
+			var lastname = $('#lastnameCreate').val();
+			var email = $('#emailCreate').val();
+			var password = $('#passwordCreate').val();
+			var isadmin = $('#isadminCreate').val();
+		// };
 		// console.log(newUser);
-		$.ajax({
-	        method: "POST",
-	        url: "app/models/user.php",
-	        data: {
-	        	action:'createuser',
-	        	firstname:newUser.firstname,
-	        	lastname:newUser.lastname,	        	
-	        	email:newUser.email,	        	
-	        	password:newUser.password,	             	
-	        	isadmin:newUser.isadmin     	
-	        }
-	    }).done(function(res){
-	    	// console.log(res);
-	    	$('#usermodal-create').modal('hide');
-	    	$('#firstname').val("");$('#lastname').val("");
-	    	$('#email').val("");$('#password').val("");
-	    	$('#createdat').val("");$('#isadmin').val("");
-	    	$('#confirmpassword').val("");
-	    	setTimeout(function(){
-	    		$('#usertable-loading').html('<img src="dist/img/loading1.gif">');
-	    		doRenderTable('#user');
-	    		swal("Success!", "New user has been created!", "success");
-	    	},1000);	    	
-	    });
+		if (firstname!='' && lastname!='' && email!='' && password!='' && isadmin!='') {
+			$.ajax({
+		        method: "POST",
+		        url: "app/models/user.php",
+		        data: {
+		        	action:'createuser',
+		        	firstname:firstname,
+		        	lastname:lastname,	        	
+		        	email:email,	        	
+		        	password:password,	             	
+		        	isadmin:isadmin     	
+		        }
+		    }).done(function(res){
+		    	let data =JSON.parse(res);
+		    	// console.log(res);
+	    		$('#userbtnmodalcreate').unbind();
+		    	$('#usermodal-create').modal('hide');
+		    	$('#firstnameCreate').val("");$('#lastnameCreate').val("");
+		    	$('#emailCreate').val("");$('#passwordCreate').val("");
+		    	$('#createdatCreate').val("");$('#isadminCreate').val("");
+		    	$('#confirmpasswordCreate').val("");
+		    	if (data.result=="ok") {
+		    		setTimeout(function(){
+			    		$('#usertable-loading').html('<img src="dist/img/loading1.gif">');
+			    		doRenderTable('#user');
+			    		swal("Success!", "New user has been created!", "success");
+			    		$('#userbtnmodalcreate').bind('click');
+			    	},1000);
+		    	}
+		    	else{
+		    		console.log(data.message);
+		    		swal("Error!","Create New User Failed","error");
+		    	}	    	
+		    });
+		}
+		else{
+			swal("Error","Please fill up the form","error")
+		}
 	});
 
-	$('#userbtnmodalupdate').on('click',function(){				
+	$('#userbtnmodalupdate').on('click',function(e){				
+		e.preventDefault();
 		// console.log("updateclicked");
 		swal({
 		  title: "Are you sure?",
 		  text: "You wanna edit this data?",
 		  type: "info",
 		  showCancelButton: true,
-		  confirmButtonColor: "#DD6B55",
+		  confirmButtonColor: "#00c0ef",
 		  confirmButtonText: "Yes",
 		  cancelButtonText: "No",
 		  closeOnConfirm: false,
@@ -689,13 +723,13 @@ function renderUserModals(){
 		},
 		function(isConfirm){
 		  if (isConfirm) {
-			var newUser = {
-				firstname:$('#firstname').val(),
-				lastname:$('#lastname').val(),
-				email:$('#email').val(),
-				// password:$('#password').val(),
-				isadmin:$('#isadmin').val()
-			};
+			// var newUser = {
+			var firstname = $('#firstnameUpdate').val();
+			var lastname = $('#lastnameUpdate').val();
+			var email = $('#emailUpdate').val();
+			var password = $('#passwordUpdate').val();
+			var isadmin = $('#isadminUpdate').val();
+		// };
 			// console.log(newUser);
 			$.ajax({
 		        method: "POST",
@@ -703,24 +737,30 @@ function renderUserModals(){
 		        data: {
 		        	action:'updateuser',
 		        	id:_EXAMTABLE_SELECTED_ID,
-		        	firstname:newUser.firstname,
-		        	lastname:newUser.lastname,	        	
-		        	email:newUser.email,	        	
-		        	// password:newUser.password,	        	
-		        	isadmin:newUser.isadmin     	
+		        	firstname:firstname,
+		        	lastname:lastname,	        	
+		        	email:email,	        	
+		        	password:password,	             	
+		        	isadmin:isadmin     	
 		        }
 		    }).done(function(res){
 		    	// console.log(res);
+		    	let data = JSON.parse(res);
 		    	$('#usermodal-update').modal('hide');
-		    	$('#firstname').val("");$('#lastname').val("");
+		    	$('#firstnameUpdate').val('');$('#lastnameUpdate').val('');
 		    	// $('#email').val("");$('#password').val("");
-		    	$('#createdat').val("");$('#isadmin').val("");
-		    	$('#confirmpassword').val("");
-		    	setTimeout(function(){
-		    		$('#usertable-loading').html('<img src="dist/img/loading1.gif">');
-		    		doRenderTable('#user');
-		    		swal("Success!", "New user has been updated!", "success");
-		    	},1000);	    	
+		    	$('#createdatUpdate').val('');$('#isadminUpdate').val('');
+		    	$('#confirmpasswordUpdate').val('');
+		    	if (data.result=="ok") {
+		    		setTimeout(function(){
+			    		$('#usertable-loading').html('<img src="dist/img/loading1.gif">');
+			    		doRenderTable('#user');
+			    		swal("Success!", "New user has been updated!", "success");
+			    	},1000);
+		    	}
+		    	else{
+		    		swal("Error!","User update failed.","error")
+		    	}
 	    });
 		  } else {
 			    swal("Cancelled", "User data is safe :)", "error");
@@ -792,21 +832,22 @@ function renderNewsModals(){
 	});
 	$(_NEWSTABLE_SELECTED_ID + 'modal-create').on('show.bs.modal', function (event) {
 		var modal = $(this);
-		modal.find('.modal-body').html(newsForm);
+		modal.find('#userid').attr('readonly','readonly');
+		// modal.find('.modal-body').html(newsForm);
 		modal.find('#userid').val(getUID());
 	});
 
 	$(_NEWSTABLE_SELECTED_ID + 'modal-update').on('show.bs.modal', function (event) {
 		var modal = $(this);
-		modal.find('.modal-body').html(newsForm);
+		// modal.find('.modal-body').html(newsForm);
 		modal.find('#userid').attr('readonly','readonly');
 		modal.find('.modal-title').text('Edit Entry ID: ' + _USERTABLE_SELECTED_ID);
   		_NEWSTABLE_DATA.map(function(newsobj){
   			if(newsobj.id===_EXAMTABLE_SELECTED_ID){
-				modal.find('#userid').val(newsobj.user_id);
-				modal.find('#name').val(newsobj.name);
-				modal.find('#content').val(newsobj.content);	  									  				
-				modal.find('#createdat').val(newsobj.date);
+				modal.find('#useridUpdate').val(newsobj.user_id);
+				modal.find('#nameUpdate').val(newsobj.name);
+				modal.find('#contentUpdate').val(newsobj.content);	  									  				
+				modal.find('#createdatUpdate').val(newsobj.date);
 				// console.log(newsobj);
 				return;
   			}
@@ -831,35 +872,46 @@ function renderNewsModals(){
   		});
 	});
 
-	$('#newsbtnmodalcreate').on('click',function(){				
+	$('#newsbtnmodalcreate').on('click',function(e){	
+		e.preventDefault();			
 		// console.log("clicked");
-		var newNews = {
-			userid:$('#userid').val(),
-			name:$('#name').val(),
-			content:$('#content').val()
-		};
+		// var newNews = {
+			var userid = $('#useridCreate').val();
+			var name = $('#nameCreate').val();
+			var content = $('#contentCreate').val();
+		// };
 		// console.log(newNews);
-		$.ajax({
-	        method: "POST",
-	        url: "app/models/news.php",
-	        data: {
-	        	action:'createnews',
-	        	userid:newNews.userid,	        	
-	        	name:newNews.name,	        	
-	        	content:newNews.content	   
-	        }
-	    }).done(function(res){
-	    	// console.log(res);
-	    	$('#newsmodal-create').modal('hide');
-	    	$('#userid').val("");$('#name').val("");
-	    	$('#content').val("");$('#createdat').val("");
-	    	$('#createdat').val("");
-	    	setTimeout(function(){
-	    		$('#newstable-loading').html('<img src="dist/img/loading1.gif">');
-	    		doRenderTable('#news');
-	    		swal("Success!", "New news has been created!", "success");
-	    	},1000);	    	
-	    });
+		if (name!='' && content!='') {
+			$.ajax({
+		        method: "POST",
+		        url: "app/models/news.php",
+		        data: {
+		        	action:'createnews',
+		        	userid:userid,	        	
+		        	name:name,	        	
+		        	content:content	   
+		        }
+		    }).done(function(res){
+		    	// console.log(res);
+		    	$('#newsmodal-create').modal('hide');
+		    	$('#useridCreate').val("");$('#nameCreate').val("");
+		    	$('#contentCreate').val("");$('#createdatCreate').val("");
+		    	$('#createdatCreate').val("");
+		    	if (data.result=="ok") {
+		    		setTimeout(function(){
+			    		$('#newstable-loading').html('<img src="dist/img/loading1.gif">');
+			    		doRenderTable('#news');
+			    		swal("Success!", "News has been created!", "success");
+			    	},1000);
+		    	}
+		    	else{
+		    		swal("Error!","Create News Failed","error");
+		    	}    	
+		    });
+		}
+		else{
+			swal("Error","Please Fill up the form","error");
+		}
 	});
 
 	$('#newsbtnmodalupdate').on('click',function(){				
@@ -869,7 +921,7 @@ function renderNewsModals(){
 		  text: "You wanna edit this data?",
 		  type: "info",
 		  showCancelButton: true,
-		  confirmButtonColor: "#DD6B55",
+		  confirmButtonColor: "#00c0ef",
 		  confirmButtonText: "Yes",
 		  cancelButtonText: "No",
 		  closeOnConfirm: false,
@@ -877,10 +929,8 @@ function renderNewsModals(){
 		},
 		function(isConfirm){
 		  if (isConfirm) {
-			var newNews = {
-				name:$('#name').val(),
-				content:$('#content').val()
-			};
+			var name = $('#nameUpdate').val();
+			var content = $('#contentUpdate').val();
 			// console.log(newNews);
 			$.ajax({
 		        method: "POST",
@@ -888,20 +938,23 @@ function renderNewsModals(){
 		        data: {
 		        	action:'updatenews',
 		        	id:_EXAMTABLE_SELECTED_ID,     	
-		        	name:newNews.name,	        	
-		        	content:newNews.content	    
+		        	name:name,	        	
+		        	content:content	    
 		        }
 		    }).done(function(res){
 		    	// console.log(res);
-		    	$('#newsmodal-update').modal('hide');
-		    	$('#userid').val("");$('#name').val("");
-		    	$('#content').val("");$('#createdat').val("");
-		    	$('#createdat').val("");
-		    	setTimeout(function(){
-		    		$('#newstable-loading').html('<img src="dist/img/loading1.gif">');
-		    		doRenderTable('#news');
-		    		swal("Success!", "News has been updated!", "success");
-		    	},1000);	    	
+		    	$('#newsmodal-update').modal('hide');$('#nameUpdate').val("");
+		    	$('#contentUpdate').val("");
+		    	if (data.result=="ok") {
+		    		setTimeout(function(){
+			    		$('#newstable-loading').html('<img src="dist/img/loading1.gif">');
+			    		doRenderTable('#news');
+			    		swal("Success!", "News has been updated!", "success");
+			    	},1000);	
+		    	}
+		    	else{
+		    		swal("Error!","Update News Failed","error");
+		    	}  	
 		    });
 		  } else {
 			    swal("Cancelled", "News data is safe :)", "error");
@@ -970,13 +1023,13 @@ function renderFeedbackModals(){
 
 	$(_FEEDBACKTABLE_SELECTED_ID + 'modal-create').on('show.bs.modal', function (event) {
 		var modal = $(this);
-		modal.find('.modal-body').html(feedBackForms);
+		// modal.find('.modal-body').html(feedBackForms);
 		modal.find('#userid').val(getUID());
 	});
 
 	$(_FEEDBACKTABLE_SELECTED_ID + 'modal-update').on('show.bs.modal', function (event) {
 		var modal = $(this);
-		modal.find('.modal-body').html(feedBackForms);
+		// modal.find('.modal-body').html(feedBackForms);
 		modal.find('.modal-title').text('Read Entry ID: ' + _USERTABLE_SELECTED_ID);
 		modal.find('.modal-body').html(feedBackForms);	  
   		_FEEDBACKTABLE_DATA.map(function(feedbackobj){
@@ -1148,8 +1201,9 @@ function renderGuidelinesModals(){
 
 	$(_GUIDELINESTABLE_SELECTED_ID + 'modal-create').on('show.bs.modal', function (event) {
 		var modal = $(this);
-		modal.find('.modal-body').html(guidelinesForm);
-		modal.find('#userid').val(getUID());
+		// modal.find('.modal-body').html(guidelinesForm);
+		modal.find('#useridCreate').val(getUID());
+		modal.find('#useridCreate').attr('readonly','readonly');
 		// _SUBJECTTABLE_DATA.map(function(subjectobj){
 		// 	// modal.find('.modal-body #createdat').val(Date.now());
 		// 	modal.find('#createdat').val(new Date().getTime("Y-m-d H:i:s")).attr('readonly','readonly');
@@ -1159,16 +1213,16 @@ function renderGuidelinesModals(){
 
 	$(_GUIDELINESTABLE_SELECTED_ID + 'modal-update').on('show.bs.modal', function (event) {
 		var modal = $(this);
-		modal.find('.modal-body').html(guidelinesForm);
+		// modal.find('.modal-body').html(guidelinesForm);
 		modal.find('.modal-title').text('Edit Entry ID: ' + _USERTABLE_SELECTED_ID);	  
-		modal.find('.modal-body').html(guidelinesForm);
+		// modal.find('.modal-body').html(guidelinesForm);
 		modal.find('#userid').attr('readonly','readonly');
   		_GUIDELINESTABLE_DATA.map(function(guidelinesobj){
   			if(guidelinesobj.id===_EXAMTABLE_SELECTED_ID){
 				// guidelinesobj.subjects_toPass=parseInt(guidelinesobj.subjects_toPass);	
-				modal.find('#userid').val(guidelinesobj.user_id.toUpperCase());	  									  				
-				modal.find('#subjectstopass').attr('value',guidelinesobj.subject_toPass);	  									  				
-				modal.find('#createdat').val(guidelinesobj.date);
+				modal.find('#useridUpdate').val(guidelinesobj.user_id.toUpperCase());	  									  				
+				modal.find('#subjectstopassUpdate').attr('value',guidelinesobj.subject_toPass);	  									  				
+				modal.find('#createdatUpdate').val(guidelinesobj.date);
 				// console.log(guidelinesobj);
 				return;
   			}
@@ -1177,7 +1231,7 @@ function renderGuidelinesModals(){
 
 	$(_GUIDELINESTABLE_SELECTED_ID + 'modal-delete').on('show.bs.modal', function (event) {
 		var modal = $(this);
-		modal.find('.modal-body').html(guidelinesForm);
+		// modal.find('.modal-body').html(guidelinesForm);
 		modal.find('.modal-title').text('Delete Entry ID: ' + _USERTABLE_SELECTED_ID);	  
 		modal.find('.modal-body').html(guidelinesForm);
 		modal.find('.modal-body input').attr('readonly','readonly');
@@ -1193,42 +1247,54 @@ function renderGuidelinesModals(){
 	});
 
 
-	$('#guidelinesbtnmodalcreate').on('click',function(){				
+	$('#guidelinesbtnmodalcreate').on('click',function(e){	
+		e.preventDefault();			
 		// console.log("clicked");
-		var newGuidelines = {
-			user_id:$('#userid').val(),
-			subjects_toPass:$('#subjectstopass').val()
-		};
+		// var newGuidelines = {
+			var user_id = $('#useridCreate').val();
+			var subjects_toPass = $('#subjectstopassCreate').val();
+		// };
 		// console.log(newGuidelines);
-		$.ajax({
-	        method: "POST",
-	        url: "app/models/guidelines.php",
-	        data: {
-	        	action:'createguidelines',
-	        	user_id:newGuidelines.user_id,	            	
-	        	subjects_toPass:newGuidelines.subjects_toPass	   
-	        }
-	    }).done(function(res){
-	    	// console.log(res);
-	    	$('#guidelinesmodal-create').modal('hide');
-	    	$('#userid').val("");$('#subjectstopass').val("");
-	    	$('#createdat').val("");
-	    	setTimeout(function(){
-	    		$('#guidelinestable-loading').html('<img src="dist/img/loading1.gif">');
-	    		doRenderTable('#guidelines');
-	    		swal("Success!", "New guidelines has been created!", "success");
-	    	},1000);	    	
-	    });
+		if (subjects_toPass!='') {
+			$.ajax({
+		        method: "POST",
+		        url: "app/models/guidelines.php",
+		        data: {
+		        	action:'createguidelines',
+		        	user_id:user_id,	            	
+		        	subjects_toPass:subjects_toPass	   
+		        }
+		    }).done(function(res){
+		    	// console.log(res);
+		    	let data = JSON.parse(res);
+		    	$('#guidelinesmodal-create').modal('hide');
+		    	$('#useridCreate').val("");$('#subjectstopassCreate').val("");
+		    	if (data.result=="ok") {
+		    		setTimeout(function(){
+			    		$('#guidelinestable-loading').html('<img src="dist/img/loading1.gif">');
+			    		doRenderTable('#guidelines');
+			    		swal("Success!", "New guidelines has been created!", "success");
+			    	},1000);
+		    	}
+		    	else{
+		    		swal("Error!","Create New Guidelines Failed","error");
+		    	}	    	
+		    });
+		}
+		else{
+			swal("Error","Please Fill up the form","error");
+		}
 	});
 
-	$('#guidelinesbtnmodalupdate').on('click',function(){				
+	$('#guidelinesbtnmodalupdate').on('click',function(e){		
+		e.preventDefault();		
 		// console.log("updateclicked");
 		swal({
 		  title: "Are you sure?",
 		  text: "You wanna edit this data?",
 		  type: "info",
 		  showCancelButton: true,
-		  confirmButtonColor: "#DD6B55",
+		  confirmButtonColor: "#00c0ef",
 		  confirmButtonText: "Yes",
 		  cancelButtonText: "No",
 		  closeOnConfirm: false,
@@ -1236,11 +1302,7 @@ function renderGuidelinesModals(){
 		},
 		function(isConfirm){
 		  if (isConfirm) {
-			var newGuidelines = {
-				// user_id:$('#userid').val(),
-				subjects_toPass:$('#subjectstopass').val()
-				// date:$('#createdat').val()
-			};
+			var subjects_toPass = $('#subjectstopassUpdate').val();
 			// console.log(newGuidelines);
 			$.ajax({
 		        method: "POST",
@@ -1249,19 +1311,24 @@ function renderGuidelinesModals(){
 		        	action:'updateguidelines',
 		        	id: _EXAMTABLE_SELECTED_ID,
 		        	// user_id:newGuidelines.user_id,	            	
-		        	subjects_toPass:newGuidelines.subjects_toPass	        	
+		        	subjects_toPass:subjects_toPass	        	
 		        	// date:newGuidelines.date 	
 		        }
 		    }).done(function(res){
+		    	let data = JSON.parse(res);
 		    	// console.log(res);
 		    	$('#guidelinesmodal-update').modal('hide');
-		    	$('#userid').val("");$('#subjectstopass').val("");
-		    	$('#createdat').val("");
-		    	setTimeout(function(){
-		    		$('#guidelinestable-loading').html('<img src="dist/img/loading1.gif">');
-		    		doRenderTable('#guidelines');
-		    		swal("Success!", "New guidelines has been updated!", "success");
-		    	},1000);	    	
+		    	// $('#subjectstopassUpdate').val("");
+		    	if (data.result=="ok") {
+		    		setTimeout(function(){
+			    		$('#guidelinestable-loading').html('<img src="dist/img/loading1.gif">');
+			    		doRenderTable('#guidelines');
+			    		swal("Success!", "Guidelines has been updated!", "success");
+			    	},1000);	
+		    	}
+		    	else{
+		    		swal("Error!","Update Guidelines Failed","error");
+		    	}	
 		    });
 		  } else {
 			    swal("Cancelled", "Guidelines data is safe :)", "error");
@@ -1289,7 +1356,7 @@ function renderGuidelinesModals(){
 		        url: "app/models/guidelines.php",
 		        data: {
 		        	action:'deleteguidelines',
-		        	id:_EXAMTABLE_SELECTED_ID	
+		        	id: _EXAMTABLE_SELECTED_IDCreate	
 		        }
 		    }).done(function(res){
 		    	// console.log(res);
@@ -1340,32 +1407,32 @@ function renderTopicModals(){
 
 	$(_TOPICTABLE_SELECTED_ID + 'modal-create').on('show.bs.modal', function (event) {
 		var modal = $(this);
-		modal.find('.modal-body').html(topicForm);
-		modal.find('#userid').attr('readonly','readonly');
-		modal.find('#userid').val(getUID());
+		// modal.find('.modal-body').html(topicForm);
+		modal.find('#useridCreate').attr('readonly','readonly');
+		modal.find('#useridCreate').val(getUID());
 		_SUBJECTTABLE_DATA.map(function(subjectobj){
 			// modal.find('.modal-body #createdat').val(Date.now());
 			// modal.find('#createdat').val(new Date().getTime("Y-m-d H:i:s")).attr('readonly','readonly');
-            $('#subjectid').append($('<option>').text(subjectobj.name).attr('value', subjectobj.id));
+            $('#subjectidCreate').append($('<option>').text(subjectobj.name).attr('value', subjectobj.id));
 		});
 	});
 
 	$(_TOPICTABLE_SELECTED_ID + 'modal-update').on('show.bs.modal', function (event) {
 		var modal = $(this);
-		modal.find('.modal-body').html(topicForm);
+		// modal.find('.modal-body').htmUpdatel(topicForm);
 		modal.find('.modal-title').text('Read Entry ID: ' + _USERTABLE_SELECTED_ID);  
 		_SUBJECTTABLE_DATA.map(function(subjectobj){
-			modal.find('#subjectid').append($('<option>').text(subjectobj.name).attr('value', subjectobj.id));
+			modal.find('#subjectidUpdate').append($('<option>').text(subjectobj.name).attr('value', subjectobj.id));
 		});
   		_TOPICTABLE_DATA.map(function(topicobj){
   			if(topicobj.id===_EXAMTABLE_SELECTED_ID){
-					$("#subjectid option").each(function(i){
+					$("#subjectidUpdate option").each(function(i){
 			        if (topicobj.subject_id==this.text) {
   						$(this).attr("selected","selected");
   					}
 			    });	  									  				
-				modal.find('#name').val(topicobj.name);	  									  				
-				modal.find('#createdat').val(topicobj.date);
+				modal.find('#nameUpdate').val(topicobj.name);	  									  				
+				modal.find('#createdatUpdate').val(topicobj.date);
 				// console.log(topicobj);
 				return;
   			}
@@ -1396,41 +1463,54 @@ function renderTopicModals(){
   		});
 	});
 
-	$('#topicbtnmodalcreate').on('click',function(){				
+	$('#topicbtnmodalcreate').on('click',function(e){	
+		e,preventDefault();			
 		// console.log("clicked");
-		var newTopic = {
-			subject_id:$('#subjectid').val(),
-			name:$('#name').val()
-		};
+		// var newTopic = {
+			var subject_id = $('#subjectidCreate').val();
+			var name = $('#nameCreate').val();
+		// };
 		// console.log(newTopic);
-		$.ajax({
-	        method: "POST",
-	        url: "app/models/topic.php",
-	        data: {
-	        	action:'createtopic',        	
-	        	subject_id:newTopic.subject_id,	        	
-	        	name:newTopic.name        
-	        }
-	    }).done(function(res){
-	    	// console.log(res);
-	    	$('#topicmodal-create').modal('hide');
-	    	$('#subjectid').val("");$('#name').val("");
-	    	$('#createdat').val("");
-	    	setTimeout(function(){
-	    		$('#topictable-loading').html('<img src="dist/img/loading1.gif"><br>Loading....');
-	    		doRenderTable('#topic');
-	    		swal("Success!", "New topic has been created!", "success");
-	    	},1000);	    	
-	    });
+		if (subject_id!='' && namee!='') {
+			$.ajax({
+		        method: "POST",
+		        url: "app/models/topic.php",
+		        data: {
+		        	action:'createtopic',        	
+		        	subject_id:subject_id,	        	
+		        	name:name        
+		        }
+		    }).done(function(res){
+		    	// console.log(res);
+		    	let data = JSON.parse(res);
+		    	$('#topicmodal-create').modal('hide');
+		    	$('#subjectidCreate').val("");$('#nameCreate').val("");
+		    	$('#createdatCreate').val("");
+		    	if (data.result=="ok") {
+		    		setTimeout(function(){
+		    		$('#topictable-loading').html('<img src="dist/img/loading1.gif"><br>Loading....');
+			    		doRenderTable('#topic');
+			    		swal("Success!", "New topic has been created!", "success");
+			    	},1000);
+		    	}
+		    	else{
+		    		swal("Error!","Create New Topic Failed","error");
+		    	}	    	
+		    });
+		}
+		else{
+			swal("Error","Please Fill up the form","error");
+		}
 	});
-	$('#topicbtnmodalupdate').on('click',function(){				
+	$('#topicbtnmodalupdate').on('click',function(e){	
+		e.preventDefault();			
 		// console.log("updateclicked");
 		swal({
 		  title: "Are you sure?",
 		  text: "You wanna edit this data?",
 		  type: "info",
 		  showCancelButton: true,
-		  confirmButtonColor: "#DD6B55",
+		  confirmButtonColor: "#00c0ef",
 		  confirmButtonText: "Yes",
 		  cancelButtonText: "No",
 		  closeOnConfirm: false,
@@ -1438,10 +1518,8 @@ function renderTopicModals(){
 		},
 		function(isConfirm){
 		  if (isConfirm) {
-			var newTopic = {
-				subject_id:$('#subjectid').val(),
-				name:$('#name').val()
-			};
+			var subject_id = $('#subjectidUpdate').val();
+			var name = $('#nameUpdate').val();
 			// console.log(newTopic);
 			$.ajax({
 		        method: "POST",
@@ -1449,19 +1527,23 @@ function renderTopicModals(){
 		        data: {
 		        	action:'updatetopic',
 		        	id:_EXAMTABLE_SELECTED_ID,        	
-		        	subject_id:newTopic.subject_id,	        	
-		        	name:newTopic.name	
+		        	subject_id:subject_id,	        	
+	        		name:name	
 		        }
 		    }).done(function(res){
 		    	// console.log(res);
+		    	let data = JSON.parse(res);
 		    	$('#topicmodal-update').modal('hide');
-		    	$('#subjectid').val("");$('#name').val("");
-		    	$('#createdat').val("");
-		    	setTimeout(function(){
-		    		$('#topictable-loading').html('<img src="dist/img/loading1.gif"><br>Loading....');
-		    		doRenderTable('#topic');
-		    		swal("Success!", "New topic has been updated!", "success");
-		    	},1000);	    	
+		    	if (data.result=="ok") {
+		    		setTimeout(function(){
+			    		$('#topictable-loading').html('<img src="dist/img/loading1.gif"><br>Loading....');
+			    		doRenderTable('#topic');
+			    		swal("Success!", "New topic has been updated!", "success");
+			    	},1000);
+		    	}
+		    	else{
+		    		swal("Error!","Update Topic Failed","error");
+		    	}	    	
 		    });
 		  } else {
 			    swal("Cancelled", "Topic data is safe :)", "error");
@@ -1554,15 +1636,13 @@ function renderQuestionModals(){
 
 	$(_QUESTIONTABLE_SELECTED_ID + 'modal-create').on('show.bs.modal', function (event) {
 		var modal = $(this);
-		modal.find('.modal-body').html(questionForm);
+		// modal.find('.modal-body').html(questionForm);
 		_SUBJECTTABLE_DATA.map(function(subjectobj){
-			// modal.find('.modal-body #createdat').val(Date.now());
-			// modal.find('#createdat').val(new Date().getTime("Y-m-d H:i:s")).attr('readonly','readonly');
             $('#subjectid').append($('<option>').text(subjectobj.name).attr('value', subjectobj.id));
 		});
-		// _TOPICTABLE_DATA.map(function(topicobj){
-  //           $('#topic_id').append($('<option>').text(topicobj.name).attr('value', topicobj.id));
-		// });
+		_TOPICTABLE_DATA.map(function(topicobj){
+            $('#topicid').append($('<option>').text(topicobj.name).attr('value', topicobj.id));
+		});
 	});
 
 	$(_QUESTIONTABLE_SELECTED_ID + 'modal-update').on('show.bs.modal', function (event) {
@@ -1570,15 +1650,20 @@ function renderQuestionModals(){
 		modal.find('.modal-body').html(questionForm);
 		modal.find('.modal-title').text('Read Entry ID: ' + _USERTABLE_SELECTED_ID);  
 		_TOPICTABLE_DATA.map(function(topicobj){
-			modal.find('#topic_id').append($('<option>').text(topicobj.name).attr('value', topicobj.id));
+			modal.find('#topicid').append($('<option>').text(topicobj.name).attr('value', topicobj.id));
 		});
   		_QUESTIONTABLE_DATA.map(function(questionobj){
   			if(questionobj.id===_EXAMTABLE_SELECTED_ID){
-					// $("#topic_id option").each(function(i){
-				 //        if (questionobj.topic_id==this.text) {
-	  		// 				$(this).attr("selected","selected");
-	  		// 			}
-				 //    });
+				$("#topicid option").each(function(i){
+			        if (questionobj.topic_id==this.text) {
+  						$(this).attr("selected","selected");
+  					}
+			    });
+			    $("#subjectid option").each(function(i){
+			        if (questionobj.subject_id==this.text) {
+  						$(this).attr("selected","selected");
+  					}
+			    });
 				modal.find('#question').val(questionobj.question);	  									  				
 				modal.find('#choice_a').val(questionobj.choice_a);
 				modal.find('#choice_b').val(questionobj.choice_b);
