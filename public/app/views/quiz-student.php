@@ -31,6 +31,8 @@
           $('.subject-chosen').html(quiz.shortText($('.chooseSubjectQuiz').val()));
           // $('.startquiz').attr('disabled','disabled');
           $('.chooseagain').attr('disabled','disabled');
+          $('#quizInfo').hide();
+          $('#quizLoad').removeClass('col-md-8').addClass('col-md-12');
           $('.quiz-sheet').show();
           // $('.chooseSubject').removeAttr('disabled');
       });
@@ -71,7 +73,7 @@
 	    mainLayout(){
 	    	let html =`
 			<div class="row">
-	          <div class="col-md-4">
+	          <div class="col-md-4" id="quizInfo">
 	            <div class="box box-default">
 	              <div class="box-header with-border">
 	                <h3 class="box-title">Quiz Information</h3>
@@ -104,7 +106,7 @@
 	              </div>
 	            </div>      
 	          </div>
-	          <div class="col-md-8">
+	          <div class="col-md-8" id="quizLoad">
 	            <div class="box quiz-sheet">
 	              <div class="box-header with-border">
 	                <h3 class="box-title subject-chosen">Subject Chosen</h3>
@@ -290,9 +292,9 @@
 				// txt+='<p class="text-light-blue">Question: </p>';
 				// txt+='<p class="text-light-blue">Question: '+logs[log].question+'</p>';
 				// txt+='<p class="text-aqua">Your Answer: </p>';
-				txt+='<p class="text-aqua">Your Answer: '+logs[log].selected_answer+'. '+logs[log].selected_answer_details+'</p>';
+				txt+='<p class="bg-yellow">Your Answer: '+logs[log].selected_answer+'. '+logs[log].selected_answer_details+'</p>';
 				// txt+='<p class="text-green">Correct Answer: </p>';
-				txt+='<p class="text-green">Correct Answer'+logs[log].correct_answer+'. '+logs[log].correct_answer_details+'</p>';
+				txt+='<p class="bg-green">Correct Answer'+logs[log].correct_answer+'. '+logs[log].correct_answer_details+'</p>';
 			}
 			txt+='</dl>';
 			swal({
@@ -301,7 +303,9 @@
 				html: true
 			});
 			$('#btnSubmit').attr('disabled','disable');
+			$('#quizLoad').removeClass('col-md-12').addClass('col-md-8');
 			$('.quiz-sheet').hide();
+			$('#quizInfo').show();
 		}
 		showNextQuiz(q)
 		{

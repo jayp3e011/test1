@@ -25,6 +25,7 @@ class UserClass
         if ($count_row == 1) {
             // this login var will use for the session thing
             $_SESSION['id']= $user_data['id'];
+            $_SESSION['email']= $email;
             $_SESSION['level']= intval($user_data['isadmin']);
             $_SESSION['fullname'] = ucfirst($user_data['firstname']).' '.ucfirst($user_data['lastname']);
             return true;

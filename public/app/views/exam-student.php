@@ -1,7 +1,6 @@
 <style>
 	.take-exam-comp-main{
 		text-align: center;
-		height: 100%;
 	}
 	.align-right{
 		text-align: left;
@@ -33,7 +32,6 @@
 </style>
 <div class="row take-exam-tab"></div>
 <script>
-	
 	class Exam{
 		/*
 			NOTE: The following are the status on exam_user table
@@ -49,48 +47,58 @@
 				DONE ADVANCED - Student has been finished taking the exam with an extra time remaining left.
 		*/
 		constructor(){
-		this.data = {
-	      STUDENT_SUBJECTS_AND_TOPICS:[],
-	      STUDENT_SUBJECT_INDEX:[],
-	      STUDENT_SUBJECT_ID_CHOSEN:[],
-	      STUDENT_TOPIC_ID_CHOSEN:[],
-	      STUDENT_SUBJECTS_AND_TOPICS_EXAM:[]
-	    };	
-			this.state = [];
+			this.state = {
+				subjectID: 0,
+				questionID: 0,
+				itemNumber: '0001',
+				hours : 1,
+				minutes :0,
+				seconds: 0
+			};
+			this.data = {
+		      STUDENT_SUBJECTS_AND_TOPICS:[],
+		      STUDENT_SUBJECT_INDEX:[],
+		      STUDENT_SUBJECT_ID_CHOSEN:[],
+		      STUDENT_TOPIC_ID_CHOSEN:[],
+		      STUDENT_SUBJECTS_AND_TOPICS_EXAM:[]
+		    };	
+			this.questions = [];			
+			// this.verifyExamInfo();
 			this.verifyExamInfo();
-			// this.main();			
-			this.initialize();
+			this.verifyExamInfoInitialize();
+			// this.loadQuestions(()=>{				
+			// 	// this.questions['questions'][0].selected = "A";
+			// 	this.main();			
+			// });
 		}
-		loadExamSheet(subject_id)
-	    {
-	    	// var quest =[];
-	        // console.log('subjectid_____'+subject_id);
-	        $.ajax({
-	            method: "POST",
-	            url: "app/models/exam.php",
-	            // data:{'subject_id':subject_id}
-	            data:{'subject_id':subject_id,'action':'getquestions'}
-	        }).done(function(questions){
-	            // console.log(questions);
-	            // $('#subjectdesc').html(getSubjectDesc(subjectid));
-	            let quest = JSON.parse(questions);
-	            exam.data.STUDENT_SUBJECTS_AND_TOPICS_EXAM = quest;
-	            // console.log(quest);
-	            if(quest.length>0){
-	              exam.showExam(0);
-	              let html = ``;
-	              for(let i=0;i<quest.length;i++){
-	                // html+=`<li><a href="#" id="btnQuiz${quest[i].id}" onclick="exam.showExam(${i})">${exam.formatItem(i+1)}</a></li>`;
-	                let btnvalue = exam.formatItem(i+1);
-	                html+=`<button type="button" id="exam-student-btn${btnvalue}" class="btn btn-default btn-flat btn-xs" onclick="exam.showExam(${i})">${btnvalue}</button>`;
-	              }
-	              $('#exam-student-item-buttons').html(html);
+		verifyExamInfoInitialize(){
+			$('#exam-user-password-notif').hide();
+			$( "#exam-user-password" ).keypress(function (e) {var key = e.which; if(key == 13) {$('#exam-user-btnverify').click(); return false; } });
+			$('#exam-user-btnverify').click(function(){
+				$('#exam-user-btnverify').html("Loading...");
+				setTimeout(function(){
+					exam.state.subjectID = $('.chooseSubject').val();
+					exam.verifyUser();
+				},500);
+			});
+		}
+		loadQuestions(callback){			
+			$.ajax({
+				url: "app/models/exam-questions.php",
+				method: "post",
+	            data: {
+	            	action:"loadquestions",
+	            	'subject_id':exam.state.subjectID,
+	            	user_id:this.getUserID()
 	            }
-	            else{
-	              exam.showExam(-1);
-	            }
-	        });
-	    }
+	        })
+			.done((result)=>{
+				result = JSON.parse(result);
+				console.log(result);
+				exam.questions = result;				
+				callback();
+			});
+		}
 		verifyExamInfo(){
 			let html = `
 				<div class="col-md-6 col-md-offset-3 take-exam-comp-main">
@@ -112,7 +120,7 @@
 									<dd id="exam-user-password-notif" style="color:maroon">
 										Invalid account. Try Again!
 									</dd>
-								<dt>Subject</dt>
+								<dt>Choose Subject</dt>
 									<dd>
 										<select class="form-control select2 chooseSubject" style="width: 100%;">
 											<option selected="selected">Loading Subjects...</option>
@@ -122,31 +130,104 @@
 							<button id="exam-user-btnverify" class="btn btn-block bg-maroon">Verify account and Take the exam!</button>
 						</div>
 					</div>
-				</div>     
+				</div> 
+				<div class="col-sm-12">
+	            <div class="box box-danger">
+	              <div class="box-header with-border">
+	                <h3 class="box-title">General Instructions</h3>
+	                  <div class="box-tools pull-right">
+	                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+	                  </div>
+	              </div>
+	              <div class="box-body">
+	                  <div class="col-lg-3 col-xs-6">         
+	                    <div class="small-box bg-aqua">
+	                      <div class="inner">
+	                        <h3 class="subject-totalitems1">100</h3>
+	                        <p>Total items</p>
+	                      </div>
+	                      <div class="icon">
+	                        <i class="ion ion-help"></i>
+	                      </div>
+	                      <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+	                    </div>
+	                  </div>
+	                  <div class="col-lg-3 col-xs-6">
+	                    <div class="small-box bg-green">
+	                      <div class="inner">
+	                        <h3 class="subject-passingrate1">75<sup style="font-size: 20px">%</sup></h3>
+	                        <p>Passing Rate</p>
+	                      </div>
+	                      <div class="icon">
+	                        <i class="ion ion-ribbon-b"></i>
+	                      </div>
+	                      <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+	                    </div>
+	                  </div>
+	                  <div class="col-lg-3 col-xs-6">
+	                    <div class="small-box bg-yellow">
+	                      <div class="inner">
+	                        <h3 class="subject-timeduration1">60</h3>
+	                        <p>Time duration in minutes</p>
+	                      </div>
+	                      <div class="icon">
+	                        <i class="ion ion-clock"></i>
+	                      </div>
+	                      <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+	                    </div>
+	                  </div>
+	                  <div class="col-lg-3 col-xs-6">
+	                    <div class="small-box bg-red">
+	                      <div class="inner">
+	                        <h3 class="subject-attempts">1</h3>
+	                        <p>Number of attempts</p>
+	                      </div>
+	                      <div class="icon">
+	                        <i class="ion ion-compose"></i>
+	                      </div>
+	                      <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+	                    </div>
+	                  </div>
+	              </div>
+	            </div>   
+	          </div>
+	          
 			`;
 			$('.take-exam-tab').html(html);
 		}
-		initialize(){
-			$('#exam-user-password-notif').hide();
-			$( "#exam-user-password" ).keypress(function (e) {var key = e.which; if(key == 13) {$('#exam-user-btnverify').click(); return false; } });
-			$('#exam-user-btnverify').click(function(){
-				$('#exam-user-btnverify').html("Loading...");
-				setTimeout(function(){
-					exam.data.STUDENT_SUBJECT_ID_CHOSEN = $('.chooseSubject').val();
-					console.log(exam.data.STUDENT_SUBJECT_ID_CHOSEN);
-					exam.verifyUser();
-					
-				},500);
-			});
-			// let buttons = ``;
-			// for(let i=1;i<=200;i++){
-			// 	let btnvalue = this.formatItem(i);
-			// 	buttons += `
-			// 		<button type="button" id="exam-student-btn${btnvalue}" class="btn btn-default btn-flat btn-xs">${btnvalue}</button>										
-			// 	`;
-			// }			
-			// $('#exam-student-item-buttons').html(buttons);
-			
+		initialize(){ 
+			let buttons = ``;
+			console.log(this.questions['subjects'].timeduratiom)
+			for(let i=1;i<=this.questions['questions'].length;i++){
+				let btnvalue = this.formatItem(i);
+				buttons += `
+					<button onclick="exam.showQuestion(${i-1},'${btnvalue}'	)" type="button" id="exam-student-btn${btnvalue}" class="btn btn-default btn-flat btn-xs">${btnvalue}</button>										
+				`;
+			}						
+	        
+	        $("#exam-student-icheckA").on("ifChanged", function(){
+	          	if($('#exam-student-icheckA').iCheck('update')[0].checked){
+	          		exam.saveExamAnswer("A");
+	      		}
+	        });
+	        $("#exam-student-icheckB").on("ifChanged", function(){
+	          	if($('#exam-student-icheckB').iCheck('update')[0].checked){
+	          		exam.saveExamAnswer("B");
+	      		}
+	        });
+	        $("#exam-student-icheckC").on("ifChanged", function(){
+	          	if($('#exam-student-icheckC').iCheck('update')[0].checked){
+	          		exam.saveExamAnswer("C");
+	      		}
+	        });
+	        $("#exam-student-icheckD").on("ifChanged", function(){
+	          	if($('#exam-student-icheckD').iCheck('update')[0].checked){
+	          		exam.saveExamAnswer("D");
+	      		}
+	        });
+	        
+
+			$('#exam-student-item-buttons').html(buttons);			
 			// $('#exam-student-btn0001').removeClass('active');
 			$('#exam-student-btnsubmitnow').click(function(){
 				$('#exam-student-submitnow').modal('show');
@@ -155,6 +236,83 @@
 				exam.submitNow("DONE ADVANCED");
 			});
 
+			this.showQuestion(0,"0001");
+		}
+
+		showQuestion(questionID,itemNumber){			
+			this.state.questionID = questionID;
+			this.state.itemNumber = itemNumber;
+			$('#exam-question-sequence').html(itemNumber);
+			$('#exam-question').html(this.questions['questions'][questionID].question);
+			$('#exam-choice_a').html(this.questions['questions'][questionID].choice_a);
+			$('#exam-choice_b').html(this.questions['questions'][questionID].choice_b);
+			$('#exam-choice_c').html(this.questions['questions'][questionID].choice_c);
+			$('#exam-choice_d').html(this.questions['questions'][questionID].choice_d);			
+			this.resetExamCheckbox();
+			this.updateExamButtons();
+		}
+
+		saveExamAnswer(answer){
+			this.questions['questions'][this.state.questionID].selected = answer;
+			this.updateExamButtons();
+		}
+		updateExamButtons(){			
+			for(let i=1;i<=this.questions['questions'].length;i++){
+				if(this.questions['questions'][i-1].selected!="X"){
+					let btnExam = '#exam-student-btn' + this.formatItem(i);
+					$(btnExam).addClass('bg-green');
+				}
+			}
+			let answer = this.questions['questions'][this.state.questionID].selected;				
+			this.examSelectAnswer(answer);					
+		}
+		examSelectAnswer(answer){
+			if(answer=="A"){
+				$('#exam-student-icheckA').iCheck('check');
+				$('#exam-student-icheckB').attr('disabled','disabled');
+				$('#exam-student-icheckC').attr('disabled','disabled');
+				$('#exam-student-icheckD').attr('disabled','disabled');
+				$('#exam-chosen_intromsg').html("You choose ");
+				$('#exam-chosen_letter').html("A");
+				$('#exam-chosen_details').html($('#exam-choice_a').html());				
+			}
+			else if(answer=="B"){
+				$('#exam-student-icheckB').iCheck('check');
+				$('#exam-student-icheckA').attr('disabled','disabled');
+				$('#exam-student-icheckC').attr('disabled','disabled');
+				$('#exam-student-icheckD').attr('disabled','disabled');
+				$('#exam-chosen_intromsg').html("You choose ");
+				$('#exam-chosen_letter').html("B");
+				$('#exam-chosen_details').html($('#exam-choice_a').html());
+			}
+			else if(answer=="C"){
+				$('#exam-student-icheckC').iCheck('check');
+				$('#exam-student-icheckA').attr('disabled','disabled');
+				$('#exam-student-icheckB').attr('disabled','disabled');
+				$('#exam-student-icheckD').attr('disabled','disabled');
+				$('#exam-chosen_intromsg').html("You choose ");
+				$('#exam-chosen_letter').html("C");
+				$('#exam-chosen_details').html($('#exam-choice_c').html());
+			}
+			else if(answer=="D"){
+				$('#exam-student-icheckD').iCheck('check');
+				$('#exam-student-icheckA').attr('disabled','disabled');
+				$('#exam-student-icheckB').attr('disabled','disabled');
+				$('#exam-student-icheckC').attr('disabled','disabled');
+				$('#exam-chosen_intromsg').html("You choose ");
+				$('#exam-chosen_letter').html("D");
+				$('#exam-chosen_details').html($('#exam-choice_d').html());
+			}
+			else{							
+				// this.resetExamCheckbox();
+				// $('#exam-student-icheckA').iCheck('uncheck');
+				// $('#exam-student-icheckA').iCheck('uncheck');
+				// $('#exam-student-icheckA').iCheck('uncheck');
+				// $('#exam-student-icheckA').iCheck('uncheck');
+				// $('#exam-chosen_intromsg').html("Please choose a letter now");
+				// $('#exam-chosen_letter').html('');
+				// $('#exam-chosen_details').html('');			
+			}			
 		}
 
 		verifyUser(){
@@ -174,11 +332,14 @@
 				$('#exam-user-btnverify').html("Verify account and Take the exam!");
 				let data = JSON.parse(res);
 				// console.log(data);
+				// console.log(res);
 				if(data.result=="ok"){
 					if(data.data.length>0){
 						// console.log("Verified");
-						exam.loadExamSheet(exam.data.STUDENT_SUBJECT_ID_CHOSEN);
-						exam.main();
+						// exam.main();						
+						exam.loadQuestions(()=>{						
+							exam.main();			
+						});
 					}
 					else{
 						// console.log("Invalid Account");
@@ -186,9 +347,15 @@
 					}
 				}
 				else{
-					// console.log("Query Error!");
-					$('#exam-user-password-notif').html("Query Error. Please contact your database administrator!");
-					$('#exam-user-password-notif').show().delay(2000).fadeOut();
+					if(data.type=="sqlerror"){
+						// console.log("Query Error!");
+						$('#exam-user-password-notif').html("Query Error. Please contact your database administrator!");
+						$('#exam-user-password-notif').show().delay(2000).fadeOut();
+					}
+					else if(data.type=="systemerror"){
+						$('#exam-user-password-notif').html(data.message);
+						$('#exam-user-password-notif').show().delay(2000).fadeOut();
+					}
 				}			
 			});
 		}
@@ -224,55 +391,46 @@
                   <table class="table" id="exam-table">
                     <tr>
                       <th style="width:150px">Choose Answer</th>
-                      <th style="padding-left:30px">Question: <span id="exam-question-sequence">001</span></th>
+                      <th style="padding-left:30px">Question: <span id="exam-question-sequence">0001</span></th>
                     </tr>
                     <tr>
                       <td width="30%">
                         <div class="form-group">
                           <div class="row">
-                            <div class="col-sm-3">
-                              <label id="exam_handle_a">
-                                <div id="exam_select1_a" style="position: absolute;margin-left: 6.5px;margin-top:1px;">A</div>
-                                <div id="exam_select2_a" class="iradio_flat-green" aria-checked="false" aria-disabled="false" style="position: relative;">
-                                  <input id="exam_radio_a" type="radio" name="r3" class="flat-red" style="position: absolute; opacity: 0;">
-                                  <ins id="exam_select_a" class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
-                                </div>
-                              </label>                              
-                            </div>
-                            <div class="col-sm-3">
-                              <label id="exam_handle_b">
-                                <div style="position: absolute;margin-left: 6.5px;margin-top:1px;">B</div>
-                                <div class="iradio_flat-green" aria-checked="false" aria-disabled="false" style="position: relative;">
-                                  <input id="exam_radio_b" type="radio" name="r3" class="flat-red" style="position: absolute; opacity: 100;">
-                                  <ins id="exam_select_b" class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
-                                </div>
-                              </label>   
-                            </div>
-                            <div class="col-sm-3">
-                              <label id="exam_handle_c">
-                                <div style="position: absolute;margin-left: 6.5px;margin-top:1px;">C</div>
-                                <div class="iradio_flat-green" aria-checked="false" aria-disabled="false" style="position: relative;">
-                                  <input id="exam_radio_c" type="radio" name="r3" class="flat-red" style="position: absolute; opacity: 0;">
-                                  <ins id="exam_select_c" class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
-                                </div>
-                              </label>   
-                            </div>
-                            <div class="col-sm-3">
-                              <label id="exam_handle_d">
-                                <div style="position: absolute;margin-left: 6.5px;margin-top:1px;">D</div>
-                                <div class="iradio_flat-green" aria-checked="false" aria-disabled="false" style="position: relative;">
-                                  <input id="exam_radio_d" type="radio" name="r3" class="flat-red" style="position: absolute; opacity: 0;">
-                                  <ins id="exam_select_d" class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
-                                </div>
-                              </label>   
-                            </div>
+                          	<div class="col-sm-3">
+                          		<div id="" class="iradio_flat-green" aria-checked="false" aria-disabled="false" style="margin:2px;position:relative;">
+									<span style="position:absolute;top:1px;left:7px;font-weight:bold;">A</span>
+                          			<input id="exam-student-icheckA" type="radio" class="flat-red">
+                          			<ins id="" class="iCheck-helper"></ins>
+                          		</div>
+                          	</div>
+                          	<div class="col-sm-3">
+                          		<div id="" class="iradio_flat-green" aria-checked="false" aria-disabled="false" style="margin:2px;position:relative;">
+									<span style="position:absolute;top:1px;left:7px;font-weight:bold;">B</span>
+                          			<input id="exam-student-icheckB" type="radio" class="flat-red">
+                          			<ins id="" class="iCheck-helper"></ins>
+                          		</div>
+                          	</div>
+                          	<div class="col-sm-3">
+                          		<div id="" class="iradio_flat-green" aria-checked="false" aria-disabled="false" style="margin:2px;position:relative;">
+									<span style="position:absolute;top:1px;left:7px;font-weight:bold;">C</span>
+                          			<input id="exam-student-icheckC" type="radio" class="flat-red">
+                          			<ins id="" class="iCheck-helper"></ins>
+                          		</div>
+                          	</div>
+                          	<div class="col-sm-3">
+                          		<div id="" class="iradio_flat-green" aria-checked="false" aria-disabled="false" style="margin:2px;position:relative;">
+									<span style="position:absolute;top:1px;left:7px;font-weight:bold;">D</span>
+                          			<input id="exam-student-icheckD" type="radio" class="flat-red">
+                          			<ins id="" class="iCheck-helper"></ins>
+                          		</div>
+                          	</div>
                           </div>
+                          
                         </div>
                       </td>
                       <td style="padding-left:30px" width="70%">
-                        <div id="exam-question">
-                          The mailbox rule generally makes acceptance of an offer effective at the time the acceptance is dispatched. The mailbox rule does not apply if
-                        </div>
+                        <div id="exam-question"></div>
                         <div>&nbsp;</div>
                         <table>
                           <tr>
@@ -296,9 +454,9 @@
                     </tr>
                     <tr>
                       <td colspan="2">
-                        <span id="chosen_intromsg">Please choose a letter now</span>&nbsp;
-                        <span id="chosen_letter"></span>.&nbsp;&nbsp;
-                        <span id="chosen_details"></span>                        
+                        <span id="exam-chosen_intromsg">Please choose a letter now</span>&nbsp;
+                        <span id="exam-chosen_letter"></span>.&nbsp;&nbsp;
+                        <span id="exam-chosen_details"></span>                        
                       </td>
                     </tr>
                   </table>
@@ -318,36 +476,18 @@
 			  increaseArea: '20%' // optional
 			});
 			$('#exam-student-timer').countdowntimer({
-				hours : 0,
-				minutes :0,
-				seconds: 30,
+				hours : exam.state.hours,
+				minutes :exam.state.minutes,
+				seconds: exam.state.seconds,
 				timeUp : function(){
 					exam.submitNow("DONE TIMESUP");
 					$('#exam-student-submitnow').modal('hide');
 					$('#exam-student-timesup').modal({backdrop: 'static', keyboard: false}); $('#exam-student-timesup').modal('show'); }
 			});
-			$('#exam-student-reload').click(function(){setTimeout(function(){exam.verifyExamInfo(); exam.initialize(); },1000); });
+			// $('#exam-student-reload').click(function(){setTimeout(function(){exam.verifyExamInfo(); exam.initialize(); },1000); });
 
 
 		}
-
-		showExam(q){
-        if (q>=0) {
-          // console.log(this.data.STUDENT_SUBJECTS_AND_TOPICS_EXAM[q].question);
-          $('#exam-table').show();
-          $('#exam-question-sequence').html(this.formatItem(q+1));
-          $('#exam-question').html(this.data.STUDENT_SUBJECTS_AND_TOPICS_EXAM[q].question);
-          $('#exam-choice_a').html(this.data.STUDENT_SUBJECTS_AND_TOPICS_EXAM[q].choice_a);
-          $('#exam-choice_b').html(this.data.STUDENT_SUBJECTS_AND_TOPICS_EXAM[q].choice_b);
-          $('#exam-choice_c').html(this.data.STUDENT_SUBJECTS_AND_TOPICS_EXAM[q].choice_c);
-          $('#exam-choice_d').html(this.data.STUDENT_SUBJECTS_AND_TOPICS_EXAM[q].choice_d); 
-          $('#exam-student-btn0001').addClass('active');
-        }
-        else{
-          $('#exam-table').hide();
-          $('#exam-student-item-buttons').html("NO QUESTION ASSIGNED!");
-        }
-      }
 
 		modals(){
 			return `
@@ -414,7 +554,8 @@
 		submitNow(status){
 			let payload = {
 				id:this.getExamUserID,
-				status:status
+				status:status,
+				data:JSON.stringify(this.questions['questions'])
 			};
 			$.ajax({
 				url: "app/models/exam-student.php",
@@ -424,7 +565,7 @@
 	              payload: payload
 	            }
 			}).done(function(res){				
-				// console.log(data);
+				// console.log(res);
 				if(res){
 					try{
 						let data = JSON.parse(res);
@@ -432,8 +573,11 @@
 							$('#exam-student-modal-yessubmitnow').modal({backdrop: 'static', keyboard: false});
 							$('#exam-student-modal-yessubmitnow').modal('show');
 							$("#exam-student-modal-yessubmitnow").on("hidden.bs.modal", function () {
-							  setTimeout(function(){exam.verifyExamInfo(); exam.initialize(); },1000); 
+							  setTimeout(function(){exam.verifyExamInfo(); exam.verifyExamInfoInitialize(); },1000); 
 							});
+						}
+						else if(data.result=="ok" && status=="DONE TIMESUP"){
+							$('#exam-student-reload').click(function(){setTimeout(function(){exam.verifyExamInfo(); exam.verifyExamInfoInitialize(); },1000); });
 						}
 						else if(data.result=="not ok"){
 							$('#exam-student-servererror').modal('show');
@@ -449,19 +593,20 @@
 		//Getter and Setter
 		getUserEmail(){
 			//this must be updated. Make sure to use >> this.state << user data
-			return "student@gmail.com";
+			return getEmail();
 		}
 		getUserID(){
 			//this must be updated. Make sure to use >> this.state << user data
-			return 2;
+			return getUID();
 		}
 		getExamUserID(){
 			//this must be updated. Make sure to use >> this.state << user data
 			//refer exam_user table
-			return 1;
+			return getUID();
 		}
 
 		//Utilities
+		resetExamCheckbox(){$('#exam-student-icheckA').prop('disabled',false);$('#exam-student-icheckA').iCheck('uncheck'); $('#exam-student-icheckB').prop('disabled',false);$('#exam-student-icheckB').iCheck('uncheck'); $('#exam-student-icheckC').prop('disabled',false);$('#exam-student-icheckC').iCheck('uncheck'); $('#exam-student-icheckD').prop('disabled',false);$('#exam-student-icheckD').iCheck('uncheck'); $('#exam-chosen_intromsg').html("Please choose a letter now"); $('#exam-chosen_letter').html(""); $('#exam-chosen_details').html(""); }
 		formatItem(val){if(val<10)return '000'+val; else if(val<100)return '00'+val; else if(val<1000)return '0'+val; else return val; }
 	}
 	let exam = new Exam();

@@ -4,11 +4,12 @@ function doRenderTable(id){
             url: "app/models/user.php"
         }).done(function(userdata){
             _USERTABLE_DATA = JSON.parse(userdata);
-            // $.ajax({
-            //     method: "POST",
-            //     url: "../app/models/topic.php"
-            // }).done(function(topicdata){
-                // _TOPICTABLE_DATA = JSON.parse(topicdata);
+            $.ajax({
+                method: "POST",
+                url: "app/models/topic.php"
+            }).done(function(topicdata){
+                _TOPICTABLE_DATA = JSON.parse(topicdata);
+                // console.log(topicdata);
                 $.ajax({
                     method: "POST",
                     url: "app/models/subject.php"
@@ -31,7 +32,7 @@ function doRenderTable(id){
                         renderTable(id,questiondata,['id','subject','topic','question','choice_a','choice_b','choice_c','choice_d','answer','reference'],['create','read','update','delete']);
                     });
                 });         
-            // }); 
+            }); 
         });
 }
 	

@@ -9,6 +9,7 @@
       <li class="active"><a href="#home" data-toggle="tab">Home</a></li>
       <li><a href="#takeexam" data-toggle="tab">Take Exam</a></li>
       <li><a href="#takequiz" data-toggle="tab">Take Quiz</a></li>
+      <li><a href="#showStatus" data-toggle="tab">Exam Status</a></li>
       
       <li class="pull-right"><a href="#">Welcome Student (<?php echo ucwords($_SESSION['fullname']) ?>)!</a></li>
 
@@ -20,22 +21,22 @@
           <div class="col-md-7">
             <h3>
               News 
-              <ul class="pagination pagination-sm no-margin pull-right">
+              <!-- <ul class="pagination pagination-sm no-margin pull-right">
                 <li><a href="#">&laquo;</a></li>
                 <li><a href="#">1</a></li>
                 <li><a href="#">&raquo;</a></li>
-              </ul>
+              </ul> -->
             </h3>
             <div class="news"></div>
           </div>
           <div class="col-md-5">
             <h3>
               Exams
-              <ul class="pagination pagination-sm no-margin pull-right">
+              <!-- <ul class="pagination pagination-sm no-margin pull-right">
                 <li><a href="#">&laquo;</a></li>
                 <li><a href="#">1</a></li>
                 <li><a href="#">&raquo;</a></li>
-              </ul>
+              </ul> -->
             </h3>
             <div class="box">
               <div class="box-body exams"></div>
@@ -54,6 +55,11 @@
       <div class="tab-pane" id="takequiz">
         <?php require_once("quiz-student.php"); ?>
       </div>
+      <!-- exam status start -->
+      <div class="tab-pane" id="showStatus">
+        <?php require_once("report/report.php"); ?>
+      </div>
+      <!-- exam status end -->
       <!-- end quiz tab -->
     </div>
   </div>
@@ -93,6 +99,152 @@
         render_StudentNews(news,user);  
       })
     });
+    
+    function render_StudentNews(newsdata,usersdata){
+  
+      let html = '';  
+      var i = 0;
+      var j = 0;
+      for(i in newsdata){
+        for(j in usersdata){
+          // console.log(newsdata[i]);
+          // console.log(usersdata[j]);
+          if (newsdata[i].user_id===usersdata[j].firstname+' '+usersdata[j].lastname) {
+            var dt = moment(newsdata[i].date,"YYYY-MM-DD h:mm:ss");
+            // var dt = newsdata[i].createdat;
+            html += '<div class="post" style="border:1px solid #ddd;padding:5px;">';
+               html +=  '<div class="user-block">';
+                 html +=  '<img class="img-circle img-bordered-sm" src="dist/img/avatar.png" alt="user image">';
+                 html +=  '<span class="username">';
+                   html +=  '<a href="#">'+usersdata[j].firstname+' '+usersdata[j].lastname+'</a>';
+                   html +=  '<!-- <a href="#" class="pull-right btn-box-tool"><i class="fa fa-times"></i></a> -->';
+                 html +=  '</span>';
+                 html +=  '<span class="description">Shared publicly - '+dt.format("MMMM Do YYYY h:mm A")+'('+dt.fromNow()+')</span>';
+               html +=  '</div>';
+               html +=  '<p>'+newsdata[i].content;
+                html += '</p>'
+               html +=  '<ul class="list-inline">';
+                 // html +=  '<li><a href="#" class="link-black text-sm"><i class="fa fa-commenting-o margin-r-5"></i> General Announcement</a></li>';
+                 // html +=  '<li class="pull-right"><a href="#" class="link-black text-sm"><i class="fa fa-eye margin-r-5"></i> Seen (5)</a></li>';
+             html +=  '</ul>';
+             html +=  '</div>';
+          }
+        }
+      }
+      $('.news').html(html);
+    }
+    // $.ajax({url: "app/models/subject.php"})
+    // .done(function(res){ 
+    //   SUBJECT_DATA = JSON.parse(res);
+    //   $.ajax({url: "app/models/exam-user.php"})
+    //   .done(function(res){
+    //     EXAM_DATA = JSON.parse(res);
+    //     populateExamUserResult(SUBJECT_DATA,EXAM_DATA);
+    //   });
+    // });
+    // function populateExamUserResult(subjectdata,examdata){
+    //   let data = [];
+    //   let examTaken = 0;
+    //   for(let u=0;u<examdata.length;u++){
+    //     for(let s=0;s<subjectdata.length;s++){   
+    //       //formula here
+    //       let total_item = parseInt(subjectdata[s].items);
+    //       let correct = 0;
+    //       let incorrect = 0;
+    //       let data = JSON.parse(examdata[u].data);
+    //       for(let d=0;d<data.length;d++){
+    //         if(data.subject_id==subjectdata[s].id){
+              
+    //           if (examdata[u].user_id==getUID()) {
+    //             examTaken++;
+    //             if(data.selected == data.answer){
+    //               correct++;
+    //             }
+    //             else{
+    //               incorrect++;
+    //             }
+    //           }
+    //         }
+    //         else{
+    //           var arr1 ={
+    //             "subject":subjectdata[s].name,
+    //             "result":{
+    //               "progressbar":"info",
+    //               "width":"100"
+    //             },
+    //             "score":{
+    //               "badge":"red",
+    //               "data":"Not taken"
+    //             }
+    //           };
+              
+    //         }
+    //         data.push(arr1);
+    //         }
+    //         let average = (correct/total_item) * 100;
+    //         let passingRate = subjectdata[s].passingrate;
+    //         // if(average>=passingRate)result="passed";        
+    //         if(average>=passingRate){
+    //           var arr ={
+    //             "subject":subjectdata[s].name,
+    //             "result":{
+    //               "progressbar":"success",
+    //               "width":Math.round(average)
+    //             },
+    //             "score":{
+    //               "badge":"green",
+    //               "data":average+'%'
+    //             }
+    //           };
+    //           // data.push(arr);
+    //         }      
+    //         else{
+    //           var arr ={
+    //             "subject":subjectdata[s].name,
+    //             "result":{
+    //               "progressbar":"danger",
+    //               "width":Math.round(average)
+    //             },
+    //             "score":{
+    //               "badge":"green",
+    //               "data":average+'%'
+    //             }
+    //           };
+    //           // data.push(arr);
+    //         }  
+            
+    //           data.push(arr);
+    //       }       
+    //     }
+        
+    //       console.log(data);
+    //       let html = `
+    //       <table class="table table-bordered">
+    //         <tr>
+    //           <th style="width: 10px">#</th>
+    //           <th>Subject</th>
+    //           <th>Result</th>
+    //           <th style="width: 40px">Score</th>
+    //         </tr>`;
+    //     for(let i=0;i<data.length;i++){
+    //       html+=`
+    //         <tr>
+    //           <td>${i+1}.</td>
+    //           <td>${data[i].subject}</td>
+    //           <td>
+    //             <div class="progress progress-xs">
+    //               <div class="progress-bar progress-bar-${data[i].result.progressbar}" style="width: ${data[i].result.width}%"></div>
+    //             </div>
+    //           </td>
+    //           <td><span class="badge bg-${data[i].score.badge}">${data[i].score.data}</span></td>
+    //         </tr>        
+    //       `;
+    //     }
+    //     html+=`</table>`;
+    //     $('.exams').html(html);
+    //     $('.exams-total').html(`Total Exam Taken: ${examTaken}`);
+    // }
+    ///////////////////////////////////////Not Working anymore sTART//////////////////////////////////////////////////////////
     $.ajax({
         method: "POST",
         url: "app/models/exam.php"
@@ -112,38 +264,7 @@
         })
       })
     });
-    function render_StudentNews(newsdata,usersdata){
-  
-      let html = '';  
-      var i = 0;
-      var j = 0;
-      for(i in newsdata){
-        for(j in usersdata){
-          // console.log(newsdata[i]);
-          // console.log(usersdata[j]);
-          if (newsdata[i].user_id===usersdata[j].firstname+' '+usersdata[j].lastname) {
-            html += '<div class="post" style="border:1px solid #ddd;padding:5px;">';
-               html +=  '<div class="user-block">';
-                 html +=  '<img class="img-circle img-bordered-sm" src="dist/img/avatar.png" alt="user image">';
-                 html +=  '<span class="username">';
-                   html +=  '<a href="#">'+usersdata[j].firstname+' '+usersdata[j].lastname+'</a>';
-                   html +=  '<!-- <a href="#" class="pull-right btn-box-tool"><i class="fa fa-times"></i></a> -->';
-                 html +=  '</span>';
-                 html +=  '<span class="description">Shared publicly - 7:30 PM today</span>';
-               html +=  '</div>';
-               html +=  '<p>'+newsdata[i].content;
-                html += '</p>'
-               html +=  '<ul class="list-inline">';
-                 html +=  '<li><a href="#" class="link-black text-sm"><i class="fa fa-commenting-o margin-r-5"></i> General Announcement</a></li>';
-                 html +=  '<li class="pull-right"><a href="#" class="link-black text-sm"><i class="fa fa-eye margin-r-5"></i> Seen (5)</a></li>';
-             html +=  '</ul>';
-             html +=  '</div>';
-          }
-        }
-      }
-      $('.news').html(html);
-    }
-    function getScore(selected_answer,correct_answer)
+     function getScore(selected_answer,correct_answer)
     {
       // console.log('getScore');
       var score = 0;
@@ -306,7 +427,7 @@
           data.push(arr); 
       } 
     
-
+      //SAMPLE DATA
       // let data = [
       //   {
       //     "subject":"Finance",
@@ -390,7 +511,8 @@
       $('.exams').html(html);
       $('.exams-total').html(`Total Exam Taken: ${examTaken}`);
     }
-    //Take Exam Controllers
+    /////////////////////////////////////////////////////////not working anymore END////////////////////////////////////////////////
+    //Quiz and Exam Controllers
     function render_StudentSubjects(){      
       $.ajax({
         url:"app/models/subject.php",
@@ -399,19 +521,11 @@
           action:"topics"
         }
       }).done(function(data){
-        // console.log(data);
         quiz.data.STUDENT_SUBJECTS_AND_TOPICS = JSON.parse(data);
         exam.data.STUDENT_SUBJECTS_AND_TOPICS = JSON.parse(data);
-        // console.log(util.data.STUDENT_SUBJECTS_AND_TOPICS[0][0][0]);
         loadChooseSubject();
         loadChooseSubjectQuiz();
         function loadChooseSubject(){
-          /*
-            bootstrap css select guide
-            <option selected="selected">Alabama</option>
-            <option>Alaska</option>
-            <option disabled="disabled">California (disabled)</option>
-          */
           let html = ``;
           exam.data.STUDENT_SUBJECTS_AND_TOPICS.map((obj)=>{
             html += `<option value="${obj.id}">${obj.name}</option>`;          
@@ -419,12 +533,6 @@
           $('.chooseSubject').html(html);
         }
         function loadChooseSubjectQuiz(){
-          /*
-            bootstrap css select guide
-            <option selected="selected">Alabama</option>
-            <option>Alaska</option>
-            <option disabled="disabled">California (disabled)</option>
-          */
           let html = ``;
           quiz.data.STUDENT_SUBJECTS_AND_TOPICS.map((obj)=>{
             html += `<option>${obj.name}</option>`;          
@@ -441,8 +549,7 @@
             // console.log(`${obj.name}===${subject}`);
             if(obj.name==subject){
               quiz.data.STUDENT_SUBJECTS_AND_TOPICS[index][0].map((topic)=>{
-                html += `<option value="${topic.id}">${topic.name}</option>`;
-                
+                html += `<option value="${topic.id}">${topic.name}</option>`
               });
               break;
             }
@@ -463,13 +570,11 @@
         function getTopicID(topic,index){let id = -1; quiz.data.STUDENT_SUBJECTS_AND_TOPICS[index][0].map((obj)=>{if(obj.name === topic){id = obj.id; } }); return id; }
         
         $('.chooseSubjectQuiz').change(function(){
-          ChooseTopicQuiz($('.chooseSubjectQuiz').val());          
-          // console.log($('.chooseSubject').val());
+          ChooseTopicQuiz($('.chooseSubjectQuiz').val());      
         });
         $('.chooseSubject').change(function(){
           let index=0;
           for(let obj of exam.data.STUDENT_SUBJECTS_AND_TOPICS){
-            // console.log(`${obj.name}===${subject}`);
             if(obj.id==$('.chooseSubject').val()){
               break;
             }
@@ -484,64 +589,7 @@
           exam.data.STUDENT_SUBJECT_ID_CHOSEN = $('.chooseSubject').val();
         });
         $('.chooseTopicQuiz').change(function(){
-          // loadChooseTopic($('.chooseSubject').val());
           quiz.data.STUDENT_TOPIC_ID_CHOSEN = $('.chooseTopicQuiz').val();
-          // console.log(util.data.STUDENT_TOPIC_ID_CHOSEN);
-          // console.log($('.chooseTopic').val());
-        });
-        $('.startexam').click(function(){
-          // console.log("Start Exam");
-          let examLog = {
-            "user_id":1,
-            "subject_id":exam.data.STUDENT_SUBJECT_ID_CHOSEN,
-            "topic_id":exam.data.STUDENT_TOPIC_ID_CHOSEN,
-            "question_id":1,
-            "answer":"X",
-            "timeremaining":`00:${$('.subject-timeduration').html()}:00`
-          };
-          // $("#exams1").load("app/models/exam2.php", {'subject_id':util.data.STUDENT_SUBJECT_ID_CHOSEN});
-          loadExamSheet(exam.data.STUDENT_SUBJECT_ID_CHOSEN1);
-          // console.log(examLog);
-          // $.ajax({
-          //   url:"app/models/exam.php",
-          //   method: "post",
-          //   data: {
-          //     action:"setlog",
-          //     examlog: examLog
-          //   }
-          // }).done(function(res){
-          //   data = JSON.parse(res);
-          //   // console.log(data.result);
-          //   if(data.result=="ok"){
-          //     $('.chooseSubject').attr('disabled','disabled');
-          //     $('.subject-chosen').html(shortText($('.chooseSubject').val()));
-          //     $('.startexam').attr('disabled','disabled');
-          //     $('.chooseagain').attr('disabled','disabled');
-          //     $('.exam-sheet').show();
-          //     // $('.chooseSubject').removeAttr('disabled');
-          //       $(".exam-timer")
-          //       .countdown("2018/01/01", function(event) {
-          //         $(this).text(
-          //           event.strftime('%H:%M:%S')
-          //         );
-          //       });
-          //   }
-          //   else{
-          //     console.log("Contact your admin! Course previously taken.");
-          //   }
-          //   // console.log(res);
-          //   // if(res=="not ok"){
-          //   //   console.log("Need to consult your admin! Exam previously taken!");
-          //   // }
-          //   // else{
-          //   //   $('.chooseSubject').attr('disabled','disabled');
-          //   //   $('.subject-chosen').html(shortText($('.chooseSubject').val()));
-          //   //   $('.startexam').attr('disabled','disabled');
-          //   //   $('.chooseagain').attr('disabled','disabled');
-          //   //   $('.exam-sheet').show();
-          //   //   // $('.chooseSubject').removeAttr('disabled');
-          //   // }
-          // });
         });
         $('.startquiz').click(function(){
           loadQuizSheet(quiz.data.STUDENT_TOPIC_ID_CHOSEN);

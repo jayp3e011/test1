@@ -11,6 +11,9 @@
 
 	</div>				
 	<!-- /.box-body -->
+	<div class="box-footer">
+      <div class="row" id="chart-graph-footer"></div>
+    </div>
 </div>
 <script>
 $('body').addClass('sidebar-collapse sidebar-mini');
@@ -19,7 +22,8 @@ class AdminReport{
 		this.state = {
 			"labels" : [],
 			"datasets" : [],
-			"exam_user_result" : []
+			"exam_user_result" : [],
+			"topicObject_data" : []
 		};
 		/*
 			sample exam_user_result data
@@ -116,7 +120,9 @@ class AdminReport{
 		this.data = {
 			"subject" : [],
 			"user": [],
-			"exam_user" : []
+			"exam_user" : [],
+			"exam_questions" : [],
+			"exam_uresults" : []
 		};
 		this.loadData(()=>{
 			// console.log(this.data.subject);
@@ -127,7 +133,7 @@ class AdminReport{
 	}
 	loadData(callback){
 		$.ajax({url: "app/models/subject.php"})
-		.done(function(res){
+		.done(function(res){ 
 			let data = JSON.parse(res);
 			adminreport.data.subject = data;
 			$.ajax({url: "app/models/user.php", method: "post", data:{action: "filterstudents"} })
@@ -138,7 +144,12 @@ class AdminReport{
 				.done(function(res){
 					let data = JSON.parse(res);
 					adminreport.data.exam_user = data;
-					callback();
+					 $.ajax({url: "app/models/exam-questions.php"})
+	                 .done(function(res){
+	                    let data = JSON.parse(res);
+	                    adminreport.data.exam_questions = data;             
+	                    callback();
+	                });
 				});
 			});
 		});
@@ -146,9 +157,16 @@ class AdminReport{
 	main(){
 		this.populateExamUserResult();
 		this.setupBarGraph();	
+		this.setChartFooter();
 	}
 	populateExamUserResult(){
+		let user_taken=0;
 		for(let u=0;u<this.data.exam_user.length;u++){
+			for (let i=0;i<this.data.user.length;i++) {
+				if (this.data.user[i].id==this.data.exam_user[u].user_id) {
+					user_taken++;
+				}
+			}
 			let userObject = {
 				"user_id" : this.data.exam_user[u].user_id,
 				"subject" : []
@@ -162,6 +180,7 @@ class AdminReport{
 				let data = JSON.parse(this.data.exam_user[u].data);
 				for(let d=0;d<data.length;d++){
 					if(data.subject_id==this.data.subject[s].id){
+
 						if(data.selected == data.answer){
 							correct++;
 						}
@@ -171,6 +190,12 @@ class AdminReport{
 					}
 				}				
 				let average = (correct/total_item) * 100;
+				let examres={
+					"subj_id" : this.data.subject[s].id,
+					"subj_name" : this.data.subject[s].name,
+					"user_taken" : user_taken,
+					"total_students" : this.data.user.length
+				};
 				let passingRate = this.data.subject[s].passingrate;
 				if(average>=passingRate)result="passed";				
 				let userSubjectObject = {
@@ -178,6 +203,7 @@ class AdminReport{
 					"result" : result
 				};
 				userObject.subject.push(userSubjectObject);
+				this.data.exam_uresults.push(examres);
 			}
 			this.state.exam_user_result.push(userObject);
 		}
@@ -236,7 +262,8 @@ class AdminReport{
 			failedData.push(totalFailed);
 		}
 
-		this.state.datasets = [{
+		this.state.datasets = [
+			{
 	            label: '# of Passed',
 	            data: passedData,
 	            backgroundColor: [
@@ -245,9 +272,11 @@ class AdminReport{
 	                'rgba(63, 191, 127, 0.5)',
 	                'rgba(63, 191, 127, 0.5)',
 	                'rgba(63, 191, 127, 0.5)',
+	                'rgba(63, 191, 127, 0.5)',
 	                'rgba(63, 191, 127, 0.5)'
 	            ],
 	            borderColor: [
+	                'rgba(63, 191, 127, 1)',
 	                'rgba(63, 191, 127, 1)',
 	                'rgba(63, 191, 127, 1)',
 	                'rgba(63, 191, 127, 1)',
@@ -266,6 +295,7 @@ class AdminReport{
 	                'rgba(191, 63, 95, 0.5)',
 	                'rgba(191, 63, 95, 0.5)',
 	                'rgba(191, 63, 95, 0.5)',
+	                'rgba(191, 63, 95, 0.5)',
 	                'rgba(191, 63, 95, 0.5)'
 	            ],
 	            borderColor: [
@@ -274,11 +304,60 @@ class AdminReport{
 	                'rgba(191, 63, 95, 1)',
 	                'rgba(191, 63, 95, 1)',
 	                'rgba(191, 63, 95, 1)',
+	                'rgba(191, 63, 95, 1)',
 	                'rgba(191, 63, 95, 1)'
 	            ],
 	            borderWidth: 1
-	        }];
+	        },
+
+        ];
 	}
+	///////////////////////////////////////////////////
+	
+	setChartFooter(){
+		let topicIndex = 1;
+		let ctx = ``;
+		let cols = 1;
+		console.log(this.data.exam_uresults);
+		this.data.exam_uresults.map((topic)=>{          
+		// if(topic.subject_id==this.getSubjectID()){              
+		  if(cols>4){
+		    cols=1;
+		    ctx += `
+		  </div>
+		  <div class="row">
+		    `;
+		  }
+		  let percentage = this.computePercentage(topic.user_taken,topic.total_students);
+		  let caret = ``;
+		  if(percentage>50){
+		    caret = `<span class="description-percentage text-green"><i class="fa fa-caret-up"></i>`;
+		  }
+		  else if(percentage<50 && percentage>0){
+		    caret = `<span class="description-percentage text-red"><i class="fa fa-caret-down"></i>`;
+		  }
+		  else if(percentage==0){
+		    caret = `<span class="description-percentage text-orange"><i class="fa fa-caret-left"></i>`;
+		  }
+		  ctx+=`
+		  <div class="col-sm-3" style="height:180px">
+		    <div class="description-block border-right">
+		      ${caret} ${percentage}%</span>
+		      <h5 class="description-header">SUBJECT ${topicIndex} - S${topicIndex} (${topic.user_taken}/${topic.total_students})</h5>
+		      <div style="text-align:center">
+		        <span class="description-text">${topic.subj_name}</span>
+		      </div>
+		    </div>
+		  </div>
+		  `;
+		  topicIndex++;
+		  cols++;
+		// }
+		});        
+		$('#chart-graph-footer').html(ctx);
+		}
+		computePercentage(score,items){let result = ((score/items)*100); if(isNaN(result))return 0; else return result; }
+	///////////////////////////////////////////////////////
 }
 let adminreport = new AdminReport();
 

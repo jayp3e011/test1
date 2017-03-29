@@ -73,7 +73,7 @@
 				<form data-toggle="validator" role="form" id="addTopic-form">
 					<div class="form-group has-feedback">
 						<label for="recipient-name" class="control-label">Subject:</label>
-						<select name="colors" class="form-control" id="subjectidCreate" data-error="must select a subject" required=>
+						<select class="form-control" id="subjectidCreate" data-error="must select a subject">
 						</select>
 					</div>
 					<div class="form-group has-feedback">

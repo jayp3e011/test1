@@ -150,12 +150,12 @@
 				<form data-toggle="validator" role="form">
 					<div class="form-group has-feedback">
 						<label for="recipient-name" class="control-label">Subject:</label>
-						<select name="colors" class="form-control" id="subjectidCreate" required>
+						<select name="subjectidCreate" class="form-control" id="subjectidCreate" required>
 						</select>
 					</div>
 					<div class="form-group has-feedback">
 						<label for="recipient-name" class="control-label">Topic:</label>
-						<select name="colors" class="form-control" id="topictidCreate" required>
+						<select name="topicidCreate" class="form-control" id="topicidCreate" required>
 						</select>
 					</div>
 					<div class="form-group has-feedback">
@@ -218,12 +218,12 @@
 				<form data-toggle="validator" role="form">
 					<div class="form-group has-feedback">
 						<label for="recipient-name" class="control-label">Subject:</label>
-						<select name="colors" class="form-control" id="subjectidUpdate" required>
+						<select name="subjectidUpdate" class="form-control" id="subjectidUpdate" required>
 						</select>
 					</div>
 					<div class="form-group has-feedback">
 						<label for="recipient-name" class="control-label">Topic:</label>
-						<select name="colors" class="form-control" id="topictidUpdate" required>
+						<select name="topicidUpdate" class="form-control" id="topicidUpdate" required>
 						</select>
 					</div>
 					<div class="form-group has-feedback">
@@ -354,6 +354,8 @@
 
 		sampleUpload(){
 			// $elm = $('#import');
+			var saved = 0;
+			var failed = 0;
 			$('#import').on('change', function (changeEvent) {
 		        var reader = new FileReader();
 		        
@@ -373,8 +375,8 @@
 						// settings.data.arrSubj.push(xlobject.subject);
 						var html = "";
 						html+=  "<tr><td>"+xlobject.__rowNum__+"</td>";
-						html+=  "<td>"+settings.getSubjectID(xlobject.subject)+"</td>";
-						html+=  "<td>"+settings.getTopicID(xlobject.topic)+"</td>";
+						html+=  "<td>"+xlobject.subject+"</td>";
+						html+=  "<td>"+xlobject.topic+"</td>";
 						html+=  "<td>"+xlobject.question+"</td>";
 						html+=  "<td>"+xlobject.answer+"</td>";
 						html+=  "<td>"+xlobject.choice_a+"</td>";
@@ -385,11 +387,12 @@
 						html+=  '<td><span class="label label-danger">Not Saved</span></td><tr>';
 						$('#excelData tbody').append(html);
 						$('#count').text('Rows: '+xlobject.__rowNum__);
+						if ((saved+failed)==parseInt(xlobject.__rowNum__)) {alert(saved+' :saved '+failed+' :failed');}
 						if ($('#questionbtnmodalimport').on('click', function(e){
 							e.preventDefault();
 							swal("Error","There's a change in the database structure this feature is under maintenace","error");
-							// if (saveData(xlobject.question,xlobject.answer,xlobject.choice_a,xlobject.choice_b,xlobject.choice_c,xlobject.choice_d,xlobject.reference)) {
-							// 	alert('Saved....');
+							// if (setTimeout(saveData(settings.getSubjectID(xlobject.subject),settings.getTopicID(xlobject.topic),xlobject.question,xlobject.answer,xlobject.choice_a,xlobject.choice_b,xlobject.choice_c,xlobject.choice_d,xlobject.reference)),10000) {
+							// 	changeTableStatus('<span class="label label-success">Saved</span>');
 							// }
 							
 						}));
@@ -400,7 +403,7 @@
 		        
 		        reader.readAsBinaryString(changeEvent.target.files[0]);
 		  });
-			function saveData(question,answer,choice_a,choice_b,choice_c,choice_d,reference)
+			function saveData(subject_id,topic_id,question,answer,choice_a,choice_b,choice_c,choice_d,reference)
 			{
 				var success = false;
 				$.ajax({
@@ -408,6 +411,8 @@
 					url : "app/models/question.php",
 					data : {
 						'action':'importquestion',
+						'subject_id' : subject_id,
+						'topic_id' : topic_id,
 						'question' : question,
 						'answer' : answer,
 						'choice_a' : choice_a,
@@ -415,12 +420,21 @@
 						'choice_c' : choice_c,
 						'choice_d' : choice_d,
 						'reference' : reference
-					}
+					},
+					async : true
 					}).done(function(res){
+						let data = JSON.parse(res);
 						// alert(res);
 						// console.log(res); 
-						setTimeout(changeTableStatus('<span class="label label-success">Saved</span>'),3000);
-						success = true;
+						if (data.result=="ok") {
+							saved++;
+							success = true;
+						}
+						else{
+							failed++;
+							success = false;
+						}
+						
 						
 					});
 					return success;
@@ -428,27 +442,31 @@
 			function changeTableStatus(status)
 			{
 				var count = 0;
+				var less = 0;
 				$.ajax({
 					method :"POST",
-					url : "app/models/question.php",
-					data : {
-						'action':'getQuest1'
-					}
+					url : "app/models/question.php"
+					// data : {
+					// 	'action':'getQuest1'
+					// }
 				}).done(function(dt){
-					var dbe = JSON.parse(dt);
-					// console.log(dt);
+					let dbe = JSON.parse(dt);
+					console.log(saved+failed);
 					dbe.map(function(dbobject){
 						$('#excelData tbody tr').each(function(row, tr){
-					        if ($(tr).find('td:eq(1)').text() === dbobject.question && $(tr).find('td:eq(2)').text()===dbobject.answer && $(tr).find('td:eq(3)').text()===dbobject.choice_a && $(tr).find('td:eq(4)').text()===dbobject.choice_b && $(tr).find('td:eq(5)').text()===dbobject.choice_c && $(tr).find('td:eq(6)').text()===dbobject.choice_d && $(tr).find('td:eq(7)').text()===dbobject.reference) 
+					        if ($(tr).find('td:eq(1)').text() === dbobject.subject_id && $(tr).find('td:eq(2)').text()===dbobject.topic_id && $(tr).find('td:eq(3)').text()===dbobject.question && $(tr).find('td:eq(4)').text()===dbobject.answer && $(tr).find('td:eq(5)').text()===dbobject.choice_a && $(tr).find('td:eq(6)').text()===dbobject.choice_b && $(tr).find('td:eq(7)').text()===dbobject.choice_c && $(tr).find('td:eq(8)').text()===dbobject.choice_d) 
 					        {
-					        	$(tr).find('td:eq(8)').html(status);
+					        	$(tr).find('td:eq(9)').html(status);
 					        	$('#questionbtnmodalimport').attr('disabled','disable');
 					        	count++;
 					        }
-					        
+					        else{
+					        	less++;
+					        }
+					        // console.log($(tr).find('td:eq(1)').text());
 					    }); 
 					});
-					 $('#saved').text(' / Rows saved: '+count);
+					 $('#saved').text(' / Rows saved: '+saved+' Failed: '+failed);
 				});
 			}
 

@@ -84,52 +84,49 @@
 }
 
 let questionForm = `
-	<form data-toggle="validator" role="form" id="addFeddback-form">
 		<div class="form-group has-feedback">
 			<label for="recipient-name" class="control-label">Subject:</label>
 			<select name="colors" class="form-control" id="subjectid">
 			</select>
 		</div>
 		<div class="form-group has-feedback">
+			<label for="recipient-name" class="control-label">Topic:</label>
+			<select name="colors" class="form-control" id="topicid">
+			</select>
+		</div>
+		<div class="form-group has-feedback">
 			<label for="recipient-name" class="control-label">Question:</label>
 			<textarea class="form-control" placeholder="content" id="question" data-maxlength="250" data-error="not less than 250 characters" required></textarea>
-			<span class="glyphicon glyphicon-envelope form-control-feedback"></span>
 			<div class="help-block with-errors"></div>
 		</div>
 		<div class="form-group has-feedback">
 			<label for="recipient-name" class="control-label">Choice A:</label>
 			<textarea class="form-control" placeholder="choice_a" id="choice_a" data-maxlength="250" data-error="not less than 250 characters" required></textarea>
-			<span class="glyphicon glyphicon-envelope form-control-feedback"></span>
 			<div class="help-block with-errors"></div>
 		</div>
 		<div class="form-group has-feedback">
 			<label for="recipient-name" class="control-label">Choice B:</label>
 			<textarea class="form-control" placeholder="choice_b" id="choice_b" data-maxlength="250" data-error="not less than 250 characters" required></textarea>
-			<span class="glyphicon glyphicon-envelope form-control-feedback"></span>
 			<div class="help-block with-errors"></div>
 		</div>
 		<div class="form-group has-feedback">
 			<label for="recipient-name" class="control-label">Choice C:</label>
 			<textarea class="form-control" placeholder="choice_c" id="choice_c" data-maxlength="250" data-error="not less than 250 characters" required></textarea>
-			<span class="glyphicon glyphicon-envelope form-control-feedback"></span>
 			<div class="help-block with-errors"></div>
 		</div>
 		<div class="form-group has-feedback">
 			<label for="recipient-name" class="control-label">Choice D:</label>
 			<textarea class="form-control" placeholder="choice_d" id="choice_d" data-maxlength="250" data-error="not less than 250 characters" required></textarea>
-			<span class="glyphicon glyphicon-envelope form-control-feedback"></span>
 			<div class="help-block with-errors"></div>
 		</div>
 		<div class="form-group has-feedback">
 			<label for="recipient-name" class="control-label">Answer:</label>
 			<input type="text" class="form-control" placeholder="answer" id="answer" data-maxlength="1" data-error="not less than 1 characters" required></input>
-			<span class="glyphicon glyphicon-envelope form-control-feedback"></span>
 			<div class="help-block with-errors"></div>
 		</div>
 		<div class="form-group has-feedback">
 			<label for="recipient-name" class="control-label">Reference:</label>
 			<textarea class="form-control" placeholder="reference" id="reference" data-maxlength="255" data-error="not less than 255 characters" required></textarea>
-			<span class="glyphicon glyphicon-envelope form-control-feedback"></span>
 			<div class="help-block with-errors"></div>
 		</div>
 	</form>
@@ -815,7 +812,7 @@ function renderNewsModals(){
 	$(_NEWSTABLE_SELECTED_ID + 'modal-read').on('show.bs.modal', function (event) {
 		// console.log("I'm here " + _EXAMTABLE_SELECTED_ID);
 		var modal = $(this);
-		modal.find('.modal-title').text('Read Entry ID: ' + _USERTABLE_SELECTED_ID)	 
+		modal.find('.modal-title').text('Read Entry ID: ' + _USERTABLE_SELECTED_ID);	 
 		modal.find('.modal-body').html(newsForm); 
 		modal.find('.modal-body input').attr('readonly','readonly');
 		modal.find('#content').attr('readonly','readonly');
@@ -832,9 +829,9 @@ function renderNewsModals(){
 	});
 	$(_NEWSTABLE_SELECTED_ID + 'modal-create').on('show.bs.modal', function (event) {
 		var modal = $(this);
-		modal.find('#userid').attr('readonly','readonly');
+		modal.find('#useridCreate').attr('readonly','readonly');
 		// modal.find('.modal-body').html(newsForm);
-		modal.find('#userid').val(getUID());
+		modal.find('#useridCreate').val(getUID());
 	});
 
 	$(_NEWSTABLE_SELECTED_ID + 'modal-update').on('show.bs.modal', function (event) {
@@ -857,7 +854,7 @@ function renderNewsModals(){
 	$(_NEWSTABLE_SELECTED_ID + 'modal-delete').on('show.bs.modal', function (event) {
 		var modal = $(this);
 		modal.find('.modal-body').html(newsForm);
-		modal.find('.modal-title').text('Read Entry ID: ' + _USERTABLE_SELECTED_ID)	
+		modal.find('.modal-title').text('Read Entry ID: ' + _USERTABLE_SELECTED_ID);	
 		modal.find('.modal-body input').attr('readonly','readonly');
 		modal.find('#content').attr('readonly','readonly');
   		_NEWSTABLE_DATA.map(function(newsobj){
@@ -870,7 +867,7 @@ function renderNewsModals(){
 				return;
   			}
   		});
-	});
+	});															
 
 	$('#newsbtnmodalcreate').on('click',function(e){	
 		e.preventDefault();			
@@ -892,6 +889,7 @@ function renderNewsModals(){
 		        	content:content	   
 		        }
 		    }).done(function(res){
+		    	let data = JSON.parse(res);
 		    	// console.log(res);
 		    	$('#newsmodal-create').modal('hide');
 		    	$('#useridCreate').val("");$('#nameCreate').val("");
@@ -914,7 +912,8 @@ function renderNewsModals(){
 		}
 	});
 
-	$('#newsbtnmodalupdate').on('click',function(){				
+	$('#newsbtnmodalupdate').on('click',function(e){		
+		e.preventDefault();		
 		// console.log("updateclicked");
 		swal({
 		  title: "Are you sure?",
@@ -942,6 +941,7 @@ function renderNewsModals(){
 		        	content:content	    
 		        }
 		    }).done(function(res){
+		    	let data = JSON.parse(res);
 		    	// console.log(res);
 		    	$('#newsmodal-update').modal('hide');$('#nameUpdate').val("");
 		    	$('#contentUpdate').val("");
@@ -1046,7 +1046,7 @@ function renderFeedbackModals(){
 		var modal = $(this);
 		modal.find('.modal-body').html(feedBackForms);
 		modal.find('.modal-title').text('Read Entry ID: ' + _USERTABLE_SELECTED_ID);
-		modal.find('.modal-body').html(feedBackForms);	  
+		// modal.find('.modal-body').html(feedBackForms);	  
 		modal.find('.modal-body input').attr('readonly','readonly');
 		modal.find('#content').attr('readonly','readonly');
   		_FEEDBACKTABLE_DATA.map(function(feedbackobj){
@@ -1356,7 +1356,7 @@ function renderGuidelinesModals(){
 		        url: "app/models/guidelines.php",
 		        data: {
 		        	action:'deleteguidelines',
-		        	id: _EXAMTABLE_SELECTED_IDCreate	
+		        	id: _EXAMTABLE_SELECTED_ID	
 		        }
 		    }).done(function(res){
 		    	// console.log(res);
@@ -1464,14 +1464,14 @@ function renderTopicModals(){
 	});
 
 	$('#topicbtnmodalcreate').on('click',function(e){	
-		e,preventDefault();			
+		e.preventDefault();			
 		// console.log("clicked");
 		// var newTopic = {
 			var subject_id = $('#subjectidCreate').val();
 			var name = $('#nameCreate').val();
 		// };
 		// console.log(newTopic);
-		if (subject_id!='' && namee!='') {
+		if(subject_id!='' && name!='') {
 			$.ajax({
 		        method: "POST",
 		        url: "app/models/topic.php",
@@ -1485,7 +1485,6 @@ function renderTopicModals(){
 		    	let data = JSON.parse(res);
 		    	$('#topicmodal-create').modal('hide');
 		    	$('#subjectidCreate').val("");$('#nameCreate').val("");
-		    	$('#createdatCreate').val("");
 		    	if (data.result=="ok") {
 		    		setTimeout(function(){
 		    		$('#topictable-loading').html('<img src="dist/img/loading1.gif"><br>Loading....');
@@ -1603,67 +1602,26 @@ function renderQuestionModals(){
 		modal.find('.modal-title').text('Read Entry ID: ' + _USERTABLE_SELECTED_ID);	  
 		modal.find('.modal-body').html(questionForm);
 		modal.find('.modal-body textarea').attr('readonly','readonly');
+		modal.find('.modal-body select').attr('disabled','disable');
+		_TOPICTABLE_DATA.map(function(topicobj){
+			$('#topicid').append($('<option>').text(topicobj.name).attr('value', topicobj.id));
+		});
+
+  		_SUBJECTTABLE_DATA.map(function(subjectobj){
+			$('#subjectid').append($('<option>').text(subjectobj.name).attr('value', subjectobj.id));
+		});
   		_QUESTIONTABLE_DATA.map(function(questionobj){
   			if(questionobj.id===_EXAMTABLE_SELECTED_ID){	  	
-  				// _TOPICTABLE_DATA.map(function(topicobj){
-  				// 	$('#topic_id').append($('<option>').text(topicobj.name).attr('value', topicobj.id));
-						// $("#topic_id option").each(function(i){
-				  //       if (questionobj.topic_id==this.text) {
-	  			// 			$(this).attr("selected","selected");
-	  			// 		}
-				  //   });		
-					modal.find('#question').val(questionobj.question);	  									  				
-					modal.find('#choice_a').val(questionobj.choice_a);
-					modal.find('#choice_b').val(questionobj.choice_b);
-					modal.find('#choice_c').val(questionobj.choice_c);
-					modal.find('#choice_d').val(questionobj.choice_d);
-					modal.find('#answer').val(questionobj.answer);
-					modal.find('#reference').val(questionobj.reference);
-					// console.log(questionobj);
-			    // });
-				// return;
-			}
-  		});
-  // 		_SUBJECTTABLE_DATA.map(function(subjectobj){
-		// 	$('#subjectid').append($('<option>').text(subjectobj.name).attr('value', subjectobj.id));
-		// 	$("#subjectid option").each(function(i){
-	 //        if (topicobj.subject_id==this.text) {
-		// 			$(this).attr("selected","selected");
-		// 		}
-	 //    	});
-		// });
-	});
-
-	$(_QUESTIONTABLE_SELECTED_ID + 'modal-create').on('show.bs.modal', function (event) {
-		var modal = $(this);
-		// modal.find('.modal-body').html(questionForm);
-		_SUBJECTTABLE_DATA.map(function(subjectobj){
-            $('#subjectid').append($('<option>').text(subjectobj.name).attr('value', subjectobj.id));
-		});
-		_TOPICTABLE_DATA.map(function(topicobj){
-            $('#topicid').append($('<option>').text(topicobj.name).attr('value', topicobj.id));
-		});
-	});
-
-	$(_QUESTIONTABLE_SELECTED_ID + 'modal-update').on('show.bs.modal', function (event) {
-		var modal = $(this);
-		modal.find('.modal-body').html(questionForm);
-		modal.find('.modal-title').text('Read Entry ID: ' + _USERTABLE_SELECTED_ID);  
-		_TOPICTABLE_DATA.map(function(topicobj){
-			modal.find('#topicid').append($('<option>').text(topicobj.name).attr('value', topicobj.id));
-		});
-  		_QUESTIONTABLE_DATA.map(function(questionobj){
-  			if(questionobj.id===_EXAMTABLE_SELECTED_ID){
-				$("#topicid option").each(function(i){
+  				$("#topicid option").each(function(i){
 			        if (questionobj.topic_id==this.text) {
   						$(this).attr("selected","selected");
   					}
 			    });
 			    $("#subjectid option").each(function(i){
-			        if (questionobj.subject_id==this.text) {
-  						$(this).attr("selected","selected");
-  					}
-			    });
+		        if (questionobj.subject_id==this.text) {
+						$(this).attr("selected","selected");
+					}
+		    	});
 				modal.find('#question').val(questionobj.question);	  									  				
 				modal.find('#choice_a').val(questionobj.choice_a);
 				modal.find('#choice_b').val(questionobj.choice_b);
@@ -1671,6 +1629,51 @@ function renderQuestionModals(){
 				modal.find('#choice_d').val(questionobj.choice_d);
 				modal.find('#answer').val(questionobj.answer);
 				modal.find('#reference').val(questionobj.reference);
+				// console.log(questionobj);
+			}
+  		});
+	});
+
+	$(_QUESTIONTABLE_SELECTED_ID + 'modal-create').on('show.bs.modal', function (event) {
+		var modal = $(this);
+		// modal.find('.modal-body').html(questionForm);
+		_SUBJECTTABLE_DATA.map(function(subjectobj){
+            $('#subjectidCreate').append($('<option>').text(subjectobj.name).attr('value', subjectobj.id));
+		});
+		_TOPICTABLE_DATA.map(function(topicobj){
+            $('#topicidCreate').append($('<option>').text(topicobj.name).attr('value', topicobj.id));
+		});
+	});
+
+	$(_QUESTIONTABLE_SELECTED_ID + 'modal-update').on('show.bs.modal', function (event) {
+		var modal = $(this);
+		// modal.find('.modal-body').html(questionForm);
+		modal.find('.modal-title').text('Read Entry ID: ' + _USERTABLE_SELECTED_ID);  
+		_TOPICTABLE_DATA.map(function(topicobj){
+			modal.find('#topicidUpdate').append($('<option>').text(topicobj.name).attr('value', topicobj.id));
+		});
+		_SUBJECTTABLE_DATA.map(function(subjectobj){
+			modal.find('#subjectidUpdate').append($('<option>').text(subjectobj.name).attr('value', subjectobj.id));
+		});
+  		_QUESTIONTABLE_DATA.map(function(questionobj){
+  			if(questionobj.id===_EXAMTABLE_SELECTED_ID){
+				$("#topicidUpdate option").each(function(i){
+			        if (questionobj.topic_id==this.text) {
+  						$(this).attr("selected","selected");
+  					}
+			    });
+			    $("#subjectidUpdate option").each(function(i){
+			        if (questionobj.subject_id==this.text) {
+  						$(this).attr("selected","selected");
+  					}
+			    });
+				modal.find('#questionUpdate').val(questionobj.question);	  									  				
+				modal.find('#choice_aUpdate').val(questionobj.choice_a);
+				modal.find('#choice_bUpdate').val(questionobj.choice_b);
+				modal.find('#choice_cUpdate').val(questionobj.choice_c);
+				modal.find('#choice_dUpdate').val(questionobj.choice_d);
+				modal.find('#answerUpdate').val(questionobj.answer);
+				modal.find('#referenceUpdate').val(questionobj.reference);
 				// console.log(questionobj);
 				return;
   			}
@@ -1682,16 +1685,26 @@ function renderQuestionModals(){
 		modal.find('.modal-body').html(questionForm);
 		modal.find('.modal-title').text('Read Entry ID: ' + _USERTABLE_SELECTED_ID)	  
 		modal.find('.modal-body textarea').attr('readonly','readonly');
-  // 		_TOPICTABLE_DATA.map(function(topicobj){
-		// 	modal.find('#topic_id').append($('<option>').text(topicobj.name).attr('value', topicobj.id));
-		// });
+		modal.find('.modal-body select').attr('disabled','disable');
+  		_TOPICTABLE_DATA.map(function(topicobj){
+			$('#topicid').append($('<option>').text(topicobj.name).attr('value', topicobj.id));
+		});
+		
+  		_SUBJECTTABLE_DATA.map(function(subjectobj){
+			$('#subjectid').append($('<option>').text(subjectobj.name).attr('value', subjectobj.id));
+		});
   		_QUESTIONTABLE_DATA.map(function(questionobj){
   			if(questionobj.id===_EXAMTABLE_SELECTED_ID){
-					// $("#topic_id option").each(function(i){
-				 //        if (questionobj.topic_id==this.text) {
-	  		// 				$(this).attr("selected","selected");
-	  		// 			}
-				 //    });
+				$("#topicid option").each(function(i){
+			        if (questionobj.topic_id==this.text) {
+  						$(this).attr("selected","selected");
+  					}
+			    });
+			    $("#subjectid option").each(function(i){
+		        if (questionobj.subject_id==this.text) {
+						$(this).attr("selected","selected");
+					}
+		    	});
 				modal.find('#question').val(questionobj.question);	  									  				
 				modal.find('#choice_a').val(questionobj.choice_a);
 				modal.find('#choice_b').val(questionobj.choice_b);

@@ -24,6 +24,7 @@
 				// echo "update question ok!";
 				$id = $_POST['id'];
 				$subject_id = $_POST['subjectid'];
+				$topic_id = $_POST['topic_id'];
 				$topic_id = $_POST['topicid'];
 				$question = $_POST['question'];
 				$choice_a = $_POST['choice_a'];
@@ -39,31 +40,29 @@
 			if($_POST['action']=="deletequestion"){
 				// echo "delete question ok!";
 				$id = $_POST['id'];
-				$answer= $_POST['answer'];
-				$reference = $_POST['reference'];
 				$sql = "delete from $table where id='$id'";
 				$result = mysqli_query($link, $sql) or die(json_encode(["result" => "not ok","message" => "Invalid query" . mysqli_error($link)]));				
 				echo json_encode(["result" => "ok"]);
 			}
 			if($_POST['action']=="importquestion"){
+				$subject_id = $_POST['subject_id'];
+				$topic_id = $_POST['topic_id'];
 				$question = $_POST['question'];
 				$choice_a = $_POST['choice_a'];
 				$choice_b = $_POST['choice_b'];
 				$choice_c = $_POST['choice_c'];
 				$choice_d = $_POST['choice_d'];
-				$answer = trim($_POST['answer']);
+				$answer = $_POST['answer'];
 				$reference = $_POST['reference'];
-				$sql = "insert into question1 VALUES('','$question','$answer','$choice_a','$choice_b','$choice_c','$choice_d','$reference')";
-				$result = mysqli_query($link, $sql) or die("Invalid query" . mysqli_error($link));
+				$sql = "insert into question1 VALUES('','$subject_id','$topic_id','$question','$answer','$choice_a','$choice_b','$choice_c','$choice_d','$reference')";
+				$result = mysqli_query($link, $sql) or die(json_encode(["result" => "not ok","message" => "Invalid query" . mysqli_error($link)]));
 				if ($result) {
-					echo "Success!....";
+					echo json_encode(["result" => "ok"]);
 				}
 				else
 				{
-					echo "Error";
+					echo json_encode(["result" => "not ok"]);
 				}
-				echo $result;
-				
 			}
 			if ($_POST['action']=="getQuest1") {
 				$sql = "select * from question1";
@@ -79,7 +78,8 @@
 		}
 		else{	
 			// $sql = "select * from $table";
-			$sql = "select q.id, coalesce(s.name) as subject_id, coalesce(t.name) as topic_id,q.question,q.choice_a,q.choice_b,q.choice_c,q.choice_d,q.answer,q.reference from $table q join topic t on t.id=q.topic_id join subject s on t.subject_id=s.id";
+			// $sql = "select q.id, coalesce(s.name) as subject_id, coalesce(t.name) as topic_id,q.question,q.choice_a,q.choice_b,q.choice_c,q.choice_d,q.answer,q.reference from $table q join topic t on t.id=q.topic_id join subject s on t.subject_id=s.id";
+			$sql = "select q.id, coalesce(s.name) as subject_id, coalesce(t.name) as topic_id,q.question,q.choice_a,q.choice_b,q.choice_c,q.choice_d,q.answer,q.reference from $table q join topic t on t.id=q.topic_id join subject s on q.subject_id=s.id";
 		    $result = mysqli_query($link, $sql) or die("Invalid query" . mysqli_error($link));
 			$arr = array();
 			$count=0;

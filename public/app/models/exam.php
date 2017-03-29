@@ -7,23 +7,38 @@ if($link)
 	{
 		if($_POST['action']=="getquestions")
 		{
+			// $table='question';
+			// $table1='topic';
+			// $sql1 = "select id from $table1 WHERE subject_id=".$_POST['subject_id'];
+			// $sql = "select * from $table";
+			// $result = mysqli_query($link, $sql) or die("Invalid query" . mysqli_error($link));
+			// $result1 = mysqli_query($link, $sql1) or die("Invalid query" . mysqli_error($link));
+			// $arr = array();
+			// $count=0;
+			// while($row1=mysqli_fetch_assoc($result1)){
+			// 	while($row=mysqli_fetch_assoc($result))
+			// 	{
+			// 		if ($row1['id']==$row['topic_id'])
+			// 		{
+			// 			$arr[] = $row;
+			// 			$count++;
+			// 		}
+			// 	}
+			// }
+			// echo json_encode($arr);
 			$table='question';
-			$table1='topic';
-			$sql1 = "select id from $table1 WHERE subject_id=".$_POST['subject_id'];
-			$sql = "select * from $table";
+			$table1='subject';
+			$sql = "select items from $table1 WHERE id=".$_POST['subject_id'];
 			$result = mysqli_query($link, $sql) or die("Invalid query" . mysqli_error($link));
+			$row=mysqli_fetch_assoc($result);
+			$limit = intval($row['items']);
+			$sql1 = "select * from $table WHERE subject_id=".$_POST['subject_id']." limit ".$limit;	
 			$result1 = mysqli_query($link, $sql1) or die("Invalid query" . mysqli_error($link));
 			$arr = array();
 			$count=0;
 			while($row1=mysqli_fetch_assoc($result1)){
-				while($row=mysqli_fetch_assoc($result))
-				{
-					if ($row1['id']==$row['topic_id'])
-					{
-						$arr[] = $row;
-						$count++;
-					}
-				}
+				$arr[] = $row1;
+				$count++;
 			}
 			echo json_encode($arr);
 		}
