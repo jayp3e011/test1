@@ -253,6 +253,7 @@
   </footer>
 
  <script src="bootstrap/js/bootstrap.min.js"></script>
+<script src="https://cdn.rawgit.com/timrwood/moment/1.7.2/min/moment.min.js"></script>
   <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
   <script src="plugins/fastclick/fastclick.js"></script>
    <script src="plugins/sweetalert/sweetalert.min.js"></script>

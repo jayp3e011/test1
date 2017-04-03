@@ -431,6 +431,7 @@ function renderSubjectModals(){
 		        }
 		    }).done(function(res){
 		    	// console.log(res);
+		    	modal.data('modal', null);
 		    	modal.modal('hide');
 		    	modal.find('#nameCreate').val('');modal.find('#timedurationCreate').val('');
 		    	modal.find('#passingrateCreate').val('');modal.find('#descriptionCreate').val('');
@@ -453,7 +454,7 @@ function renderSubjectModals(){
 		else{
 			swal("Error","Please fill all the boxes","error");
 		}
-		
+		renderSubjectModals();
 	});
 
 	$('#subjectbtnmodalupdate').on('click',function(e){		
@@ -519,6 +520,7 @@ function renderSubjectModals(){
 		  } else {
 			    swal("Cancelled", "Subject data is safe :)", "error");
 		  }
+		  renderSubjectModals();
 		});
 	});
 
@@ -568,7 +570,8 @@ function renderSubjectModals(){
 		    		$('#subjecttable-loading').html('<img src="dist/img/loading1.gif">');
 		    		doRenderTable('#subject');
 		    		swal("Deleted!", "The subject has been deleted!", "success");
-		    	},1000);	    	
+		    	},1000);	 
+		    	renderSubjectModals();   	
 		    });
 		  } else {
 			    swal("Cancelled", "Subject data is safe :)", "error");
@@ -680,6 +683,7 @@ function renderUserModals(){
 		    	let data =JSON.parse(res);
 		    	// console.log(res);
 	    		$('#userbtnmodalcreate').unbind();
+	    		$('#usermodal-create').data('modal', null);
 		    	$('#usermodal-create').modal('hide');
 		    	$('#firstnameCreate').val("");$('#lastnameCreate').val("");
 		    	$('#emailCreate').val("");$('#passwordCreate').val("");
@@ -891,6 +895,7 @@ function renderNewsModals(){
 		    }).done(function(res){
 		    	let data = JSON.parse(res);
 		    	// console.log(res);
+		    	$('#newsmodal-create').data('modal', null);
 		    	$('#newsmodal-create').modal('hide');
 		    	$('#useridCreate').val("");$('#nameCreate').val("");
 		    	$('#contentCreate').val("");$('#createdatCreate').val("");
@@ -1078,6 +1083,7 @@ function renderFeedbackModals(){
 	        }
 	    }).done(function(res){
 	    	// console.log(res);
+	    	$('#feedbackmodal-create').data('modal', null);
 	    	$('#feedbackmodal-create').modal('hide');
 	    	$('#userid').val("");
 	    	$('#name').val("");
@@ -1267,6 +1273,7 @@ function renderGuidelinesModals(){
 		    }).done(function(res){
 		    	// console.log(res);
 		    	let data = JSON.parse(res);
+		    	$('#guidelinesmodal-create').data('modal', null);
 		    	$('#guidelinesmodal-create').modal('hide');
 		    	$('#useridCreate').val("");$('#subjectstopassCreate').val("");
 		    	if (data.result=="ok") {
@@ -1483,6 +1490,7 @@ function renderTopicModals(){
 		    }).done(function(res){
 		    	// console.log(res);
 		    	let data = JSON.parse(res);
+		    	$('#topicmodal-create').data('modal', null);
 		    	$('#topicmodal-create').modal('hide');
 		    	$('#subjectidCreate').val("");$('#nameCreate').val("");
 		    	if (data.result=="ok") {
@@ -1639,21 +1647,64 @@ function renderQuestionModals(){
 		// modal.find('.modal-body').html(questionForm);
 		_SUBJECTTABLE_DATA.map(function(subjectobj){
             $('#subjectidCreate').append($('<option>').text(subjectobj.name).attr('value', subjectobj.id));
+            _TOPICTABLE_DATA.map(function(topicobj){
+	            if (topicobj.id==subjectobj.id) {
+	            	$('#topicidCreate').append($('<option>').text(topicobj.name).attr('value', topicobj.id));
+	            }
+			});
 		});
-		_TOPICTABLE_DATA.map(function(topicobj){
-            $('#topicidCreate').append($('<option>').text(topicobj.name).attr('value', topicobj.id));
+		$('#subjectidCreate').on('change', function(){
+			$('#topicidCreate').html('');
+			loadChooseTopicQuiz($('#subjectidCreate').val(),"#topicidCreate");
+			
 		});
 	});
+
+	function loadChooseTopicQuiz(subject,select){ 
+	var topobj= [];      
+		$.ajax({
+            method: "POST",
+            url: "app/models/topic.php",
+            data: {action:'gettopic',subject_id:subject}
+        }).done(function(topicdata){
+        	JSON.parse(topicdata).map(function(topicobj){
+            	$(select).append($('<option>').text(topicobj.name).attr('value', topicobj.id));
+			});
+			// console.log(topicdata);
+        });
+		// let html = ``;
+		// for(let obj in topobj){
+			// console.log(topobj);
+		// 	if (topobj[obj].subject_id==subject) {
+		// 		// html += `<option value="${topobj[obj].id}">${topobj[obj].name}</option>`;
+		// 		$('#topicidCreate').append($('<option>').text(topobj[obj].name).attr('value', topobj[obj].id));
+		// 	}
+		// }
+		// $('#topicidCreate').html(html);
+   //       topobj.map(function(topicobj){
+	  //           if (topicobj.subject_id==subject) {
+	  //           	$('#topicidCreate').append($('<option>').text(topicobj.name).attr('value', topicobj.id));
+	  //           }
+			// });
+    }
 
 	$(_QUESTIONTABLE_SELECTED_ID + 'modal-update').on('show.bs.modal', function (event) {
 		var modal = $(this);
 		// modal.find('.modal-body').html(questionForm);
 		modal.find('.modal-title').text('Read Entry ID: ' + _USERTABLE_SELECTED_ID);  
-		_TOPICTABLE_DATA.map(function(topicobj){
-			modal.find('#topicidUpdate').append($('<option>').text(topicobj.name).attr('value', topicobj.id));
-		});
+		
 		_SUBJECTTABLE_DATA.map(function(subjectobj){
 			modal.find('#subjectidUpdate').append($('<option>').text(subjectobj.name).attr('value', subjectobj.id));
+			_TOPICTABLE_DATA.map(function(topicobj){
+			if (topicobj.id==subjectobj.id) {
+				modal.find('#topicidUpdate').append($('<option>').text(topicobj.name).attr('value', topicobj.id));
+			}
+		});
+		$('#subjectidUpdate').on('change', function(){
+			$('#topicidUpdate').html('');
+			loadChooseTopicQuiz($('#subjectidUpdate').val(),"#topicidUpdate");
+			
+		});
 		});
   		_QUESTIONTABLE_DATA.map(function(questionobj){
   			if(questionobj.id===_EXAMTABLE_SELECTED_ID){
@@ -1664,6 +1715,11 @@ function renderQuestionModals(){
 			    });
 			    $("#subjectidUpdate option").each(function(i){
 			        if (questionobj.subject_id==this.text) {
+  						$(this).attr("selected","selected");
+  					}
+			    });
+			    $("#answerUpdate option").each(function(i){
+			        if (questionobj.answer==this.text) {
   						$(this).attr("selected","selected");
   					}
 			    });
@@ -1681,21 +1737,22 @@ function renderQuestionModals(){
 	});
 
 	$(_QUESTIONTABLE_SELECTED_ID + 'modal-delete').on('show.bs.modal', function (event) {
+		// console.log("I'm here " + _EXAMTABLE_SELECTED_ID);
 		var modal = $(this);
+		modal.find('.modal-title').text('Read Entry ID: ' + _USERTABLE_SELECTED_ID);	  
 		modal.find('.modal-body').html(questionForm);
-		modal.find('.modal-title').text('Read Entry ID: ' + _USERTABLE_SELECTED_ID)	  
 		modal.find('.modal-body textarea').attr('readonly','readonly');
 		modal.find('.modal-body select').attr('disabled','disable');
-  		_TOPICTABLE_DATA.map(function(topicobj){
+		_TOPICTABLE_DATA.map(function(topicobj){
 			$('#topicid').append($('<option>').text(topicobj.name).attr('value', topicobj.id));
 		});
-		
+
   		_SUBJECTTABLE_DATA.map(function(subjectobj){
 			$('#subjectid').append($('<option>').text(subjectobj.name).attr('value', subjectobj.id));
 		});
   		_QUESTIONTABLE_DATA.map(function(questionobj){
-  			if(questionobj.id===_EXAMTABLE_SELECTED_ID){
-				$("#topicid option").each(function(i){
+  			if(questionobj.id===_EXAMTABLE_SELECTED_ID){	  	
+  				$("#topicid option").each(function(i){
 			        if (questionobj.topic_id==this.text) {
   						$(this).attr("selected","selected");
   					}
@@ -1713,56 +1770,75 @@ function renderQuestionModals(){
 				modal.find('#answer').val(questionobj.answer);
 				modal.find('#reference').val(questionobj.reference);
 				// console.log(questionobj);
-				return;
-  			}
+			}
   		});
 	});
 
-	$('#questionbtnmodalcreate').on('click',function(){				
+	$('#questionbtnmodalcreate').on('click',function(e){				
+		e.preventDefault();
 		// console.log("clicked");
 		var newQuestion = {
-			// topic_id:$('#topic_id').val(),
-			question:$('#question').val(),
-			choice_a:$('#choice_a').val(),
-			choice_b:$('#choice_b').val(),
-			choice_c:$('#choice_c').val(),
-			choice_d:$('#choice_d').val(),
-			answer:$('#answer').val(),
-			reference:$('#reference').val()
+			subject_id:$('#subjectidCreate').val(),
+			topic_id:$('#topicidCreate').val(),
+			question:$('#questionCreate').val(),
+			choice_a:$('#choice_aCreate').val(),
+			choice_b:$('#choice_bCreate').val(),
+			choice_c:$('#choice_cCreate').val(),
+			choice_d:$('#choice_dCreate').val(),
+			answer:$('#answerCreate').val(),
+			reference:$('#referenceCreate').val()
 		};
-		// console.log(newQuestion);
-		$.ajax({
-	        method: "POST",
-	        url: "app/models/question.php",
-	        data: {
-	        	action:'createquestion',
-	        	// topic_id:newQuestion.topic_id,	        	
-	        	question:newQuestion.question,	        	
-	        	choice_a:newQuestion.choice_a,	        	
-	        	choice_b:newQuestion.choice_b,	        	
-	        	choice_c:newQuestion.choice_c,	        	
-	        	choice_d:newQuestion.choice_d,	        	
-	        	answer:newQuestion.answer,        
-	        	reference:newQuestion.reference        
-	        }
-	    }).done(function(res){
-	    	// console.log(res);
-	    	// $('#topic_id').val("");
-				$('#question').val("");
-				$('#choice_a').val("");
-				$('#choice_b').val("");
-				$('#choice_c').val("");
-				$('#choice_d').val("");
-				$('#answer').val("");
-				$('#reference').val("");
-	    	setTimeout(function(){
-	    		$('#questiontable-loading').html('<img src="dist/img/loading1.gif"><br>Loading....');
-	    		doRenderTable('#question');
-	    		swal("Success!", "New question has been created!", "success");
-	    	},1000);	    	
-	    });
+		console.log(newQuestion);
+		if (newQuestion.question!='' && newQuestion.choice_a!='' && newQuestion.choice_b!='' && newQuestion.choice_c!='' && newQuestion.choice_d!='' && newQuestion.answer!='' && newQuestion.reference!='' ) {
+			$.ajax({
+		        method: "POST",
+		        url: "app/models/question.php",
+		        data: {
+		        	action:'createquestion',
+		        	subject_id:newQuestion.subject_id,	        	
+		        	topic_id:newQuestion.topic_id,	        	
+		        	question:newQuestion.question,	        	
+		        	choice_a:newQuestion.choice_a,	        	
+		        	choice_b:newQuestion.choice_b,	        	
+		        	choice_c:newQuestion.choice_c,	        	
+		        	choice_d:newQuestion.choice_d,	        	
+		        	answer:newQuestion.answer,        
+		        	reference:newQuestion.reference        
+		        }
+		    }).done(function(res){
+		    	let data = JSON.parse(res);
+
+		    	
+		    	if (data.result=="ok") {
+		    		setTimeout(function(){
+			    		$('#questiontable-loading').html('<img src="dist/img/loading1.gif"><br>Loading....');
+			    		doRenderTable('#question');
+			    		swal("Success!", "New question has been created!", "success");
+			    	},1000);
+		    	}
+		    	else{
+		    		swal("Error!","Create New Question Failed","error")
+		    	}
+		    	// console.log(res);
+		    	// $('#topic_id').val("");
+		    		$('#questionmodal-create').data('modal', null);
+		    		$('#questionmodal-create').hide();
+					$('#questionCreate').val("");
+					$('#choice_aCreate').val("");
+					$('#choice_bCreate').val("");
+					$('#choice_cCreate').val("");
+					$('#choice_dCreate').val("");
+					$('#answerCreate').val("");
+					$('#referenceCreate').val("");
+		    		// location.reload();
+		    });
+		}
+		else{
+			swal("Error!","Please fill up the form.","error");
+		}
 	});
-	$('#questionbtnmodalupdate').on('click',function(){				
+	$('#questionbtnmodalupdate').on('click',function(e){				
+		e.preventDefault();
 		// console.log("updateclicked");
 		swal({
 		  title: "Are you sure?",
@@ -1778,14 +1854,15 @@ function renderQuestionModals(){
 		function(isConfirm){
 		  if (isConfirm) {
 			var newQuestion = {
-				// topic_id:$('#topic_id').val(),
-				question:$('#question').val(),
-				choice_a:$('#choice_a').val(),
-				choice_b:$('#choice_b').val(),
-				choice_c:$('#choice_c').val(),
-				choice_d:$('#choice_d').val(),
-				answer:$('#answer').val(),
-				reference:$('#reference').val()
+				subject_id:$('#subjectidUpdate').val(),
+				topic_id:$('#topicidUpdate').val(),
+				question:$('#questionUpdate').val(),
+				choice_a:$('#choice_aUpdate').val(),
+				choice_b:$('#choice_bUpdate').val(),
+				choice_c:$('#choice_cUpdate').val(),
+				choice_d:$('#choice_dUpdate').val(),
+				answer:$('#answerUpdate').val(),
+				reference:$('#referenceUpdate').val()
 			};
 			// console.log(newQuestion);
 			$.ajax({
@@ -1793,7 +1870,9 @@ function renderQuestionModals(){
 		        url: "app/models/question.php",
 		        data: {
 		        	action:'updatequestion',
-		        	// topic_id:newQuestion.topic_id,	        	
+		        	id:_EXAMTABLE_SELECTED_ID,
+		        	subject_id:newQuestion.subject_id,	        	
+		        	topic_id:newQuestion.topic_id,	        	
 		        	question:newQuestion.question,	        	
 		        	choice_a:newQuestion.choice_a,	        	
 		        	choice_b:newQuestion.choice_b,	        	
@@ -1803,20 +1882,31 @@ function renderQuestionModals(){
 		        	reference:newQuestion.reference	
 		        }
 		    }).done(function(res){
+		    	let data = JSON.parse(res);
+		    	if (data.result=="ok") {
+
+		    		
+		    		setTimeout(function(){
+			    		$('#questiontable-loading').html('<img src="dist/img/loading1.gif"><br>Loading....');
+			    		doRenderTable('#question');
+			    		swal("Success!", "New question has been updated!", "success");
+			    	},1000);
+		    	}
+		    	else{
+		    		swal("Error!","Update Question Failed")
+		    	}
 		    	// console.log(res);
-		    	// $('#topic_id').val("");
-				$('#question').val("");
-				$('#choice_a').val("");
-				$('#choice_b').val("");
-				$('#choice_c').val("");
-				$('#choice_d').val("");
-				$('#answer').val("");
-				$('#reference').val("");
-		    	setTimeout(function(){
-		    		$('#questiontable-loading').html('<img src="dist/img/loading1.gif"><br>Loading....');
-		    		doRenderTable('#question');
-		    		swal("Success!", "New question has been updated!", "success");
-		    	},1000);	    	
+		    	$('#questionmodal-update').hide();
+		    	$('#subject_idUpdate').val("");
+		    	$('#topic_idUpdate').val("");
+				$('#questionUpdate').val("");
+				$('#choice_aUpdate').val("");
+				$('#choice_bUpdate').val("");
+				$('#choice_cUpdate').val("");
+				$('#choice_dUpdate').val("");
+				$('#answerUpdate').val("");
+				$('#referenceUpdate').val("");
+			    		    	
 		    });
 		  } else {
 			    swal("Cancelled", "Question data is safe :)", "error");
@@ -1847,11 +1937,12 @@ function renderQuestionModals(){
 		        url: "app/models/question.php",
 		        data: {
 		        	action:'deletequestion',
-		        	id:_EXAMTABLE_SELECTED_ID,
+		        	id:_EXAMTABLE_SELECTED_ID
 		        }
 		    }).done(function(res){
 		    	// console.log(res);
 		    	// $('#topic_id').val("");
+		    	$('#questionmodal-delete').hide();
 				$('#question').val("");
 				$('#choice_a').val("");
 				$('#choice_b').val("");

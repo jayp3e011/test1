@@ -7,10 +7,11 @@
 <body class="hold-transition skin-green layout-top-nav">
 	<div class="wrapper">
 		<!-- Nav -->
-		<?php include_once 'layout/nav.php'; echo '<script>showNav(["dashboard","logout"]);</script>';?>		
+		<?php include_once 'layout/nav.php'; echo '<script>showNav(["logout"]);</script>';?>		
 		<!-- Routes -->
 		<?php include_once 'layout/routes.php'; ?>
 		<!-- Modals -->
+		<?php include_once 'app/views/dashboard.php'; ?>
 		<?php include_once 'layout/modals.php'; ?>
 	</div>
 <!-- Scripts and Footer -->

@@ -1,10 +1,15 @@
 <script src="app/controllers/feedback.js"></script>
 <div class="box box-success">
 	<div class="box-header with-border">
-		<h3 class="box-title">Manage Feddback</h3>
+		<h3 class="box-title">Feedback</h3>
 	</div>
 	<div class="box-body">
-		<div class="btn-group" role="group" aria-label="...">
+		<div class="feedback">
+			<div id="feedbacktable-loading" style="text-align: center;">
+				<img src="dist/img/loading1.gif"><br>Loading....
+			</div>
+		</div>
+		<!-- <div class="btn-group" role="group" aria-label="...">
 			<button id="feedbacktable-btncreate" type="button" class="btn btn-primary" data-toggle="modal" data-target="#feedbackmodal-create" data-id="0" style="display:none;">
 				<i class="fa fa-plus text-gray"></i> &nbsp;&nbsp;Create </button>
 			<button id="feedbacktable-btnread" type="button" class="btn btn-success" data-toggle="modal" data-target="#feedbackmodal-read" data-id="0" style="display:none;" disabled>
@@ -15,13 +20,13 @@
 				<i class="fa fa-times text-gray"></i> &nbsp;&nbsp;Delete</button>
 		</div>
 		<div id="feedbacktable-status" style="text-align: center"></div>
-		<div>&nbsp;</div>
+		<div>&nbsp;</div> -->
 		<!-- datatable start-->
-		<table id="feedbacktable" class="table table-bordered table-hover">
+		<!-- <table id="feedbacktable" class="table table-bordered table-hover">
 			<div id="feedbacktable-loading" style="text-align: center;">
 				<img src="dist/img/loading1.gif"><br>Loading....
 			</div>
-		</table>
+		</table> -->
 		<!-- datatable end-->
 	</div>				
 		<!-- /.box-body -->
@@ -141,5 +146,57 @@
 <!-- delete modal end -->
 
 <!-- modals end-->
+<script>
+	var feedback=[];
+    var user=[];
+    $.ajax({
+      method: "POST",
+      url: "app/models/user.php"
+    }).done(function(userdata){
+      user = JSON.parse(userdata);
+      $.ajax({
+        method: "POST",
+        url: "app/models/feedback.php",
+      }).done(function(feedbackdata){
+        feedback = JSON.parse(feedbackdata);
+        render_StudentFeedback(feedback,user);
+        $('feedbacktable-loading').hide();  
+      })
+    });
+    
+    function render_StudentFeedback(feedbackdata,usersdata){
+  
+      let html = '';  
+      var i = 0;
+      var j = 0;
+      for(i in feedbackdata){
+        for(j in usersdata){
+          // console.log(feedbackdata[i]);
+          // console.log(usersdata[j]);
+          if (feedbackdata[i].user_id===usersdata[j].firstname+' '+usersdata[j].lastname) {
+            var dt = moment(feedbackdata[i].date,"YYYY-MM-DD h:mm:ss");
+            // var dt = feedbackdata[i].createdat;
+            html += '<div class="post" style="border:1px solid #ddd;padding:5px;">';
+               html +=  '<div class="user-block">';
+                 html +=  '<img class="img-circle img-bordered-sm" src="dist/img/avatar.png" alt="user image">';
+                 html +=  '<span class="username">';
+                   html +=  '<a href="#">'+usersdata[j].firstname+' '+usersdata[j].lastname+'</a>';
+                   html +=  '<!-- <a href="#" class="pull-right btn-box-tool"><i class="fa fa-times"></i></a> -->';
+                 html +=  '</span>';
+                 html +=  '<span class="description">Shared publicly - '+dt.format("MMMM Do YYYY h:mm A")+'('+dt.fromNow()+')</span>';
+               html +=  '</div>';
+               html +=  '<p>'+feedbackdata[i].feedback;
+                html += '</p>'
+               html +=  '<ul class="list-inline">';
+                 // html +=  '<li><a href="#" class="link-black text-sm"><i class="fa fa-commenting-o margin-r-5"></i> General Announcement</a></li>';
+                 // html +=  '<li class="pull-right"><a href="#" class="link-black text-sm"><i class="fa fa-eye margin-r-5"></i> Seen (5)</a></li>';
+             html +=  '</ul>';
+             html +=  '</div>';
+          }
+        }
+      }
+      $('.feedback').html(html);
+    }
+</script>
 
 

@@ -28,11 +28,13 @@
 								<div id="questiontable-status" style="text-align: center"></div>
 								<div>&nbsp;</div>
 								<!-- datatable start-->
-								<table id="questiontable" class="table table-bordered table-hover table-responsive">
-									<div id="questiontable-loading" style="text-align: center;">
-										<img src="dist/img/loading1.gif">
-									</div>
-								</table>
+								<div class="table-responsive">
+									<table id="questiontable" class="table table-bordered table-hover">
+										<div id="questiontable-loading" style="text-align: center;">
+											<img src="dist/img/loading1.gif">
+										</div>
+									</table>
+								</div>
 								<!-- datatable end-->
 
 							</div>				
@@ -185,7 +187,12 @@
 					</div>
 					<div class="form-group has-feedback">
 						<label for="recipient-name" class="control-label">Answer:</label>
-						<input type="text" class="form-control" placeholder="answer" id="answerCreate" data-maxlength="1" data-error="not more than 1 character" required></input>						
+						<select class="form-control" placeholder="answer" id="answerCreate" required>
+							<option value="A">A</option>
+							<option value="B">B</option>
+							<option value="C">C</option>
+							<option value="D">D</option>
+						</select>						
 						<div class="help-block with-errors"></div>
 					</div>
 					<div class="form-group has-feedback">
@@ -253,7 +260,12 @@
 					</div>
 					<div class="form-group has-feedback">
 						<label for="recipient-name" class="control-label">Answer:</label>
-						<input type="text" class="form-control" placeholder="answer" id="answerUpdate" data-maxlength="1" data-error="not more than 1 characters" required></input>
+						<select class="form-control" id="answerUpdate" required>
+							<option value="A">A</option>
+							<option value="B">B</option>
+							<option value="C">C</option>
+							<option value="D">D</option>
+						</select>
 						<div class="help-block with-errors"></div>
 					</div>
 					<div class="form-group has-feedback">
@@ -262,7 +274,7 @@
 						<div class="help-block with-errors"></div>
 					</div>
 					<div class="form-group">
-						<button type="submit" class="btn btn-outline pull-right" id="questionbtnmodalcreate">Save</button>
+						<button type="submit" class="btn btn-outline pull-right" id="questionbtnmodalupdate">Save</button>
 					</div>
 				</form><br><br>	
 			</div>
@@ -296,6 +308,24 @@
 
 <!-- delete modal end -->
 <!-- modal import end -->
+<!-- Modal -->
+<div class="modal fade" id="loadModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel"><i class="fa fa-clock-o"></i> Please Wait</h4>
+      </div>
+      <div class="modal-body center-block">
+        <p>Saving Subjects</p>
+        <div class="progress">
+          <div class="progress-bar bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+            
+          </div>
+        </div>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 <!-- modals end-->
 
 <script>
@@ -347,7 +377,7 @@
 				$.each(this.files,(key,value)=>{
 					formData.append(key, value);
 				});
-				console.log(formData);			
+				// console.log(formData);			
 				return false;
 			});
 		}
@@ -356,14 +386,16 @@
 			// $elm = $('#import');
 			var saved = 0;
 			var failed = 0;
+			var tr =0;
+			var data;
 			$('#import').on('change', function (changeEvent) {
 		        var reader = new FileReader();
 		        
 		        reader.onload = function (evt) {
-					var data = evt.target.result;
+					data = evt.target.result;
 					var workbook = XLSX.read(data, {type: 'binary'});
 					var headerNames = XLSX.utils.sheet_to_json( workbook.Sheets[workbook.SheetNames[0]], { header: 1 })[0];
-					var data = XLSX.utils.sheet_to_json( workbook.Sheets[workbook.SheetNames[0]]);
+					data = XLSX.utils.sheet_to_json( workbook.Sheets[workbook.SheetNames[0]]);
 					// console.log('RAW______'+XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames]));
 					// console.log('head____'+headerNames);
 					// console.log(data);
@@ -385,16 +417,19 @@
 						html+=  "<td>"+xlobject.choice_d+"</td>";
 						// html+=  "<td>"+xlobject.reference+"</td>";
 						html+=  '<td><span class="label label-danger">Not Saved</span></td><tr>';
+						tr= parseInt(xlobject.__rowNum__);
 						$('#excelData tbody').append(html);
 						$('#count').text('Rows: '+xlobject.__rowNum__);
-						if ((saved+failed)==parseInt(xlobject.__rowNum__)) {alert(saved+' :saved '+failed+' :failed');}
 						if ($('#questionbtnmodalimport').on('click', function(e){
 							e.preventDefault();
-							swal("Error","There's a change in the database structure this feature is under maintenace","error");
-							// if (setTimeout(saveData(settings.getSubjectID(xlobject.subject),settings.getTopicID(xlobject.topic),xlobject.question,xlobject.answer,xlobject.choice_a,xlobject.choice_b,xlobject.choice_c,xlobject.choice_d,xlobject.reference)),10000) {
-							// 	changeTableStatus('<span class="label label-success">Saved</span>');
-							// }
-							
+								$('#loadModal').modal('show');																								
+							// swal("Error","There's a change in the database structure this feature is under maintenace","error");
+							if (setTimeout(saveData(settings.getSubjectID(xlobject.subject),settings.getTopicID(xlobject.topic),xlobject.question,xlobject.answer,xlobject.choice_a,xlobject.choice_b,xlobject.choice_c,xlobject.choice_d,xlobject.reference)),10000) {
+								changeTableStatus('<span class="label label-success">Saved</span>');
+							}
+							else{
+
+							}
 						}));
 					});
 					setTimeout(changeTableStatus('<span class="label label-warning">Already Saved</span>'),10000);
@@ -403,6 +438,7 @@
 		        
 		        reader.readAsBinaryString(changeEvent.target.files[0]);
 		  });
+			
 			function saveData(subject_id,topic_id,question,answer,choice_a,choice_b,choice_c,choice_d,reference)
 			{
 				var success = false;
@@ -427,7 +463,8 @@
 						// alert(res);
 						// console.log(res); 
 						if (data.result=="ok") {
-							saved++;
+								saved++;
+							
 							success = true;
 						}
 						else{
@@ -437,6 +474,7 @@
 						
 						
 					});
+					
 					return success;
 			}
 			function changeTableStatus(status)
@@ -445,12 +483,13 @@
 				var less = 0;
 				$.ajax({
 					method :"POST",
-					url : "app/models/question.php"
-					// data : {
-					// 	'action':'getQuest1'
-					// }
+					url : "app/models/question.php",
+					data : {
+						action:'getQuest1'
+					}
 				}).done(function(dt){
 					let dbe = JSON.parse(dt);
+					// console.log(dbe);
 					console.log(saved+failed);
 					dbe.map(function(dbobject){
 						$('#excelData tbody tr').each(function(row, tr){
@@ -467,8 +506,37 @@
 					    }); 
 					});
 					 $('#saved').text(' / Rows saved: '+saved+' Failed: '+failed);
+					 var total=saved+failed;
+								if (total==tr) {$('#loadModal').modal('hide'); alert(saved+' :saved '+failed+' :failed');}
 				});
 			}
+			$('#loadModal').on('shown.bs.modal', function () {
+ 
+			    var progress = setInterval(function() {
+			    var $bar = $('.bar');
+			    var total=saved+failed;
+			    var barwidth = $bar.width()/100;
+			    if ($bar.width()*100==tr) {
+			      
+			        // complete
+			      
+			        clearInterval(progress);
+			        $('.progress').removeClass('active');
+			        
+			        $bar.width(0);
+			        
+			    } else {
+			      
+			        // perform processing logic here
+			      	if (($bar.width%100)>=1){barwidth=Math.round(barwidth)}
+			        $bar.width(barwidth);
+			    }
+			    
+			    $bar.text(barwidth + "%");
+				}, 800);
+			  
+			  
+			})
 
 
 		}

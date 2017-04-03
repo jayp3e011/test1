@@ -162,16 +162,16 @@ class AdminReport{
 	populateExamUserResult(){
 		let user_taken=0;
 		for(let u=0;u<this.data.exam_user.length;u++){
-			for (let i=0;i<this.data.user.length;i++) {
-				if (this.data.user[i].id==this.data.exam_user[u].user_id) {
-					user_taken++;
-				}
-			}
 			let userObject = {
 				"user_id" : this.data.exam_user[u].user_id,
 				"subject" : []
 			};
-			for(let s=0;s<this.data.subject.length;s++){				
+			for(let s=0;s<this.data.subject.length;s++){
+				for (let i=0;i<this.data.user.length;i++) {
+					if (this.data.user[i].id==this.data.exam_user[u].user_id && this.data.exam_user[u].subject_id==this.data.subject[s].id) {
+						user_taken++;
+					}
+				}				
 				let result = "failed";
 				//formula here
 				let total_item = parseInt(this.data.subject[s].items);

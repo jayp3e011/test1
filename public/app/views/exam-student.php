@@ -521,7 +521,7 @@
 					</div>
 				</div>
 				<div class="modal fade" tabindex="-1" role="dialog" id="exam-student-modal-yessubmitnow">
-					<div class="modal-dialog" role="document">
+						<div class="modal-dialog" role="document">
 						<div class="modal-content">							
 							<div class="modal-body align-center">
 								<div> <i class="fa fa-thumbs-o-up fa-5x"></i> </div>

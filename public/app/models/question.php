@@ -7,8 +7,8 @@
 		if(isset($_POST['action'])){
 			if($_POST['action']=="createquestion"){
 				// echo "create question ok!";
-				$subject_id = $_POST['subjectid'];
-				$topic_id = $_POST['topicid'];
+				$subject_id = $_POST['subject_id'];
+				$topic_id = $_POST['topic_id'];
 				$question = $_POST['question'];
 				$choice_a = $_POST['choice_a'];
 				$choice_b = $_POST['choice_b'];
@@ -16,16 +16,15 @@
 				$choice_d = $_POST['choice_d'];
 				$answer = $_POST['answer'];
 				$reference = $_POST['reference'];
-				$sql = "insert into $table VALUES('','$subject_id','$topic_id', '$question','$choice_a','$choice_b','$choice_c','$choice_d','$answer','$reference')";
+				$sql = "insert into $table VALUES('','$subject_id','$topic_id','$question','$choice_a','$choice_b','$choice_c','$choice_d','$answer','$reference')";
 				$result = mysqli_query($link, $sql) or die(json_encode(["result" => "not ok","message" => "Invalid query" . mysqli_error($link)]));				
 				echo json_encode(["result" => "ok"]);
 			}
 			if($_POST['action']=="updatequestion"){
 				// echo "update question ok!";
 				$id = $_POST['id'];
-				$subject_id = $_POST['subjectid'];
+				$subject_id = $_POST['subject_id'];
 				$topic_id = $_POST['topic_id'];
-				$topic_id = $_POST['topicid'];
 				$question = $_POST['question'];
 				$choice_a = $_POST['choice_a'];
 				$choice_b = $_POST['choice_b'];
@@ -65,7 +64,7 @@
 				}
 			}
 			if ($_POST['action']=="getQuest1") {
-				$sql = "select * from question1";
+				$sql = "select q.id, coalesce(s.name) as subject_id, coalesce(t.name) as topic_id,q.question,q.choice_a,q.choice_b,q.choice_c,q.choice_d,q.answer,q.reference from question1 q join topic t on t.id=q.topic_id join subject s on q.subject_id=s.id";
 			    $result = mysqli_query($link, $sql) or die("Invalid query" . mysqli_error($link));
 				$arr = array();
 				$count=0;

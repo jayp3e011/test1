@@ -2,69 +2,316 @@
   html, body{
     height:100%;
   }
-</style>
-<div class="col-md-12" style="margin-top: 10px;">
-  <div class="nav-tabs-custom">
-    <ul class="nav nav-tabs">              
-      <li class="active"><a href="#home" data-toggle="tab">Home</a></li>
-      <li><a href="#takeexam" data-toggle="tab">Take Exam</a></li>
-      <li><a href="#takequiz" data-toggle="tab">Take Quiz</a></li>
-      <li><a href="#showStatus" data-toggle="tab">Exam Status</a></li>
-      
-      <li class="pull-right"><a href="#">Welcome Student (<?php echo ucwords($_SESSION['fullname']) ?>)!</a></li>
+  .btn-circle.btn-lg {
+  width: 100px;
+  height: 100px;
+  padding: 5px 8px;
+  font-size: 12px;
+  line-height: 1.33;
+  border-radius: 50px;
+}
+/*.feedback{position: fixed;}*/
+    
+.feedback textarea{height: 180px; }
+.feedback .reported p, .feedback .failed p  { height: 190px}
 
-      <!-- <li><a href="#settings" data-toggle="tab">Settings</a></li>               -->
-    </ul>
-    <div class="tab-content">
-      <div class="active tab-pane" id="home">        
-        <div class="row">
-          <div class="col-md-7">
-            <h3>
-              News 
-              <!-- <ul class="pagination pagination-sm no-margin pull-right">
-                <li><a href="#">&laquo;</a></li>
-                <li><a href="#">1</a></li>
-                <li><a href="#">&raquo;</a></li>
-              </ul> -->
-            </h3>
-            <div class="news"></div>
+
+.feedback.left{left:5px; bottom:15px}
+.feedback.right{right:5px; bottom:15px}
+
+.feedback .dropdown-menu{width: 290px;height: 350px;bottom: 50px;}
+.feedback.left .dropdown-menu{ left: 0px}
+.feedback.right .dropdown-menu{ right: 0px}
+.feedback .hideme{ display: none}
+</style>
+<div class="content-wrapper">
+  <!-- <div class="col-md-12" style="margin-top: 10px; height: 100%; display:inline-block; overflow: auto;"> -->
+    <div class="nav-tabs-custom">
+      <ul class="nav nav-tabs">              
+        <li class="active"><a href="#home" data-toggle="tab">Home</a></li>
+        <li><a href="#takeexam" data-toggle="tab">Take Exam</a></li>
+        <li><a href="#takequiz" data-toggle="tab">Take Quiz</a></li>
+        <li><a href="#showStatus" data-toggle="tab">Exam Status</a></li>
+        <!-- <li><a href="#sendFeedback" data-toggle="tab">Send Feedback</a></li> -->
+        <li class="pull-right"><a href="#">Welcome Student (<?php echo ucwords($_SESSION['fullname']) ?>)!</a></li>
+
+        <!-- <li><a href="#settings" data-toggle="tab">Settings</a></li>               -->
+      </ul>
+      <div class="tab-content">
+        <div class="active tab-pane" id="home">        
+          <div class="row">
+            <div class="col-md-7">
+              <h3>
+                News 
+                <!-- <ul class="pagination pagination-sm no-margin pull-right">
+                  <li><a href="#">&laquo;</a></li>
+                  <li><a href="#">1</a></li>
+                  <li><a href="#">&raquo;</a></li>
+                </ul> -->
+              </h3>
+              <div class="news"></div>
+            </div>
+            <div class="col-md-5">
+              <h3>
+                Exams
+                <!-- <ul class="pagination pagination-sm no-margin pull-right">
+                  <li><a href="#">&laquo;</a></li>
+                  <li><a href="#">1</a></li>
+                  <li><a href="#">&raquo;</a></li>
+                </ul> -->
+              </h3>
+              <div class="box">
+                <div class="box-body exams"></div>
+                <div class="box-footer clearfix pull-right exams-total"></div>
+            </div>
+            <!-- /.box -->
+            <br>
+            <div class="btn-group dropup feedback">
+              <button class="btn btn-success dropdown-togglebtn-lg" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fa fa-send fa-1x" title="Send Feedback"></i> Send Feedback
+              </button>
+            <ul class="dropdown-menu dropdown-menu-left dropdown-menu-form">
+              <li>
+                <div class="report">
+                  <h2 class="text-center">Send Feedback</h2>
+                  <form data-toggle="validator" role="form" id="addFeddback-form">
+                    <!-- <div class="col-sm-12"> -->
+                      <div class="form-group has-feedback">
+                        <textarea class="form-control" placeholder="content" id="createfeedbackcontent" data-maxlength="255" data-error="not less than 255 characters" required></textarea>
+                        <div class="help-block with-errors"></div>
+                      </div>
+                     <!-- </div> -->
+                     <!-- <div class="col-sm-12 clearfix"> -->
+                      <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                      </div>
+                     <!-- </div> -->
+                 </form>
+                </div>
+              </li>
+            </ul>
+            </div>
+            </div>       
           </div>
-          <div class="col-md-5">
-            <h3>
-              Exams
-              <!-- <ul class="pagination pagination-sm no-margin pull-right">
-                <li><a href="#">&laquo;</a></li>
-                <li><a href="#">1</a></li>
-                <li><a href="#">&raquo;</a></li>
-              </ul> -->
-            </h3>
-            <div class="box">
-              <div class="box-body exams"></div>
-              <div class="box-footer clearfix pull-right exams-total"></div>
-          </div>
-          <!-- /.box -->
-          </div>       
         </div>
+        <!-- start exam tab  -->
+        <div class="tab-pane" id="takeexam">
+          <?php require_once("exam-student.php"); ?>
+        </div>
+        <!-- end exam tab -->
+        <!-- start quiz tab -->
+        <div class="tab-pane" id="takequiz">
+          <?php require_once("quiz-student.php"); ?>
+        </div>
+        <!-- end quiz tab -->
+         <!-- exam status start -->
+        <div class="tab-pane" id="showStatus">
+          <?php require_once("report/report.php"); ?>
+        </div>
+        <!-- exam status end -->
+         <!-- send feedback start -->
+        <!-- <div class="tab-pane" id="sendFeedback"> -->
+          <?php //require_once("feedbackform.php"); ?>
+        <!-- </div> -->
+        <!-- send feedback end -->
       </div>
-      <!-- start exam tab  -->
-      <div class="tab-pane" id="takeexam">
-        <?php require_once("exam-student.php"); ?>
-      </div>
-      <!-- end exam tab -->
-      <!-- start quiz tab -->
-      <div class="tab-pane" id="takequiz">
-        <?php require_once("quiz-student.php"); ?>
-      </div>
-      <!-- exam status start -->
-      <div class="tab-pane" id="showStatus">
-        <?php require_once("report/report.php"); ?>
-      </div>
-      <!-- exam status end -->
-      <!-- end quiz tab -->
     </div>
-  </div>
+  <!-- </div> -->
 </div>
 <script>
+  class StudentExamSummary{
+    constructor(){
+      this.state={
+        "score":0,
+        "totalSubjectTaken":0,
+        "user_exam_data":{},
+        "notTaken":"none"
+      }
+      this.data = {
+        "subject":[],
+        "exam_user" : []
+      }
+      this.loadData(()=>{
+        console.log(this.data.subject);
+        console.log(this.data.exam_user);
+        this.main();
+      });
+    }
+    loadData(callback){
+      $.ajax({url: "app/models/subject.php"})
+      .done(function(res){
+        let data = JSON.parse(res);
+        studentExamSummary.data.subject = data;
+        $.ajax({method:"post", url: "app/models/exam-user.php", data:{action:"getUserExam", user_id:studentExamSummary.getUserID() } })
+        .done(function(res){
+          let data = JSON.parse(res);
+          if (data.length!=0) {
+            studentExamSummary.data.exam_user = data;
+            studentExamSummary.state.user_exam_data = JSON.parse(data[0].data);
+          }
+          else{studentExamSummary.state.notTakenAny ="all";}
+          callback();
+        });
+      });
+    }
+    main(){
+      // console.log(this.state.user_exam_data);
+      this.renderExamSummary();
+    }
+    renderExamSummary(){
+      let data = [];
+      this.data.subject.map((subject)=>{
+        if (studentExamSummary.state.notTaken=="all") {
+          data.push({
+            "subject":subject.name,
+            "result":{
+              "progressbar":"primary",
+              "width":"0",
+            },
+            "score":{
+              "badge":"light-blue",
+              "data":"Not Taken"
+            }
+          });
+          // studentExamSummary.state.notTakenAny
+        }
+        else if (studentExamSummary.state.notTaken=="one") {
+          data.push({
+            "subject":subject.name,
+            "result":{
+              "progressbar":"primary",
+              "width":"0",
+            },
+            "score":{
+              "badge":"light-blue",
+              "data":"Not Taken"
+            }
+          });
+          studentExamSummary.state.notTaken="none"
+        }
+        else{
+          let result = this.getUserExamResultPerSubject(subject);
+          let score = this.getuserExamScorePerSubject(subject);
+          data.push({
+            "subject":subject.name,
+            "result":result,
+            "score":score          
+          });
+        }
+      });
+      let html = `
+        <table class="table table-bordered">
+          <tr>
+            <th style="width: 10px">#</th>
+            <th>Subject</th>
+            <th>Result</th>
+            <th style="width: 40px">Score</th>
+          </tr>`;
+      for(let i=0;i<data.length;i++){
+        html+=`
+          <tr>
+            <td>${i+1}.</td>
+            <td>${data[i].subject}</td>
+            <td>
+              <div class="progress progress-xs">
+                <div class="progress-bar progress-bar-${data[i].result.progressbar}" style="width: ${data[i].result.width}%"></div>
+              </div>
+            </td>
+            <td><span class="badge bg-${data[i].score.badge}">${data[i].score.data}</span></td>
+          </tr>        
+      `;
+      }
+      html+=`</table>`;
+      $('.exams').html(html);
+      $('.exams-total').html(`Total Exam Taken: ${this.getTotalSubjectTaken()}`);
+    }
+
+    getTotalSubjectTaken(){
+      let total = 0;
+      this.data.subject.map((subject)=>{
+        if(findSubjectID(subject.id)){
+          total++;
+        }
+
+        function findSubjectID(id){
+          let flag = false;
+          for(let i=0;i<studentExamSummary.state.user_exam_data.length;i++){
+            let ued = studentExamSummary.state.user_exam_data[0];            
+            if(ued.subject_id==id){
+              flag=true;
+              break;              
+            }
+          }
+          return flag;
+        }
+      });
+      return total;
+    }
+
+    getUserExamResultPerSubject(subject){
+      let result = {};
+      let score = 0;
+      this.state.user_exam_data.map((ued)=>{
+        if(ued.subject_id==subject.id){
+          if (ued.selected==ued.answer) {score++;}
+          
+        }
+        else{
+          console.log(subject);
+          result = {
+            "progressbar":"primary",
+            "width":"100",
+          };      
+        }
+      });      
+      let average = (score/parseInt(subject.items))*100;
+      this.state.score = average;
+      if(average<subject.passingrate){
+        result = {
+            "progressbar":"danger",
+            "width":Math.round(average),
+          };        
+        }
+      else{
+        result ={
+          "progressbar":"success",
+          "width":Math.round(average),
+        };
+      }
+
+      return result;
+    }
+    getuserExamScorePerSubject(subject){
+      let score = {};
+      if(this.state.score==0){
+        score = {
+              "badge":"light-blue",
+              "data":"Not Taken"
+            };
+      }
+      else{
+        if(this.state.score<subject.passingrate){
+          score = {
+              "badge":"red",
+              "data":this.state.score+'%'
+            };
+        }
+        else{
+          score = {
+              "badge":"green",
+              "data":this.state.score+'%'
+            };
+        }
+      }
+      return score;
+    }
+
+    getUserID(){
+      return 3;
+    }
+  }
+  let studentExamSummary = new StudentExamSummary();
+
   $(function(){
     var NEWS_DATA=[];
     var USER_DATA=[];
@@ -133,137 +380,6 @@
       }
       $('.news').html(html);
     }
-    // $.ajax({url: "app/models/subject.php"})
-    // .done(function(res){ 
-    //   SUBJECT_DATA = JSON.parse(res);
-    //   $.ajax({url: "app/models/exam-user.php"})
-    //   .done(function(res){
-    //     EXAM_DATA = JSON.parse(res);
-    //     populateExamUserResult(SUBJECT_DATA,EXAM_DATA);
-    //   });
-    // });
-    // function populateExamUserResult(subjectdata,examdata){
-    //   let data = [];
-    //   let examTaken = 0;
-    //   for(let u=0;u<examdata.length;u++){
-    //     for(let s=0;s<subjectdata.length;s++){   
-    //       //formula here
-    //       let total_item = parseInt(subjectdata[s].items);
-    //       let correct = 0;
-    //       let incorrect = 0;
-    //       let data = JSON.parse(examdata[u].data);
-    //       for(let d=0;d<data.length;d++){
-    //         if(data.subject_id==subjectdata[s].id){
-              
-    //           if (examdata[u].user_id==getUID()) {
-    //             examTaken++;
-    //             if(data.selected == data.answer){
-    //               correct++;
-    //             }
-    //             else{
-    //               incorrect++;
-    //             }
-    //           }
-    //         }
-    //         else{
-    //           var arr1 ={
-    //             "subject":subjectdata[s].name,
-    //             "result":{
-    //               "progressbar":"info",
-    //               "width":"100"
-    //             },
-    //             "score":{
-    //               "badge":"red",
-    //               "data":"Not taken"
-    //             }
-    //           };
-              
-    //         }
-    //         data.push(arr1);
-    //         }
-    //         let average = (correct/total_item) * 100;
-    //         let passingRate = subjectdata[s].passingrate;
-    //         // if(average>=passingRate)result="passed";        
-    //         if(average>=passingRate){
-    //           var arr ={
-    //             "subject":subjectdata[s].name,
-    //             "result":{
-    //               "progressbar":"success",
-    //               "width":Math.round(average)
-    //             },
-    //             "score":{
-    //               "badge":"green",
-    //               "data":average+'%'
-    //             }
-    //           };
-    //           // data.push(arr);
-    //         }      
-    //         else{
-    //           var arr ={
-    //             "subject":subjectdata[s].name,
-    //             "result":{
-    //               "progressbar":"danger",
-    //               "width":Math.round(average)
-    //             },
-    //             "score":{
-    //               "badge":"green",
-    //               "data":average+'%'
-    //             }
-    //           };
-    //           // data.push(arr);
-    //         }  
-            
-    //           data.push(arr);
-    //       }       
-    //     }
-        
-    //       console.log(data);
-    //       let html = `
-    //       <table class="table table-bordered">
-    //         <tr>
-    //           <th style="width: 10px">#</th>
-    //           <th>Subject</th>
-    //           <th>Result</th>
-    //           <th style="width: 40px">Score</th>
-    //         </tr>`;
-    //     for(let i=0;i<data.length;i++){
-    //       html+=`
-    //         <tr>
-    //           <td>${i+1}.</td>
-    //           <td>${data[i].subject}</td>
-    //           <td>
-    //             <div class="progress progress-xs">
-    //               <div class="progress-bar progress-bar-${data[i].result.progressbar}" style="width: ${data[i].result.width}%"></div>
-    //             </div>
-    //           </td>
-    //           <td><span class="badge bg-${data[i].score.badge}">${data[i].score.data}</span></td>
-    //         </tr>        
-    //       `;
-    //     }
-    //     html+=`</table>`;
-    //     $('.exams').html(html);
-    //     $('.exams-total').html(`Total Exam Taken: ${examTaken}`);
-    // }
-    ///////////////////////////////////////Not Working anymore sTART//////////////////////////////////////////////////////////
-    $.ajax({
-        method: "POST",
-        url: "app/models/exam.php"
-    }).done(function(examdata){
-      EXAM_DATA = JSON.parse(examdata);
-      $.ajax({
-        method: "POST",
-        url: "app/models/subject.php",
-      }).done(function(subjectdata){
-        SUBJECT_DATA = JSON.parse(subjectdata);
-        $.ajax({
-          method: "POST",
-          url: "app/models/question.php",
-        }).done(function(questiondata){
-            QUESTION_DATA = JSON.parse(questiondata);
-            render_StudentExams(SUBJECT_DATA,EXAM_DATA,QUESTION_DATA);  
-        })
-      })
-    });
      function getScore(selected_answer,correct_answer)
     {
       // console.log('getScore');
@@ -347,171 +463,6 @@
         }
       }
     }
-    function render_StudentExams(subjectdata,examdata,questiondata){
-      // console.log('rSE');
-      // console.log(examdata);
-      // console.log(subjectdata);
-      // console.log(questiondata);
-      // exam: id,user_id,subject_id,question_id,answer
-      var s = 0;
-      var e = 0;
-      var q = 0;
-      var score = 0;
-      var status= '';
-      var data = [];
-      var examTaken = 0;
-      var examLength = examdata.length;
-      var subjectLength = subjectdata.length;
-      for(s in subjectdata){
-        getPassingRates(subjectdata[s].id,subjectdata[s].passingate);
-        for(e in examdata){
-          if (examdata[e].user_id==quiz.getUserID()) {
-            // console.log('found ID');
-            if (examdata[e].subject_id == subjectdata[s].id ) {
-              examTaken++;
-              for(q in questiondata){
-                if (examdata[e].subject_id==questiondata[q].subject_id && examdata[e].question_id==questiondata[q].id) {
-                  score += getScore(examdata[e].answer,questiondata[q].answer);
-                }
-                  
-              }
-              // console.log(subjectdata[s].passingrate);
-              var avg = getAvg(score,subjectLength,subjectdata[s].passingrate);
-              // console.log(score);
-              saveScoreLog(examdata[e].subject_id,avg);
-              var arr ={
-                "subject":subjectdata[s].name,
-                "result":{
-                  "progressbar":"info",
-                  "width":Math.round(avg)
-                },
-                "score":{
-                  "badge":"maroon",
-                  "data":avg+'%'
-                }
-              };
-              // data.push(arr);
-            }
-            else{
-              INCOMPLETE = true;
-              var arr ={
-                "subject":subjectdata[s].name,
-                "result":{
-                  "progressbar":"danger",
-                  "width":"100"
-                },
-                "score":{
-                  "badge":"red",
-                  "data":"Not taken"
-                }
-              };
-              // data.push(arr);
-            }
-          }
-          else{
-            // console.log('id not found');
-            INCOMPLETE = true;
-            var arr ={
-                "subject":subjectdata[s].name,
-                "result":{
-                  "progressbar":"danger",
-                  "width":"100"
-                },
-                "score":{
-                  "badge":"red",
-                  "data":"Not taken"
-                }
-              }
-          };
-        }
-          data.push(arr); 
-      } 
-    
-      //SAMPLE DATA
-      // let data = [
-      //   {
-      //     "subject":"Finance",
-      //     "result":{
-      //       "progressbar":"danger",
-      //       "width":"55",
-      //     },
-      //     "score":{
-      //       "badge":"red",
-      //       "data":"55"
-      //     }
-      //   },
-      //   {
-      //     "subject":"Law and Order",
-      //     "result":{
-      //       "progressbar":"yellow",
-      //       "width":"70",
-      //     },
-      //     "score":{
-      //       "badge":"yellow",
-      //       "data":"70"
-      //     }
-      //   },
-      //   {
-      //     "subject":"History",
-      //     "result":{
-      //       "progressbar":"primary",
-      //       "width":"30",
-      //     },
-      //     "score":{
-      //       "badge":"light-blue",
-      //       "data":"30"
-      //     }
-      //   },
-      //   {
-      //     "subject":"Criminal and Investigation",
-      //     "result":{
-      //       "progressbar":"success",
-      //       "width":"100",
-      //     },
-      //     "score":{
-      //       "badge":"green",
-      //       "data":"100"
-      //     }
-      //   },
-      //    {
-      //     "subject":"Criminal and Investigation 1",
-      //     "result":{
-      //       "progressbar":"maroon",
-      //       "width":"68",
-      //     },
-      //     "score":{
-      //       "badge":"maroon",
-      //       "data":"68"
-      //     }
-      //   }
-      // ];
-      let html = `
-        <table class="table table-bordered">
-          <tr>
-            <th style="width: 10px">#</th>
-            <th>Subject</th>
-            <th>Result</th>
-            <th style="width: 40px">Score</th>
-          </tr>`;
-      for(let i=0;i<data.length;i++){
-        html+=`
-          <tr>
-            <td>${i+1}.</td>
-            <td>${data[i].subject}</td>
-            <td>
-              <div class="progress progress-xs">
-                <div class="progress-bar progress-bar-${data[i].result.progressbar}" style="width: ${data[i].result.width}%"></div>
-              </div>
-            </td>
-            <td><span class="badge bg-${data[i].score.badge}">${data[i].score.data}</span></td>
-          </tr>        
-        `;
-      }
-      html+=`</table>`;
-      $('.exams').html(html);
-      $('.exams-total').html(`Total Exam Taken: ${examTaken}`);
-    }
-    /////////////////////////////////////////////////////////not working anymore END////////////////////////////////////////////////
     //Quiz and Exam Controllers
     function render_StudentSubjects(){      
       $.ajax({

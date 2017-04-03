@@ -37,6 +37,19 @@
 				$result = mysqli_query($link, $sql) or die(json_encode(["result" => "not ok","message" => "Invalid query" . mysqli_error($link)]));				
 				echo json_encode(["result" => "ok"]);
 			}
+			if($_POST['action']=="gettopic"){
+				$sql = "select * from $table where subject_id=".$_POST['subject_id'];
+			    $result = mysqli_query($link, $sql) or die("Invalid query" . mysqli_error($link));
+				$arr = array();
+				$count=0;
+				while($row=mysqli_fetch_assoc($result)){
+					$row['name']=htmlspecialchars($row['name']);
+					$arr[] = $row;
+					$count++;
+				}
+				// echo $arr;
+				echo json_encode($arr);
+			}
 		}
 		else{	
 			$sql = "select t.id, coalesce(s.name) as subject_id, t.name, t.date from $table t join subject s on t.subject_id=s.id";
