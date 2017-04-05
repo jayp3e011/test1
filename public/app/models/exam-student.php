@@ -21,9 +21,28 @@
 					echo json_encode(["result" => "not ok","type" => "systemerror","message" => "You have already taken the exam!"]);
 				}
 			}
+			if($_POST['action']=="verifyuserRetake"){
+				// print_r($_POST['payload']);
+				// if(!hasTakenExam($_POST['payload']['id'],$link)){
+					$table='user';
+					$sql = "select 	* from $table 
+							where 	id='".$_POST['payload']['id']."' 
+							and 	email='".$_POST['payload']['email']."'
+							and 	password=MD5('".$_POST['payload']['password']."') ";				
+					$result = mysqli_query($link, $sql) or die(json_encode(["result" => "not ok","type"=>"sqlerror","query" => $sql]));
+					$arr = array();
+					while($row=mysqli_fetch_assoc($result)){
+						$arr[] = $row;
+					}
+					echo json_encode(["result" => "ok","data" => $arr]);
+				// }
+				// else{					
+				// 	echo json_encode(["result" => "not ok","type" => "systemerror","message" => "You have already taken the exam!"]);
+				// }
+			}
 			else if($_POST['action']=="submit"){
 				$table='exam_user';
-				$sql = "update $table set status='".$_POST['payload']['status']."', data='".$_POST['payload']['data']."' where id='".$_POST['payload']['id']."'";
+				$sql = "update $table set status='".$_POST['payload']['status']."', data='".$_POST['payload']['data']."' where id='".$_POST['payload']['id']."'AND subject_id='".$_POST['subject_id']."'";
 				$result = mysqli_query($link, $sql) or die(json_encode(["result" => "not ok","query" => $sql]));				
 				echo json_encode(["result" => "ok"]);
 			}
@@ -33,8 +52,10 @@
 	function hasTakenExam($id,$link){
 		$flag = false;
 		$table='exam_user';
-		$sql = "select 	id from $table 
-				where 	user_id='".$id."' and status<>'DEFAULT'";				
+		$sql = "select 	id from $table where 	user_id='".$id."' and status<>'DEFAULT'";	
+		if (isset($_POST['subject_id'])) {
+			$sql = "select id from exam_user where user_id='".$id."' and subject_id='".$_POST['subject_id']."' and status<>'DEFAULT'";	
+		}			
 		$result = mysqli_query($link, $sql) or die(json_encode(["result" => "not ok","type"=>"sqlerror","query" => $sql]));
 		$count = 0;
 		while($row=mysqli_fetch_assoc($result)){

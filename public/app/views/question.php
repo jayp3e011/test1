@@ -420,6 +420,10 @@
 						tr= parseInt(xlobject.__rowNum__);
 						$('#excelData tbody').append(html);
 						$('#count').text('Rows: '+xlobject.__rowNum__);
+						if (xlobject.__rowNum__!='' || xlobject.subject!='' || xlobject.topic!='' || xlobject.question || xlobject.answer || xlobject.choice_a!='' || xlobject.choice_b || xlobject.choice_c!='' || xlobject.choice_d!='' || xlobject.reference!='')
+						{
+							//empty cell
+						}
 						if ($('#questionbtnmodalimport').on('click', function(e){
 							e.preventDefault();
 								$('#loadModal').modal('show');																								

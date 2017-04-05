@@ -62,6 +62,21 @@
               </h3>
               <div class="box">
                 <div class="box-body exams"></div>
+                <div class="pull-right exams-total"></div>
+                  <hr/>
+                  <div style="margin-left:50px;margin-right:50px">
+                    <h3>Result</h3>
+                    <table class="table table-striped">
+                      <tr>
+                        <td style="color:#ddd;width:180px;">General Average</td>
+                        <td id="general-average">0.00</td>
+                      </tr>
+                      <tr>
+                        <td style="color:#ddd;width:180px;">Remarks</td>
+                        <td id="general-remarks">FAILED</td>
+                      </tr>
+                    </table>
+                  </div>
                 <div class="box-footer clearfix pull-right exams-total"></div>
             </div>
             <!-- /.box -->
@@ -125,14 +140,15 @@
         "score":0,
         "totalSubjectTaken":0,
         "user_exam_data":{},
-        "notTaken":"none"
+        "notTaken":"none",
+        "exam_result":[]
       }
       this.data = {
         "subject":[],
         "exam_user" : []
       }
       this.loadData(()=>{
-        console.log(this.data.subject);
+        // console.log(this.data.subject);
         console.log(this.data.exam_user);
         this.main();
       });
@@ -145,11 +161,10 @@
         $.ajax({method:"post", url: "app/models/exam-user.php", data:{action:"getUserExam", user_id:studentExamSummary.getUserID() } })
         .done(function(res){
           let data = JSON.parse(res);
-          if (data.length!=0) {
-            studentExamSummary.data.exam_user = data;
+          studentExamSummary.data.exam_user = data;
+          if (studentExamSummary.data.exam_user.length!=0) {
             studentExamSummary.state.user_exam_data = JSON.parse(data[0].data);
           }
-          else{studentExamSummary.state.notTakenAny ="all";}
           callback();
         });
       });
@@ -161,8 +176,17 @@
     renderExamSummary(){
       let data = [];
       this.data.subject.map((subject)=>{
-        if (studentExamSummary.state.notTaken=="all") {
+        if (studentExamSummary.data.exam_user.length!=0) {
+          let result = this.getUserExamResultPerSubject(subject);
+          let score = this.getuserExamScorePerSubject(subject);
           data.push({
+            "subject":subject.name,
+            "result":result,
+            "score":score          
+          });
+        }
+        else{
+           data.push({
             "subject":subject.name,
             "result":{
               "progressbar":"primary",
@@ -174,29 +198,7 @@
             }
           });
           // studentExamSummary.state.notTakenAny
-        }
-        else if (studentExamSummary.state.notTaken=="one") {
-          data.push({
-            "subject":subject.name,
-            "result":{
-              "progressbar":"primary",
-              "width":"0",
-            },
-            "score":{
-              "badge":"light-blue",
-              "data":"Not Taken"
-            }
-          });
-          studentExamSummary.state.notTaken="none"
-        }
-        else{
-          let result = this.getUserExamResultPerSubject(subject);
-          let score = this.getuserExamScorePerSubject(subject);
-          data.push({
-            "subject":subject.name,
-            "result":result,
-            "score":score          
-          });
+          
         }
       });
       let html = `
@@ -224,6 +226,61 @@
       html+=`</table>`;
       $('.exams').html(html);
       $('.exams-total').html(`Total Exam Taken: ${this.getTotalSubjectTaken()}`);
+
+      let sumOfRatings = 0;
+      for(let i=0;i<data.length;i++){
+        sumOfRatings += data[i].score.data;
+      }
+      let genAverage = parseFloat(sumOfRatings)/parseFloat(data.length);
+      genAverage = parseFloat(genAverage).toFixed(2);
+      $('#general-average').html(genAverage);
+
+
+      console.log(data);
+      let remarks = `FAILED`;
+      if(this.isAbove65(data) && genAverage>=75){
+        remarks = `PASSED`;
+      }
+      else if(genAverage>=75 && this.isMajorityAbove65(data)){
+        remarks = `CONDITIONAL`;
+      }
+      else if(genAverage<75){
+        remarks = `FAILED`;
+      }
+
+      remarks = `CONDITIONAL`;
+      if(remarks=="CONDITIONAL"){
+        remarks+=`
+          <br/>
+          <a href="student-retake.php"class="btn btn-xs btn-warning btn-fill btn-block">Retake Now</a>          
+        `;
+        localStorage.setItem('retakeexamdata',JSON.stringify(data));
+      }
+      $('#general-remarks').html(remarks);
+    }
+
+    isAbove65(data){
+      let result = true;
+      for(let i=0;i<data.length;i++){
+        if(data[i].score.data<65){
+          result=false;
+          break;
+        }
+      }
+      return result;
+    }
+
+    isMajorityAbove65(data){
+      let result = false;
+      let margin = data.length/2;
+      let count = 0;
+      for(let i=0;i<data.length;i++){
+        if(data[i].score.data>=65){
+          count++;
+        }
+      }
+      if(count>=margin)result=true;
+      return result;
     }
 
     getTotalSubjectTaken(){
@@ -251,57 +308,63 @@
     getUserExamResultPerSubject(subject){
       let result = {};
       let score = 0;
-      this.state.user_exam_data.map((ued)=>{
-        if(ued.subject_id==subject.id){
-          if (ued.selected==ued.answer) {score++;}
-          
+      let hasTaken=false;
+      if (this.state.user_exam_data.length!=0) {
+        this.state.user_exam_data.map((ued)=>{
+          if(ued.subject_id==subject.id){
+            if (ued.selected==ued.answer) {score++; hasTaken=true;}
+            
+          }
+        });      
+        if (hasTaken){
+          let average = (score/parseInt(subject.items))*100;
+          this.state.score = average;
+          if(average<subject.passingrate){
+            result = {
+                "progressbar":"danger",
+                "width":Math.round(average),
+              };        
+          }
+          else{
+            result ={
+              "progressbar":"success",
+              "width":Math.round(average),
+            };
+          }
         }
-        else{
-          console.log(subject);
+       else{
+          // console.log(subject);
+          this.state.score = -1;
           result = {
             "progressbar":"primary",
-            "width":"100",
+            "width":"100", 
           };      
         }
-      });      
-      let average = (score/parseInt(subject.items))*100;
-      this.state.score = average;
-      if(average<subject.passingrate){
-        result = {
-            "progressbar":"danger",
-            "width":Math.round(average),
-          };        
-        }
-      else{
-        result ={
-          "progressbar":"success",
-          "width":Math.round(average),
-        };
+        return result;
       }
-
-      return result;
     }
     getuserExamScorePerSubject(subject){
       let score = {};
-      if(this.state.score==0){
-        score = {
-              "badge":"light-blue",
-              "data":"Not Taken"
-            };
-      }
-      else{
+      if(this.state.user_exam_data.length!=0 && this.state.score!= -1){
         if(this.state.score<subject.passingrate){
           score = {
               "badge":"red",
-              "data":this.state.score+'%'
+              "data":Math.round(this.state.score)
             };
         }
         else{
           score = {
               "badge":"green",
-              "data":this.state.score+'%'
+              "data":Math.round(this.state.score)
             };
         }
+      }
+      else{
+        score = {
+              "badge":"light-blue",
+              "data":"Not Taken"
+            };
+        
       }
       return score;
     }
@@ -411,12 +474,12 @@
       // Total Score = summation [( raw score per subject / total score per subject)*(percent weight of subject)] 
       var percentage = 0;
       percentage = score/items;
-      console.log('percentage1__'+percentage);
+      // console.log('percentage1__'+percentage);
       percentage = percentage*rate;
-      console.log('rate__'+rate);
-      console.log('score__'+score);
-      console.log('items__'+items);
-      console.log('percentage__'+percentage);
+      // console.log('rate__'+rate);
+      // console.log('score__'+score);
+      // console.log('items__'+items);
+      // console.log('percentage__'+percentage);
       return percentage;
     }
     function getGenAvg(avg){
@@ -473,16 +536,16 @@
         }
       }).done(function(data){
         quiz.data.STUDENT_SUBJECTS_AND_TOPICS = JSON.parse(data);
-        exam.data.STUDENT_SUBJECTS_AND_TOPICS = JSON.parse(data);
-        loadChooseSubject();
+        // exam.data.STUDENT_SUBJECTS_AND_TOPICS = JSON.parse(data);
+        // loadChooseSubject();
         loadChooseSubjectQuiz();
-        function loadChooseSubject(){
-          let html = ``;
-          exam.data.STUDENT_SUBJECTS_AND_TOPICS.map((obj)=>{
-            html += `<option value="${obj.id}">${obj.name}</option>`;          
-          });
-          $('.chooseSubject').html(html);
-        }
+        // function loadChooseSubject(){
+        //   let html = ``;
+        //   exam.data.STUDENT_SUBJECTS_AND_TOPICS.map((obj)=>{
+        //     html += `<option value="${obj.id}">${obj.name}</option>`;          
+        //   });
+        //   $('.chooseSubject').html(html);
+        // }
         function loadChooseSubjectQuiz(){
           let html = ``;
           quiz.data.STUDENT_SUBJECTS_AND_TOPICS.map((obj)=>{

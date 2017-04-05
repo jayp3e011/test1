@@ -1,36 +1,62 @@
-<style>
-	.take-exam-comp-main{
-		text-align: center;
-	}
-	.align-right{
-		text-align: left;
-	}
-	.align-center{
-		text-align: center;
-	}
-	.dl-horizontal dt, .dl-horizontal dd{
-		padding: 3px;
-	}
-	.modal {
-	  text-align: center;
-	  padding: 0!important;
-	}
+<!DOCTYPE html>
+<html>
+<head>
+	<?php session_start(); ?>
+	<?php include_once 'layout/header.php'; ?>
+	<style>
+		.take-exam-comp-main{
+			text-align: center;
+			height: 100%;
+		}
+		.align-right{
+			text-align: left;
+		}
+		.align-center{
+			text-align: center;
+		}
+		.dl-horizontal dt, .dl-horizontal dd{
+			padding: 3px;
+		}
+		.modal {
+		  text-align: center;
+		  padding: 0!important;
+		}
 
-	.modal:before {
-	  content: '';
-	  display: inline-block;
-	  height: 100%;
-	  vertical-align: middle;
-	  margin-right: -4px;
-	}
+		.modal:before {
+		  content: '';
+		  display: inline-block;
+		  height: 100%;
+		  vertical-align: middle;
+		  margin-right: -4px;
+		}
 
-	.modal-dialog {
-	  display: inline-block;
-	  text-align: left;
-	  vertical-align: middle;
-	}	
-</style>
-<div class="row take-exam-tab"></div>
+		.modal-dialog {
+		  display: inline-block;
+		  text-align: left;
+		  vertical-align: middle;
+		}	
+	</style>
+</head>
+<!-- ADD THE CLASS layout-top-nav TO REMOVE THE SIDEBAR. -->
+<body class="hold-transition skin-green layout-top-nav">
+	<div class="wrapper">
+		<!-- Nav -->
+		<?php include_once 'layout/nav.php'; echo '<script>showNav(["dashboard","logout"]);</script>';?>		
+		
+		<div class="content-wrapper">
+			<br/>
+			<h1 class="align-center">Student Retake Page</h1>
+			<div class="row take-exam-tab"></div>
+		</div>
+
+		
+		<!-- Modals -->
+		<?php include_once 'layout/modals.php'; ?>
+	</div>
+<!-- Scripts and Footer -->
+<?php include_once 'layout/footer.php'; ?>
+
+
 <script>
 	class Exam{
 		/*
@@ -48,23 +74,20 @@
 		*/
 		constructor(){
 			this.state = {
-				subjectID: 0,
 				questionID: 0,
+				subjectID: 0,
 				itemNumber: '0001',
-				hours : 1,
-				minutes :0,
-				seconds: 0
+				hours : 0,
+				minutes :1,
+				seconds: 0,
+				retake_exam_data: []
 			};
 			this.data = {
-		      STUDENT_SUBJECTS_AND_TOPICS:[],
-		      STUDENT_SUBJECT_INDEX:[],
-		      STUDENT_SUBJECT_ID_CHOSEN:[],
-		      STUDENT_TOPIC_ID_CHOSEN:[],
-		      STUDENT_SUBJECTS_AND_TOPICS_EXAM:[],
-		      "subject":[],
-		      "user":[]
-		    };	
-			this.questions = [];	
+				"user" : [],
+				"subject" : [],
+			};
+			this.questions = [];			
+			// this.verifyExamInfo();
 			this.loadData(()=>{
 				// console.log(this.data.user);
 				// console.log(this.data.quizlog);
@@ -74,15 +97,15 @@
 				this.verifyExamInfo();
 				this.verifyExamInfoInitialize();
 				// this.main();
-			});			
-			// this.verifyExamInfo();
-			// this.verifyExamInfo();
-			// this.verifyExamInfoInitialize();
+			});
+
+
 			// this.loadQuestions(()=>{				
 			// 	// this.questions['questions'][0].selected = "A";
 			// 	this.main();			
 			// });
 		}
+
 		loadData(callback){
 			$.ajax({url: "app/models/subject.php"})
 			.done(function(res){
@@ -96,13 +119,13 @@
 				});						
 			});
 		}
+
 		verifyExamInfoInitialize(){
 			$('#exam-user-password-notif').hide();
 			$( "#exam-user-password" ).keypress(function (e) {var key = e.which; if(key == 13) {$('#exam-user-btnverify').click(); return false; } });
 			$('#exam-user-btnverify').click(function(){
 				$('#exam-user-btnverify').html("Loading...");
 				setTimeout(function(){
-					exam.state.subjectID = $('.chooseSubject').val();
 					exam.verifyUser();
 				},500);
 			});
@@ -113,13 +136,12 @@
 				method: "post",
 	            data: {
 	            	action:"loadquestions",
-	            	subject_id:exam.state.subjectID,
-	            	user_id:this.getUserID()
+	            	user_id:this.getUserID(),
+	            	subject_id:this.getSubjectID()
 	            }
-	        })
+			})
 			.done((result)=>{
 				result = JSON.parse(result);
-				console.log(result);
 				exam.questions = result;				
 				callback();
 			});
@@ -137,13 +159,15 @@
 								<dt>User Email</dt>
 									<dd id="exam-user-email">${this.getUserEmail()}</dd>
 								<dt>User ID</dt>
-									<dd id="exam-user-id">${this.getUserID()}</dd>
+									<dd id="exam-user-id">${this.getUserID()}</dd>	
 								<dt>Choose Subject</dt>
 									<dd>
-										<select class="form-control select2 chooseSubject" style="width: 100%;">
-											<option selected="selected">Loading Subjects...</option>
-										</select>
-									</dd>	
+										<div class="form-group">
+					                      <select class="form-control select2 chooseSubject" style="width: 100%;">
+				                        <option selected="selected">Loading Subjects...</option>
+					                      </select>
+					                    </div>
+									</dd>
 								<dt>Password</dt>
 									<dd>
 										<input class="form-control" id="exam-user-password" type="password" placeholder="Password"/>
@@ -155,75 +179,17 @@
 							<button id="exam-user-btnverify" class="btn btn-block bg-maroon">Verify account and Take the exam!</button>
 						</div>
 					</div>
-				</div> 
-				<div class="col-sm-12">
-	            <div class="box box-danger">
-	              <div class="box-header with-border">
-	                <h3 class="box-title">General Instructions</h3>
-	                  <div class="box-tools pull-right">
-	                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-	                  </div>
-	              </div>
-	              <div class="box-body">
-	                  <div class="col-lg-3 col-xs-6">         
-	                    <div class="small-box bg-aqua">
-	                      <div class="inner">
-	                        <h3 class="subject-totalitems1">100</h3>
-	                        <p>Total items</p>
-	                      </div>
-	                      <div class="icon">
-	                        <i class="ion ion-help"></i>
-	                      </div>
-	                      <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-	                    </div>
-	                  </div>
-	                  <div class="col-lg-3 col-xs-6">
-	                    <div class="small-box bg-green">
-	                      <div class="inner">
-	                        <h3 class="subject-passingrate1">75<sup style="font-size: 20px">%</sup></h3>
-	                        <p>Passing Rate</p>
-	                      </div>
-	                      <div class="icon">
-	                        <i class="ion ion-ribbon-b"></i>
-	                      </div>
-	                      <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-	                    </div>
-	                  </div>
-	                  <div class="col-lg-3 col-xs-6">
-	                    <div class="small-box bg-yellow">
-	                      <div class="inner">
-	                        <h3 class="subject-timeduration1">60</h3>
-	                        <p>Time duration in minutes</p>
-	                      </div>
-	                      <div class="icon">
-	                        <i class="ion ion-clock"></i>
-	                      </div>
-	                      <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-	                    </div>
-	                  </div>
-	                  <div class="col-lg-3 col-xs-6">
-	                    <div class="small-box bg-red">
-	                      <div class="inner">
-	                        <h3 class="subject-attempts">1</h3>
-	                        <p>Number of attempts</p>
-	                      </div>
-	                      <div class="icon">
-	                        <i class="ion ion-compose"></i>
-	                      </div>
-	                      <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-	                    </div>
-	                  </div>
-	              </div>
-	            </div>   
-	          </div>
-	          
+				</div>     
 			`;
 			$('.take-exam-tab').html(html);
+
+			let retakeExamData = localStorage.getItem('retakeexamdata');
+			this.retake_exam_data = JSON.parse(retakeExamData);
 			let choosehtml = `<option>--=== Select ===--</option>`;
-			this.data.subject.map((data)=>{
-				// if(data.score.data<65){
-					choosehtml += `<option value='${data.id}'>${data.name}</option>`;
-				// }
+			this.retake_exam_data.map((data)=>{
+				if(data.score.data<65){
+					choosehtml += `<option value='${data.subject_id}'>${data.subject}</option>`;
+				}
 			});
 			$('.chooseSubject').html(choosehtml);
 			$('.chooseSubject').change(function(){
@@ -236,10 +202,10 @@
           			}
           		}
         	});
+			console.log(JSON.parse(retakeExamData));
 		}
-		initialize(){ 
+		initialize(){
 			let buttons = ``;
-			// console.log(this.questions['subjects'].timeduratiom)
 			for(let i=1;i<=this.questions['questions'].length;i++){
 				let btnvalue = this.formatItem(i);
 				buttons += `
@@ -358,24 +324,23 @@
 		}
 
 		verifyUser(){
-			console.log(this.state.subjectID);
 			let payload = {
 				id:this.getUserID,
 				email:this.getUserEmail,
+				subject_id:this.getSubjectID,
 				password: $('#exam-user-password').val()
 			};
 			$.ajax({
 				url: "app/models/exam-student.php",
 				method: "post",
 	            data: {
-	              action:"verifyuser",
-	              subject_id:exam.state.subjectID,
+	              action:"verifyuserRetake",
 	              payload: payload
 	            }
 			}).done(function(res){
 				$('#exam-user-btnverify').html("Verify account and Take the exam!");
 				let data = JSON.parse(res);
-					console.log(data);
+				// console.log(data);
 				// console.log(res);
 				if(data.result=="ok"){
 					if(data.data.length>0){
@@ -438,7 +403,7 @@
                       <th style="padding-left:30px">Question: <span id="exam-question-sequence">0001</span></th>
                     </tr>
                     <tr>
-                      <td width="30%">
+                      <td>
                         <div class="form-group">
                           <div class="row">
                           	<div class="col-sm-3">
@@ -461,7 +426,7 @@
                           			<input id="exam-student-icheckC" type="radio" class="flat-red">
                           			<ins id="" class="iCheck-helper"></ins>
                           		</div>
-                          	</div>	
+                          	</div>
                           	<div class="col-sm-3">
                           		<div id="" class="iradio_flat-green" aria-checked="false" aria-disabled="false" style="margin:2px;position:relative;">
 									<span style="position:absolute;top:1px;left:7px;font-weight:bold;">D</span>
@@ -473,7 +438,7 @@
                           
                         </div>
                       </td>
-                      <td style="padding-left:30px" width="70%">
+                      <td style="padding-left:30px">
                         <div id="exam-question"></div>
                         <div>&nbsp;</div>
                         <table>
@@ -565,7 +530,7 @@
 					</div>
 				</div>
 				<div class="modal fade" tabindex="-1" role="dialog" id="exam-student-modal-yessubmitnow">
-						<div class="modal-dialog" role="document">
+					<div class="modal-dialog" role="document">
 						<div class="modal-content">							
 							<div class="modal-body align-center">
 								<div> <i class="fa fa-thumbs-o-up fa-5x"></i> </div>
@@ -606,7 +571,6 @@
 				method: "post",
 	            data: {
 	              action:"submit",
-	              subject_id:exam.state.subjectID,
 	              payload: payload
 	            }
 			}).done(function(res){				
@@ -634,20 +598,27 @@
 				}
 			});
 		}
-
+		// console.log(getEmail());
+		// console.log(getUname());
+		// console.log(getUID());
 		//Getter and Setter
 		getUserEmail(){
 			//this must be updated. Make sure to use >> this.state << user data
 			return getEmail();
+			// return 'student@gmail.com';
 		}
 		getUserID(){
 			//this must be updated. Make sure to use >> this.state << user data
 			return getUID();
+			// return 2;
 		}
 		getExamUserID(){
 			//this must be updated. Make sure to use >> this.state << user data
 			//refer exam_user table
-			return getUID();
+			return 1;
+		}
+		getSubjectID(){
+			return exam.state.subjectID;
 		}
 
 		//Utilities
@@ -656,3 +627,6 @@
 	}
 	let exam = new Exam();
 </script>
+
+</body>
+</html>
