@@ -51,7 +51,7 @@
 				subjectID: 0,
 				questionID: 0,
 				itemNumber: '0001',
-				hours : 1,
+				hours : ,
 				minutes :0,
 				seconds: 0
 			};
@@ -232,7 +232,7 @@
           		for(let i=0;i<exam.data.subject.length;i++){
           			if(exam.data.subject[i].id==exam.state.subjectID){
           				exam.state.minutes = parseInt(exam.data.subject[i].timeduration);
-          				console.log(exam.state.minutes);
+          				// console.log(exam.state.minutes);
           			}
           		}
         	});
@@ -358,7 +358,7 @@
 		}
 
 		verifyUser(){
-			console.log(this.state.subjectID);
+			// console.log(this.state.subjectID);
 			let payload = {
 				id:this.getUserID,
 				email:this.getUserEmail,
@@ -375,7 +375,7 @@
 			}).done(function(res){
 				$('#exam-user-btnverify').html("Verify account and Take the exam!");
 				let data = JSON.parse(res);
-					console.log(data);
+					// console.log(data);
 				// console.log(res);
 				if(data.result=="ok"){
 					if(data.data.length>0){

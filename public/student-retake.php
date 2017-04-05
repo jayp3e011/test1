@@ -198,11 +198,11 @@
           		for(let i=0;i<exam.data.subject.length;i++){
           			if(exam.data.subject[i].id==exam.state.subjectID){
           				exam.state.minutes = parseInt(exam.data.subject[i].timeduration);
-          				console.log(exam.state.minutes);
+          				// console.log(exam.state.minutes);
           			}
           		}
         	});
-			console.log(JSON.parse(retakeExamData));
+			// console.log(JSON.parse(retakeExamData));
 		}
 		initialize(){
 			let buttons = ``;

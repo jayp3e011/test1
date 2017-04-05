@@ -149,7 +149,7 @@
       }
       this.loadData(()=>{
         // console.log(this.data.subject);
-        console.log(this.data.exam_user);
+        // console.log(this.data.exam_user);
         this.main();
       });
     }
@@ -236,7 +236,7 @@
       $('#general-average').html(genAverage);
 
 
-      console.log(data);
+      // console.log(data);
       let remarks = `FAILED`;
       if(this.isAbove65(data) && genAverage>=75){
         remarks = `PASSED`;
@@ -252,7 +252,7 @@
       if(remarks=="CONDITIONAL"){
         remarks+=`
           <br/>
-          <a href="student-retake.php"class="btn btn-xs btn-warning btn-fill btn-block">Retake Now</a>          
+          <a href="student-retake.php"class="btn btn-xs btn-warning btn-fill btn-block" target="_blank">Retake Now</a>          
         `;
         localStorage.setItem('retakeexamdata',JSON.stringify(data));
       }
