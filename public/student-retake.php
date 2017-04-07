@@ -135,12 +135,13 @@
 				url: "app/models/exam-questions.php",
 				method: "post",
 	            data: {
-	            	action:"loadquestions",
+	            	action:"loadquestionsRetake",
 	            	user_id:this.getUserID(),
-	            	subject_id:this.getSubjectID()
+	            	subject_id:exam.state.subjectID
 	            }
 			})
 			.done((result)=>{
+				// console.log(result);
 				result = JSON.parse(result);
 				exam.questions = result;				
 				callback();
@@ -185,6 +186,7 @@
 
 			let retakeExamData = localStorage.getItem('retakeexamdata');
 			this.retake_exam_data = JSON.parse(retakeExamData);
+			// console.log(this.retake_exam_data);
 			let choosehtml = `<option>--=== Select ===--</option>`;
 			this.retake_exam_data.map((data)=>{
 				if(data.score.data<65){
@@ -205,6 +207,7 @@
 			// console.log(JSON.parse(retakeExamData));
 		}
 		initialize(){
+			// console.log(this.getExamUserID());											
 			let buttons = ``;
 			for(let i=1;i<=this.questions['questions'].length;i++){
 				let btnvalue = this.formatItem(i);
@@ -325,9 +328,9 @@
 
 		verifyUser(){
 			let payload = {
-				id:this.getUserID,
-				email:this.getUserEmail,
-				subject_id:this.getSubjectID,
+				id:this.getUserID(),
+				email:this.getUserEmail(),
+				subject_id:this.getSubjectID(),
 				password: $('#exam-user-password').val()
 			};
 			$.ajax({
@@ -561,16 +564,20 @@
 		}
 
 		submitNow(status){
+			let objData = this.questions['questions'];
+			objData.push({exam_id:this.questions['exam_id']});
+			// console.log(objData);
 			let payload = {
-				id:this.getExamUserID,
+				id:this.getExamUserID(),
 				status:status,
-				data:JSON.stringify(this.questions['questions'])
+				data:JSON.stringify(objData)
 			};
 			$.ajax({
 				url: "app/models/exam-student.php",
 				method: "post",
 	            data: {
 	              action:"submit",
+	              subject_id:exam.state.subjectID,
 	              payload: payload
 	            }
 			}).done(function(res){				
@@ -615,7 +622,7 @@
 		getExamUserID(){
 			//this must be updated. Make sure to use >> this.state << user data
 			//refer exam_user table
-			return 1;
+			return exam.questions['exam_id'];
 		}
 		getSubjectID(){
 			return exam.state.subjectID;

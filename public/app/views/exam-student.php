@@ -51,7 +51,7 @@
 				subjectID: 0,
 				questionID: 0,
 				itemNumber: '0001',
-				hours : ,
+				hours : 0,
 				minutes :0,
 				seconds: 0
 			};
@@ -119,7 +119,7 @@
 	        })
 			.done((result)=>{
 				result = JSON.parse(result);
-				console.log(result);
+				// console.log(result);
 				exam.questions = result;				
 				callback();
 			});
@@ -227,17 +227,25 @@
 			});
 			$('.chooseSubject').html(choosehtml);
 			$('.chooseSubject').change(function(){
-          		// console.log($('.chooseSubject').val()); 
+          		// console.log($('.chooseSubject').val());
+          		let index=0; 
           		exam.state.subjectID = $('.chooseSubject').val();
           		for(let i=0;i<exam.data.subject.length;i++){
           			if(exam.data.subject[i].id==exam.state.subjectID){
           				exam.state.minutes = parseInt(exam.data.subject[i].timeduration);
           				// console.log(exam.state.minutes);
+          				index=i;
           			}
-          		}
+          		}          
+	          $('.subject-totalitems1').html(exam.data.subject[index].items);
+	          $('.subject-passingrate1').html(exam.data.subject[index].passingrate);
+	          $('.subject-timeduration1').html(exam.data.subject[index].timeduration);
+	          $('.subject-attempts1').html(exam.data.subject[index].attempts);
+	          // $('.subject-chosen1').html(shortText($('.chooseSubject').val()));
         	});
 		}
 		initialize(){ 
+			// console.log(this.getExamUserID());
 			let buttons = ``;
 			// console.log(this.questions['subjects'].timeduratiom)
 			for(let i=1;i<=this.questions['questions'].length;i++){
@@ -360,8 +368,8 @@
 		verifyUser(){
 			// console.log(this.state.subjectID);
 			let payload = {
-				id:this.getUserID,
-				email:this.getUserEmail,
+				id:this.getUserID(),
+				email:this.getUserEmail(),
 				password: $('#exam-user-password').val()
 			};
 			$.ajax({
@@ -596,10 +604,12 @@
 		}
 
 		submitNow(status){
+			let objData = this.questions['questions'];
+			objData.push({exam_id:this.questions['exam_id']});
 			let payload = {
-				id:this.getExamUserID,
+				id:this.getExamUserID(),
 				status:status,
-				data:JSON.stringify(this.questions['questions'])
+				data:JSON.stringify(objData)
 			};
 			$.ajax({
 				url: "app/models/exam-student.php",
@@ -647,7 +657,7 @@
 		getExamUserID(){
 			//this must be updated. Make sure to use >> this.state << user data
 			//refer exam_user table
-			return getUID();
+			return exam.questions['exam_id'];
 		}
 
 		//Utilities

@@ -25,10 +25,7 @@
 				// print_r($_POST['payload']);
 				// if(!hasTakenExam($_POST['payload']['id'],$link)){
 					$table='user';
-					$sql = "select 	* from $table 
-							where 	id='".$_POST['payload']['id']."' 
-							and 	email='".$_POST['payload']['email']."'
-							and 	password=MD5('".$_POST['payload']['password']."') ";				
+					$sql = "select 	* from $table where id='".$_POST['payload']['id']."' and 	email='".$_POST['payload']['email']."'and password=MD5('".$_POST['payload']['password']."') ";				
 					$result = mysqli_query($link, $sql) or die(json_encode(["result" => "not ok","type"=>"sqlerror","query" => $sql]));
 					$arr = array();
 					while($row=mysqli_fetch_assoc($result)){

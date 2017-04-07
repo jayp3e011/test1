@@ -170,7 +170,7 @@
       });
     }
     main(){
-      // console.log(this.state.user_exam_data);
+      console.log(studentExamSummary.data.exam_user);
       this.renderExamSummary();
     }
     renderExamSummary(){
@@ -180,6 +180,7 @@
           let result = this.getUserExamResultPerSubject(subject);
           let score = this.getuserExamScorePerSubject(subject);
           data.push({
+            "subject_id":subject.id,
             "subject":subject.name,
             "result":result,
             "score":score          
@@ -292,8 +293,8 @@
 
         function findSubjectID(id){
           let flag = false;
-          for(let i=0;i<studentExamSummary.state.user_exam_data.length;i++){
-            let ued = studentExamSummary.state.user_exam_data[0];            
+          for(let i=0;i<studentExamSummary.data.exam_user.length;i++){
+            let ued = studentExamSummary.data.exam_user[i];            
             if(ued.subject_id==id){
               flag=true;
               break;              
@@ -370,7 +371,7 @@
     }
 
     getUserID(){
-      return 3;
+      return getUID();
     }
   }
   let studentExamSummary = new StudentExamSummary();
@@ -586,22 +587,22 @@
         $('.chooseSubjectQuiz').change(function(){
           ChooseTopicQuiz($('.chooseSubjectQuiz').val());      
         });
-        $('.chooseSubject').change(function(){
-          let index=0;
-          for(let obj of exam.data.STUDENT_SUBJECTS_AND_TOPICS){
-            if(obj.id==$('.chooseSubject').val()){
-              break;
-            }
-            index++;
-          }          
-          $('.subject-totalitems1').html(exam.data.STUDENT_SUBJECTS_AND_TOPICS[index].items);
-          $('.subject-passingrate1').html(exam.data.STUDENT_SUBJECTS_AND_TOPICS[index].passingrate);
-          $('.subject-timeduration1').html(exam.data.STUDENT_SUBJECTS_AND_TOPICS[index].timeduration);
-          $('.subject-attempts1').html(exam.data.STUDENT_SUBJECTS_AND_TOPICS[index].attempts);
-          $('.subject-chosen1').html(shortText($('.chooseSubject').val()));
-          exam.data.STUDENT_SUBJECT_INDEX = index;
-          exam.data.STUDENT_SUBJECT_ID_CHOSEN = $('.chooseSubject').val();
-        });
+        // $('.chooseSubject').change(function(){
+        //   let index=0;
+        //   for(let obj of exam.data.STUDENT_SUBJECTS_AND_TOPICS){
+        //     if(obj.id==$('.chooseSubject').val()){
+        //       break;
+        //     }
+        //     index++;
+        //   }          
+        //   $('.subject-totalitems1').html(exam.data.STUDENT_SUBJECTS_AND_TOPICS[index].items);
+        //   $('.subject-passingrate1').html(exam.data.STUDENT_SUBJECTS_AND_TOPICS[index].passingrate);
+        //   $('.subject-timeduration1').html(exam.data.STUDENT_SUBJECTS_AND_TOPICS[index].timeduration);
+        //   $('.subject-attempts1').html(exam.data.STUDENT_SUBJECTS_AND_TOPICS[index].attempts);
+        //   $('.subject-chosen1').html(shortText($('.chooseSubject').val()));
+        //   exam.data.STUDENT_SUBJECT_INDEX = index;
+        //   exam.data.STUDENT_SUBJECT_ID_CHOSEN = $('.chooseSubject').val();
+        // });
         $('.chooseTopicQuiz').change(function(){
           quiz.data.STUDENT_TOPIC_ID_CHOSEN = $('.chooseTopicQuiz').val();
         });
