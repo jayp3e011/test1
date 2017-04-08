@@ -225,7 +225,7 @@
               </div>
             </td>
             <td>${data[i].score.result}</td>
-            <td><span class="badge bg-${data[i].score.badge}">${data[i].score.data}</span></td>
+            <td><span class="badge bg-${data[i].score.badge}">${data[i].score.data}%</span></td>
           </tr>        
       `;
       }
