@@ -77,7 +77,7 @@
                       </tr>
                     </table>
                   </div>
-                <div class="box-footer clearfix pull-right exams-total"></div>
+                <div class="box-footer clearfix pull-right">Conditional is set as static for testing</div>
             </div>
             <!-- /.box -->
             <br>
@@ -120,9 +120,9 @@
         </div>
         <!-- end quiz tab -->
          <!-- exam status start -->
-        <div class="tab-pane" id="showStatus">
-          <?php require_once("report/report.php"); ?>
-        </div>
+        <!-- <div class="tab-pane" id="showStatus"> -->
+          <?php //require_once("report/report.php"); ?>
+        <!-- </div> -->
         <!-- exam status end -->
          <!-- send feedback start -->
         <!-- <div class="tab-pane" id="sendFeedback"> -->
@@ -138,9 +138,11 @@
     constructor(){
       this.state={
         "score":0,
+        "score_result":"Not Taken",
         "totalSubjectTaken":0,
         "user_exam_data":{},
         "notTaken":"none",
+        "exam_subject_id":0,
         "exam_result":[]
       }
       this.data = {
@@ -161,6 +163,7 @@
         $.ajax({method:"post", url: "app/models/exam-user.php", data:{action:"getUserExam", user_id:studentExamSummary.getUserID() } })
         .done(function(res){
           let data = JSON.parse(res);
+          // console.log(data);
           studentExamSummary.data.exam_user = data;
           if (studentExamSummary.data.exam_user.length!=0) {
             studentExamSummary.state.user_exam_data = JSON.parse(data[0].data);
@@ -170,7 +173,7 @@
       });
     }
     main(){
-      console.log(studentExamSummary.data.exam_user);
+      // console.log(studentExamSummary.data.exam_user);
       this.renderExamSummary();
     }
     renderExamSummary(){
@@ -209,6 +212,7 @@
             <th>Subject</th>
             <th>Result</th>
             <th style="width: 40px">Score</th>
+            <th style="width: 20px">Average</th>
           </tr>`;
       for(let i=0;i<data.length;i++){
         html+=`
@@ -220,6 +224,7 @@
                 <div class="progress-bar progress-bar-${data[i].result.progressbar}" style="width: ${data[i].result.width}%"></div>
               </div>
             </td>
+            <td>${data[i].score.result}</td>
             <td><span class="badge bg-${data[i].score.badge}">${data[i].score.data}</span></td>
           </tr>        
       `;
@@ -311,15 +316,25 @@
       let score = 0;
       let hasTaken=false;
       if (this.state.user_exam_data.length!=0) {
-        this.state.user_exam_data.map((ued)=>{
-          if(ued.subject_id==subject.id){
-            if (ued.selected==ued.answer) {score++; hasTaken=true;}
-            
+        this.data.exam_user.map((deu)=>{
+          if(deu.subject_id==subject.id){
+            JSON.parse(deu.data).map((ued)=>{
+                if (ued.selected===ued.answer) {score++; hasTaken=true;}
+              // console.log(ued.selected+'____'+ued.answer);
+            });            
           }
-        });      
+        });
+        // this.state.user_exam_data.map((ued)=>{
+        //   if(ued.subject_id==subject.id){
+        //     if (ued.selected==ued.answer) {score++; hasTaken=true;}
+            
+        //   }
+        // });      
+          // console.log(score);
         if (hasTaken){
           let average = (score/parseInt(subject.items))*100;
           this.state.score = average;
+          this.state.score_result = score+'/'+subject.items;
           if(average<subject.passingrate){
             result = {
                 "progressbar":"danger",
@@ -335,6 +350,7 @@
         }
        else{
           // console.log(subject);
+          this.state.score_result = 'Not Taken';
           this.state.score = -1;
           result = {
             "progressbar":"primary",
@@ -350,20 +366,23 @@
         if(this.state.score<subject.passingrate){
           score = {
               "badge":"red",
-              "data":Math.round(this.state.score)
+              "data":Math.round(this.state.score),
+              "result":this.state.score_result
             };
         }
         else{
           score = {
               "badge":"green",
-              "data":Math.round(this.state.score)
+              "data":Math.round(this.state.score),
+              "result":this.state.score_result
             };
         }
       }
       else{
         score = {
               "badge":"light-blue",
-              "data":"Not Taken"
+              "data":"--",
+              "result":this.state.score_result
             };
         
       }

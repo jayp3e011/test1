@@ -564,13 +564,13 @@
 		}
 
 		submitNow(status){
-			let objData = this.questions['questions'];
-			objData.push({exam_id:this.questions['exam_id']});
+			// let objData = ;
+			// objData.push({exam_id:this.questions['exam_id']});
 			// console.log(objData);
 			let payload = {
 				id:this.getExamUserID(),
 				status:status,
-				data:JSON.stringify(objData)
+				data:JSON.stringify(this.questions['questions'])
 			};
 			$.ajax({
 				url: "app/models/exam-student.php",
