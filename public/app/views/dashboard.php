@@ -31,7 +31,7 @@
         <li class="active"><a href="#home" data-toggle="tab">Home</a></li>
         <li><a href="#takeexam" data-toggle="tab">Take Exam</a></li>
         <li><a href="#takequiz" data-toggle="tab">Take Quiz</a></li>
-        <li><a href="#showStatus" data-toggle="tab">Exam Status</a></li>
+        <!-- <li><a href="#showStatus" data-toggle="tab">Exam Status</a></li> -->
         <!-- <li><a href="#sendFeedback" data-toggle="tab">Send Feedback</a></li> -->
         <li class="pull-right"><a href="#">Welcome Student (<?php echo ucwords($_SESSION['fullname']) ?>)!</a></li>
 
