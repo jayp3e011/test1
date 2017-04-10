@@ -34,7 +34,7 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title" id="exampleModalLabel">New message</h4>
+				<h4 class="modal-title" id="exampleModalLabel">Read</h4>
 			</div>
 			<div class="modal-body">
 				<!-- <form>
@@ -100,7 +100,7 @@
 								<input type="text" class="form-control" id="nameCreate" data-error="input cannot be empty" required>
 							</div>
 							<div class="col-sm-4 has-feedback">
-								<label for="recipient-name" class="control-label">Time Duration:</label>
+								<label for="recipient-name" class="control-label">Time Duration(in minutes):</label>
 								<input type="number" class="form-control" id="timedurationCreate" data-error="input cannot be empty" required>
 							</div>
 							<div class="col-sm-4 has-feedback">
@@ -157,7 +157,7 @@
 								<input type="text" class="form-control" id="nameUpdate" data-error="input cannot be empty" required>
 							</div>
 							<div class="col-sm-4 has-feedback">
-								<label for="recipient-name" class="control-label">Time Duration:</label>
+								<label for="recipient-name" class="control-label">Time Duration(in minutes):</label>
 								<input type="number" class="form-control" id="timedurationUpdate" data-error="input cannot be empty" required>
 							</div>
 							<div class="col-sm-4 has-feedback">
@@ -208,7 +208,7 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-outline" id="subjectbtnmodaldelete">Save changes</button>
+				<button type="button" class="btn btn-outline" id="subjectbtnmodaldelete">Delete</button>
 			</div>
 		</div>
 	</div>

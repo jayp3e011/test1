@@ -387,6 +387,7 @@
 			var saved = 0;
 			var failed = 0;
 			var tr =0;
+			var count =0;
 			var data;
 			$('#import').on('change', function (changeEvent) {
 		        var reader = new FileReader();
@@ -464,6 +465,7 @@
 					async : true
 					}).done(function(res){
 						let data = JSON.parse(res);
+						
 						// alert(res);
 						// console.log(res); 
 						if (data.result=="ok") {
@@ -475,7 +477,9 @@
 							failed++;
 							success = false;
 						}
-						
+						count = saved+failed;
+						$(".bar").attr("aria-valuenow",count);
+        				$(".bar").css("width",count);
 						
 					});
 					
@@ -511,33 +515,33 @@
 					});
 					 $('#saved').text(' / Rows saved: '+saved+' Failed: '+failed);
 					 var total=saved+failed;
-								if (total==tr) {$('#loadModal').modal('hide'); alert(saved+' :saved '+failed+' :failed');}
+					if (total==tr) {$('#loadModal').modal('hide'); alert(saved+' :saved '+failed+' :failed');}
 				});
 			}
 			$('#loadModal').on('shown.bs.modal', function () {
- 
-			    var progress = setInterval(function() {
-			    var $bar = $('.bar');
-			    var total=saved+failed;
-			    var barwidth = $bar.width()/100;
-			    if ($bar.width()*100==tr) {
+ 				 $(".bar").attr("aria-valuenow",tr);
+			 //    var progress = setInterval(function() {
+			 //    var $bar = $('.bar');
+			 //    var total=saved+failed;
+			 //    var barwidth = $bar.width()/100;
+			 //    if ($bar.width()*100==tr) {
 			      
-			        // complete
+			 //        // complete
 			      
-			        clearInterval(progress);
-			        $('.progress').removeClass('active');
+			 //        clearInterval(progress);
+			 //        $('.progress').removeClass('active');
 			        
-			        $bar.width(0);
+			 //        $bar.width(0);
 			        
-			    } else {
+			 //    } else {
 			      
-			        // perform processing logic here
-			      	if (($bar.width%100)>=1){barwidth=Math.round(barwidth)}
-			        $bar.width(barwidth);
-			    }
+			 //        // perform processing logic here
+			 //      	if (($bar.width%100)>=1){barwidth=Math.round(barwidth)}
+			 //        $bar.width(barwidth);
+			 //    }
 			    
-			    $bar.text(barwidth + "%");
-				}, 800);
+			 //    $bar.text(barwidth + "%");
+				// }, 800);
 			  
 			  
 			})
