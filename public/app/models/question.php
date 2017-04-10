@@ -53,7 +53,7 @@
 				$choice_d = $_POST['choice_d'];
 				$answer = $_POST['answer'];
 				$reference = $_POST['reference'];
-				$sql = "insert into question1 VALUES('','$subject_id','$topic_id','$question','$answer','$choice_a','$choice_b','$choice_c','$choice_d','$reference')";
+				$sql = "insert into question VALUES('','$subject_id','$topic_id','$question','$answer','$choice_a','$choice_b','$choice_c','$choice_d','$reference')";
 				$result = mysqli_query($link, $sql) or die(json_encode(["result" => "not ok","message" => "Invalid query" . mysqli_error($link)]));
 				if ($result) {
 					echo json_encode(["result" => "ok"]);
