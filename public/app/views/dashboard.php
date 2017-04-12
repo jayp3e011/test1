@@ -108,6 +108,7 @@
             </div>
             </div>       
           </div>
+          <!-- end div row -->
         </div>
         <!-- start exam tab  -->
         <div class="tab-pane" id="takeexam">
@@ -194,11 +195,12 @@
             "subject":subject.name,
             "result":{
               "progressbar":"primary",
-              "width":"0",
+              "width":"100",
             },
             "score":{
               "badge":"light-blue",
-              "data":"Not Taken"
+              "data":"--",
+              "result": "Not Taken"
             }
           });
           // studentExamSummary.state.notTakenAny
@@ -463,89 +465,6 @@
       }
       $('.news').html(html);
     }
-     function getScore(selected_answer,correct_answer)
-    {
-      // console.log('getScore');
-      var score = 0;
-      if (selected_answer===correct_answer) {
-        score++;
-      }
-      return score;
-    }
-    function saveScoreLog(subject_id,avg){
-      // console.log('saveScoreLog');
-      data = {
-        "subject_id":subject_id,
-        "average":avg
-      }
-      SCORE_LOG.push(data);
-    }
-    function getPassingRates(subject_id,passingate){
-      // console.log('getPassingRates');
-      data = {
-        "subject_id":subject_id,
-        "passingate":passingate
-      }
-      SCORE_LOG.push(data);
-    }
-    function getAvg(score,items,rate)
-    {
-      // console.log('getAvg');
-      // Total Score = summation [( raw score per subject / total score per subject)*(percent weight of subject)] 
-      var percentage = 0;
-      percentage = score/items;
-      // console.log('percentage1__'+percentage);
-      percentage = percentage*rate;
-      // console.log('rate__'+rate);
-      // console.log('score__'+score);
-      // console.log('items__'+items);
-      // console.log('percentage__'+percentage);
-      return percentage;
-    }
-    function getGenAvg(avg){
-      var a=0;
-      var len = avg.length;
-      var genAvg;
-      var sum=0;
-      for(a in avg){
-        sum = sum + avg[a];
-      }
-      genAvg = sum/len;
-      return genAvg;
-    }
-    function getResults(genAvg,avg,passingRates){
-      // Note: PASSED
-      //       if genAvg>=75% && subjAvg>=65(passingrate)% :. passed
-      //       CONDITIONAL
-      //       if genAvg==75% && subjAvg=75%(passingate) >= noOfSubj/2 :. conditional
-      //       FAILED
-      //       if genAvg<75% :.failed
-      //       http://pinoyaccountant.blogspot.com/2011/07/passing-exam-and-conditional-status.html
-      var r=0;
-      var a=0;
-      var failedSubj=0;
-      var aLen = avg.length;
-      var pLen = passingRate.length;
-      for(a in avg){
-        for(r in passingRate){
-          if(avg[a].avg<passingRate[r].passingrate){
-            failedSubj++;
-          }
-          if (avg[a].subject_id==passingRate[r].subject_id) {
-            if(genAvg >= 75 && avg[a].avg>=passingRate[r].passingrate){
-              return "Passed";
-            }
-            if(genAvg >= 75 && avg[a].avg<passingRate[r].passingrate && failedSubj < Math.round(failedSubj/2)){
-              return "Failed";
-            }
-            if(genAvg >= 75 && avg[a].avg<passingRate[r].passingrate && failedSubj >= Math.round(failedSubj/2)){
-              return "Conditional";
-            }  
-          }
-          
-        }
-      }
-    }
     //Quiz and Exam Controllers
     function render_StudentSubjects(){      
       $.ajax({
@@ -556,16 +475,7 @@
         }
       }).done(function(data){
         quiz.data.STUDENT_SUBJECTS_AND_TOPICS = JSON.parse(data);
-        // exam.data.STUDENT_SUBJECTS_AND_TOPICS = JSON.parse(data);
-        // loadChooseSubject();
         loadChooseSubjectQuiz();
-        // function loadChooseSubject(){
-        //   let html = ``;
-        //   exam.data.STUDENT_SUBJECTS_AND_TOPICS.map((obj)=>{
-        //     html += `<option value="${obj.id}">${obj.name}</option>`;          
-        //   });
-        //   $('.chooseSubject').html(html);
-        // }
         function loadChooseSubjectQuiz(){
           let html = ``;
           quiz.data.STUDENT_SUBJECTS_AND_TOPICS.map((obj)=>{
@@ -606,22 +516,6 @@
         $('.chooseSubjectQuiz').change(function(){
           ChooseTopicQuiz($('.chooseSubjectQuiz').val());      
         });
-        // $('.chooseSubject').change(function(){
-        //   let index=0;
-        //   for(let obj of exam.data.STUDENT_SUBJECTS_AND_TOPICS){
-        //     if(obj.id==$('.chooseSubject').val()){
-        //       break;
-        //     }
-        //     index++;
-        //   }          
-        //   $('.subject-totalitems1').html(exam.data.STUDENT_SUBJECTS_AND_TOPICS[index].items);
-        //   $('.subject-passingrate1').html(exam.data.STUDENT_SUBJECTS_AND_TOPICS[index].passingrate);
-        //   $('.subject-timeduration1').html(exam.data.STUDENT_SUBJECTS_AND_TOPICS[index].timeduration);
-        //   $('.subject-attempts1').html(exam.data.STUDENT_SUBJECTS_AND_TOPICS[index].attempts);
-        //   $('.subject-chosen1').html(shortText($('.chooseSubject').val()));
-        //   exam.data.STUDENT_SUBJECT_INDEX = index;
-        //   exam.data.STUDENT_SUBJECT_ID_CHOSEN = $('.chooseSubject').val();
-        // });
         $('.chooseTopicQuiz').change(function(){
           quiz.data.STUDENT_TOPIC_ID_CHOSEN = $('.chooseTopicQuiz').val();
         });

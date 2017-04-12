@@ -1,7 +1,7 @@
 <?php
 	include('conf.php');
 	if($link){
-		$table='question';
+		$table='question1';
 		// $table='exam_questions';
 		if(isset($_POST['action'])){
 			if($_POST['action']=="loadquestions"){
