@@ -23,6 +23,16 @@
 .feedback.left .dropdown-menu{ left: 0px}
 .feedback.right .dropdown-menu{ right: 0px}
 .feedback .hideme{ display: none}
+
+.loader123 {
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  background: url('dist/img/loading1.gif') 50% 50% no-repeat rgb(249,249,249);
+}
 </style>
 <div class="content-wrapper">
   <!-- <div class="col-md-12" style="margin-top: 10px; height: 100%; display:inline-block; overflow: auto;"> -->
@@ -38,6 +48,7 @@
         <!-- <li><a href="#settings" data-toggle="tab">Settings</a></li>               -->
       </ul>
       <div class="tab-content">
+      <div class="loader123"></div>
         <div class="active tab-pane" id="home">        
           <div class="row">
             <div class="col-md-7">
@@ -135,6 +146,9 @@
   <!-- </div> -->
 </div>
 <script>
+  $(window).load(function() {
+    $(".loader123").fadeOut("slow");
+  })
   class StudentExamSummary{
     constructor(){
       this.state={
